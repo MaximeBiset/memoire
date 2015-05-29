@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% load bootstrap3 %}{% load i18n %}{% load staticfiles %}{% load jobs_extra %}
+{% load pagination_tags %}
+
+{% block title %}{{ branch }}{% endblock %}
+
+{% block content %}
+<div class="row mt">
+    <div class="col-lg-12">
+
+        <div class="col-lg-12 col-sm-12 content-panel">
+
+
+            <h1> {% trans "Résultats de la recherche" %}
+            </h1>
+            {% if demands %}
+            {% show_demands request demands show_branch=False %}
+            {% endif %}
+
+            {% if offers %}
+            {% show_offers request offers show_branch=False %}
+            {% endif %}
+
+            {% if not demands and not offers %}
+            <p class="text-info text-center">
+                {% trans "Aucun résultat" %}
+            </p>
+            {% endif %}
+
+        </div>
+
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_footer %}
+{{ form.media }}
+{% endblock %}

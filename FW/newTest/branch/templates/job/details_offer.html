@@ -1,0 +1,117 @@
+{% extends "base.html" %}
+{% load bootstrap3 %}{% load i18n %}{% load staticfiles thumbnail humanize %}
+
+{% block title %}{% endblock %}
+
+{% block extra_head %}
+<meta content="http://{{request.META.HTTP_HOST}}{% static "img/care4care.jpg" %}" property="og:image"></meta>
+{% endblock %}
+
+{% block content %}
+
+<div id="fb-root"></div>
+
+<div class="row mt">
+    <div class="col-xs-12">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h4>
+                    <div class="fb-share-button pull-right" data-layout="button" data-href="{{object.get_absolute_url}}" style="margin-top : 20px;"></div>
+                    <a class="float-right" href="{{ object.donor.get_absolute_url }}">
+                      <img class="img-circle" src="{% thumbnail object.donor.photo 60x60 crop %}" />
+                      {{object.donor.get_full_name}}
+                    </a> {% trans "offre son aide dans la branche " %}
+                    <a href="{{object.branch.get_absolute_url}}">{{object.branch}}</a>
+                </h4>
+            </div>
+            <ul class="list-group">
+              <li class="list-group-item"><strong>{% trans "Catégorie" %}</strong><br/>&nbsp; {{object.get_category_display}}</li>
+              <li class="list-group-item"><strong> {% trans "Date" %}</strong><br/>&nbsp;  {{ object.date|naturalday:'DATE_FORMAT' }}</li>
+              <li class="list-group-item"><strong> {% trans "Heures de disponibilité" %}</strong><br/>&nbsp;  {{object.get_verbose_time}}</li>
+              {% if object.description %}
+              <li class="list-group-item"><strong> {% trans "Description" %}</strong><br/> &nbsp; {{object.description}}</li>
+              {% endif %}
+            </ul>
+        </div>
+    </div>
+    <div class="col-md-12 col-sm-12 mb ph">
+      <a href="{% url 'take_offer' branch_id=object.branch.id slug=object.branch.slug offer_id=object.id user_id=request.user.id %}" class="btn btn-success btn-block">
+        {% bootstrap_icon "gift" %} {% trans "Profiter de cette offre" %}
+      </a>
+    </div>
+    {% if can_manage %}
+    <div class="col-md-12 col-sm-12 mb">
+      <div class="col-md-6 col-sm-6">
+        <a href="{% url 'update_offer' branch_id=object.branch.id slug=object.branch.slug offer_id=object.id %}" class="btn btn-primary btn-block">
+          {% bootstrap_icon "pencil" %} {% trans "Modifier" %}
+        </a>
+      </div>
+      <div class="col-md-6 col-sm-6">
+        <a href="{% url 'delete_offer' branch_id=object.branch.id slug=object.branch.slug offer_id=object.id %}" class="btn btn-danger btn-block">
+         {% bootstrap_icon "trash" %} {% trans "Supprimer" %}
+        </a>
+      </div>
+    </div>
+    {% endif %}
+    <div class="col-md-12 col-sm-12">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h4>
+                    {% trans "Commentaires" %}
+                </h4>
+            </div>
+            <div class="panel-body">
+
+            <ul class="commentList">
+                {% for comment in object.comments.all %}
+                <li id='{{comment.id}}'>
+                    <div class="commenterImage">
+                      <img src="{% thumbnail comment.user.photo 50x50 crop %}" />
+                    </div>
+                    <div class="commentText">
+                        <p class="text-info"><a href="{{ comment.user.get_absolute_url }}">{{comment.user.get_full_name}}</a> {% trans "a écrit:" %}</p>
+                        <p>{{comment.comment}}</p>
+                        <span class="date sub-text">{{ comment.date|naturaltime}}</span>
+                    </div>
+                </li>
+                {% endfor %}
+            </ul>      
+            
+            <form action="." class="style-form" role="form" method="post">
+                <div class="row vertical-align">
+                    <div class="col-md-10 col-sm-12">
+                    {% csrf_token %}
+                    {% bootstrap_form form %}
+                    </div>
+                    <div class="col-md-2 col-sm-12">
+                    {% buttons %}
+                      <button type="submit" class="btn btn-success btn-lg pull-right">
+                        {% bootstrap_icon "ok" %} &nbsp; {% trans "Commenter" %}
+                      </button>
+                    </div>
+                </div>
+                </form>
+                {% endbuttons %}
+            </div>
+            
+            </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_footer %}
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  {% if LANGUAGE_CODE == 'fr' %}
+  js.src = "//connect.facebook.net/fr_FR/sdk.js#xfbml=1&appId=958033600891660&version=v2.0";
+  {% elif LANGUAGE_CODE == 'nl' %}
+  js.src = "//connect.facebook.net/nl_NL/sdk.js#xfbml=1&appId=958033600891660&version=v2.0";
+  {% else %}
+  js.src = "//connect.facebook.net/en_EN/sdk.js#xfbml=1&appId=958033600891660&version=v2.0";
+  {% endif %}
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+{% endblock %}
+

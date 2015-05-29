@@ -1,0 +1,13 @@
+
+Found matches:
+/media/maxime/Data/framework/newTest/data_demo.json ['real_time', 'real_time', 'real_time', 'real_time', 'real_time', 'real_time']
+/media/maxime/Data/framework/newTest/branch/models.py ['real_time']
+/media/maxime/Data/framework/newTest/branch/models.py~ ['real_time']
+/media/maxime/Data/framework/newTest/branch/views.py ['real_time', 'real_time']
+/media/maxime/Data/framework/newTest/branch/views.py~ ['real_time', 'real_time']
+/media/maxime/Data/framework/newTest/main/test_statistics.py ['real_time', 'real_time', 'real_time']
+/media/maxime/Data/framework/newTest/main/views.py ['real_time']
+/media/maxime/Data/framework/newTest/main/views.py~ ['real_time']
+/media/maxime/Data/framework/newTest/main/ajax/views.py ['real_time', 'real_time']
+
+could not read the following files: 171

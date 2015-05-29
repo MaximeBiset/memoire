@@ -1,0 +1,56 @@
+
+from django.utils.translation import ugettext_lazy as _
+from django.utils.translation import ugettext as __
+from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin
+from multiselectfield import MultiSelectField
+from django.db import models
+from django.core import validators
+from django.conf import settings
+from django.core.validators import RegexValidator
+from django.contrib.auth.models import UserManager as BaseUserManager
+from django.core.urlresolvers import reverse
+from easy_thumbnails.fields import ThumbnailerImageField
+
+import re
+
+
+class FWUser(models.Model):
+    """
+    credit = models.IntegerField(default=0, verbose_name=_("CréditTEST restant")) # in minuts   
+
+    def get_verbose_credit(self):
+        credit = self.credit
+        chunks = (
+            (60 * 24 * 365, ('%d année', '%d années')), #Yeah.. We never know. Maybe slaves will use this app.
+            (60 * 24 * 30, ('%d mois', '%d mois')),
+            (60 * 24 * 7, ('%d semaine', '%d semaines')),
+            (60 * 24, ('%d jour', '%d jours')),
+            (60, ('%d heure', '%d heuresY')),
+            (1, ('%d minute', '%d minutesX'))
+        )
+        if credit < 0:
+            return str('<span class="text-danger">' + str(credit) + __(' minute(s)') + '</span>')
+        for i, (minuts, name) in enumerate(chunks):
+            count = credit // minuts
+            if count != 0:
+                break
+        credit -= count * minuts
+        if count > 2:
+            result = (name[1] % count)
+        else:
+            result = (name[0] % count)
+        while i + 1 < len(chunks):
+            minuts2, name2 = chunks[i + 1]
+            count2 = credit // minuts2
+            if count2 != 0:
+                if count2 > 2:
+                    result += ', ' + (name2[1] % count2)
+                else:
+                    result += ', ' + (name2[0] % count2)
+            credit -= count2 * minuts2
+            i += 1
+        return result
+    """
+    class Meta:
+        abstract = True
+

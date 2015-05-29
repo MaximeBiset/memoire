@@ -1,0 +1,46 @@
+{% load i18n thumbnail humanize %}
+<div class="col-md-6">
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      {% trans "Offres" %}
+    </div>
+    <div class="panel-body panel-offdem">
+      <table id="demands" data-toggle="table" data-height="260" class="rowlink table striped table-hover">
+        <thead>
+          <tr>
+            <th>{% trans "Membre" %}</th>
+            <th>{% trans "Categorie(s)" %}</th>
+            {% if show_branch %}
+            <th data-sortable="true" data-field="branch">{% trans "Branche" %}</th>
+            {% endif %}
+            <th>{% trans "Date" %}</th>
+            <th>{% trans "Heures" %}</th>
+          </tr>
+        </thead>
+        <tbody data-link="row" data-target="a.mainlink">
+        {% for offer in offers %}
+        <tr>
+          <td class="rowlink-skip"><a data-toggle="tooltip" data-placement="left" title="{{offer.donor.get_full_name}}" href="{{ offer.donor.get_absolute_url }}"><img class="img-circle" src="{% thumbnail offer.donor.photo 50x50 crop %}" alt="{{offer.donor.get_full_name}}" /></a></td>
+          <td><a href="{% url 'see_offer' branch_id=offer.branch.id slug=offer.branch.slug offer_id=offer.id %}" class="mainlink">{{ offer.get_verbose_category }}</a></td>
+          {% if show_branch %}
+          <td>{{ offer.branch }} </td>
+          {% endif %}
+
+          <td>{{ offer.date | naturalday:'SHORT_DATE_FORMAT' }}</td>
+          <td>{{ offer.get_short_time }}</td>
+        </tr>
+        {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+<script type="application/javascript">
+$(function () {
+    $('#demands').bootstrapTable(); // init via javascript
+
+    $(window).resize(function () {
+        $('#demands').bootstrapTable('resetView');
+    });
+});
+</script>

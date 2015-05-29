@@ -1,0 +1,75 @@
+{% load i18n thumbnail humanize %}
+<div class="col-md-6">
+<div class="panel panel-default">
+  <div class="panel-heading">
+    {% trans "Demandes" %}
+  </div>
+  <div class="panel-body panel-offdem">
+      
+      <table id="demands" data-toggle="table" data-height="260" class="rowlink table striped table-hover">
+        <thead >
+          <tr>
+            <th>{% trans "Membre" %}</th>
+            <th>{% trans "Categorie" %}</th>
+            {% if show_branch %}
+            <th data-sortable="true" data-field="branch">{% trans "Branche" %}</th>
+            {% endif %}
+            <th>{% trans "Titre" %}</th>
+            <th >{% trans "Date" %}</th>
+            <th>{% trans "Heure" %}</th>
+          </tr>
+        </thead>
+        <tbody data-link="row" data-target="a.mainlink" class="searchable">
+        {% for demand in demands %}
+        <tr class="{% if demand.closed %}success{% endif %}">
+          <td><a data-toggle="tooltip" data-placement="right" title="{{demand.receiver.get_full_name}}" href="{{ demand.receiver.get_absolute_url }}"><img class="img-circle" src="{% thumbnail demand.receiver.photo 50x50 crop %}" alt="{{demand.receiver.get_full_name}}" /></a></td>
+          <td>{{ demand.get_verbose_category }}</td>
+          {% if show_branch %}
+          <td> {{ demand.branch }} </td>
+          {% endif %}
+          <td><a href="{% url 'see_demand' branch_id=demand.branch.id slug=demand.branch.slug demand_id=demand.id %}" class="mainlink"> {{ demand.title }}</a></td>
+
+          <td>{{ demand.date | naturalday:'SHORT_DATE_FORMAT' }}</td>
+          <td>{{ demand.get_short_time }}</td>
+
+        </tr>
+        {% endfor %}
+        </tbody>
+      </table>
+      <br />
+      <div id="filter-bar" class="text-ccc text-right">
+          <label>
+               {% trans "Cacher les demandes où un volontaire a déjà été choisi :" %}
+               <input id="filterD" type="checkbox" {% if check_progress %}checked="checked"{% endif %}>
+          </label>
+      </div>
+</div>
+</div>
+</div>
+<script type="application/javascript">
+$(function () {
+    $('#demands').bootstrapTable(); // init via javascript
+
+    {% if check_progress %}
+    $('.searchable tr').hide();
+    $('.searchable tr').filter(function() {
+        return !$(this).hasClass("success")
+    }).show();
+    {% endif %}
+
+    $(window).resize(function () {
+        $('#demands').bootstrapTable('resetView');
+    });
+    $('#filterD').on('change', function(){
+        if(this.checked){
+            $('.searchable tr').hide();
+            $('.searchable tr').filter(function() {
+                return !$(this).hasClass("success")
+            }).show();
+        }else{
+            $('.searchable tr').show();
+        }
+        $('#demands').bootstrapTable('resetView');
+    });
+});
+</script>

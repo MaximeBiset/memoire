@@ -1,0 +1,24 @@
+
+Found matches:
+/media/maxime/Data/framework/newTest/data_demo.json ['credit', 'credit', 'credit', 'credit', 'credit', 'credit', 'credit', 'credit', 'credit']
+/media/maxime/Data/framework/newTest/search.py~ ['credit']
+/media/maxime/Data/framework/newTest/branch/views.py ['credit', 'credit']
+/media/maxime/Data/framework/newTest/branch/views.py~ ['credit', 'credit']
+/media/maxime/Data/framework/newTest/locale/en/LC_MESSAGES/django.po ['credit', 'credit', 'credit', 'credit', 'credit', 'credit', 'credit', 'credit', 'credit', 'credit', 'credit', 'credit', 'credit', 'credit', 'credit', 'credit', 'credit', 'credit', 'credit', 'credit', 'credit', 'credit', 'credit', 'credit', 'credit', 'credit', 'credit', 'credit', 'credit', 'credit', 'credit', 'credit', 'credit', 'credit', 'credit', 'credit', 'credit', 'credit', 'credit', 'credit', 'credit']
+/media/maxime/Data/framework/newTest/locale/nl/LC_MESSAGES/django.po ['credit', 'credit', 'credit', 'credit', 'credit', 'credit', 'credit', 'credit', 'credit', 'credit', 'credit', 'credit', 'credit', 'credit', 'credit', 'credit', 'credit', 'credit', 'credit', 'credit', 'credit', 'credit', 'credit', 'credit', 'credit', 'credit', 'credit', 'credit', 'credit', 'credit', 'credit', 'credit']
+/media/maxime/Data/framework/newTest/main/admin.py ['credit']
+/media/maxime/Data/framework/newTest/main/forms.py ['credit']
+/media/maxime/Data/framework/newTest/main/models.py ['credit', 'credit', 'credit', 'credit', 'credit', 'credit', 'credit', 'credit', 'credit', 'credit']
+/media/maxime/Data/framework/newTest/main/models.py~ ['credit', 'credit', 'credit', 'credit', 'credit', 'credit', 'credit', 'credit', 'credit', 'credit']
+/media/maxime/Data/framework/newTest/main/tests.py ['credit', 'Credit', 'credit', 'credit', 'credit']
+/media/maxime/Data/framework/newTest/main/urls.py ['credit']
+/media/maxime/Data/framework/newTest/main/urls_credits.py ['credit', 'credit', 'credit', 'credit']
+/media/maxime/Data/framework/newTest/main/views.py ['CREDIT', 'credit', 'credit', 'credit', 'credit', 'credit', 'credit', 'credit', 'credit']
+/media/maxime/Data/framework/newTest/main/views.py~ ['CREDIT', 'credit', 'credit', 'credit', 'credit', 'credit', 'credit', 'credit', 'credit']
+/media/maxime/Data/framework/newTest/main/templates/credit/credit_page.html ['credit']
+/media/maxime/Data/framework/newTest/static/css/bootstrap.css ['credit']
+/media/maxime/Data/framework/newTest/static/css/style.css ['credit', 'credit', 'credit', 'credit']
+/media/maxime/Data/framework/newTest/static/font-awesome/css/font-awesome.css ['credit']
+/media/maxime/Data/framework/newTest/templates/base.html ['credit', 'credit', 'credit', 'credit', 'credit', 'credit']
+
+could not read the following files: 171

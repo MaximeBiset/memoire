@@ -1,0 +1,13 @@
+def fc_man_success(dem, st):
+    if st > 100000:
+        st = 100000
+    if st < 0:
+        st = 0
+
+    demand.real_time =  st
+    demand.donor.credit += st
+    demand.donor.save()
+    demand.receiver.credit -= st
+    demand.receiver.save()    
+
+    return demand

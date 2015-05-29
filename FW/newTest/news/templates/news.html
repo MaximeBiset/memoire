@@ -1,0 +1,90 @@
+{% extends "base.html" %}
+{% load bootstrap3 %}{% load i18n %}{% load jobs_extra %}{% load staticfiles %}
+
+
+{% block title %}{% trans "News" %}{% endblock %}
+
+{% block extra_head %}
+<meta content="http://{{request.META.HTTP_HOST}}{% static "img/care4care.jpg" %}" property="og:image"></meta>
+{% endblock %}
+
+{% block content %}
+
+<div id="fb-root"></div>
+
+<div class="row mt">
+  	<div class="col-lg-12">
+  		<h3 class="mb">
+  		{% if request.user.is_superuser %}
+  			<a class="btn btn-primary pull-right" href="{% url 'news_add' %}">{% bootstrap_icon "plus" %} {% trans "Créer une news" %}</a>
+ 		{% endif %}
+  		<i class="fa fa-angle-right"></i> {% trans "Les nouvelles" %}
+ 		</h3>
+  		
+
+	{% for a in news %}
+
+	<div class="panel panel-default">
+		<div class="panel-heading">
+			<h4>
+        <div class="fb-share-button pull-right" data-layout="button" data-href="{{a.get_absolute_url}}"></div>
+			{% if request.user.is_superuser %}
+				<a class="btn btn-default btn-primary pull-right" href="{{ a.get_absolute_modify_url }}" style="margin-right : 15px;">{% bootstrap_icon "edit" %} {% trans "Modifier" %}</a>
+			{% endif %}
+			<a href="{{ a.get_absolute_url }}" class="panel-title">{{ a.titre | safe }}</a>
+			
+			</h4>
+		</div>
+
+		<div class="panel-body">
+			<p>{{ a.corps |truncatechars:140}}</p>
+
+			<a href="{{ a.get_absolute_url }}" class="btn btn-inverse btn more pull-right">{% trans "Lire la suite" %} »</a>
+			<i class="pull-left author">{% trans "&Eacute;crit le" %} {{a.date_creation | date:"DATE_FORMAT"}} {% trans "par" %} {{ a.auteur.get_full_name }}</i>
+		</div>
+	</div>
+  {% empty %}
+  <p class="text-center text-info">{% trans "Aucune news actuellement" %}</p>
+	{% endfor %}
+
+	<div class="text-center">
+	<ul class="pagination pagination-centered">
+            {% if news.has_previous %}
+                <li><a href="?page=1"><<</a></li>
+                <li><a href="?page={{ news.previous_page_number }}"><</a></li>
+            {% endif %}
+
+            {% if paginator.num_pages != 1 %}
+            {% for i in paginator.page_range %}
+                <li {% if news.number == i %} class="active" {% endif %}><a href="?page={{i}}">{{i}}</a></li>
+            {% endfor %}
+            {% endif %}
+
+            {% if news.has_next %}
+                <li><a href="?page={{ news.next_page_number }}">></a></li>
+                <li><a href="?page={{ news.paginator.num_pages }}">>></a></li>
+            {% endif %}
+        </ul>
+    </div>
+</div>
+</div>
+
+
+{% endblock %}
+
+{% block extra_footer %}
+{% get_current_language as LANGUAGE_CODE %}
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  {% if LANGUAGE_CODE == 'fr' %}
+  js.src = "//connect.facebook.net/fr_FR/sdk.js#xfbml=1&appId=958033600891660&version=v2.0";
+  {% elif LANGUAGE_CODE == 'nl' %}
+  js.src = "//connect.facebook.net/nl_NL/sdk.js#xfbml=1&appId=958033600891660&version=v2.0";
+  {% else %}
+  js.src = "//connect.facebook.net/en_EN/sdk.js#xfbml=1&appId=958033600891660&version=v2.0";
+  {% endif %}
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+{% endblock %}

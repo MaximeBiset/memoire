@@ -1,0 +1,3 @@
+login = Admin ; mdp = kikoo
+login = mrok ; mdp = kikoo
+login = max ; mdp = kikoo

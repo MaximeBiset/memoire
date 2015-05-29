@@ -1,0 +1,368 @@
+    {% extends "base.html" %}
+{% load bootstrap3 %}{% load i18n %}{% load staticfiles %}{% load jobs_extra %}{% load thumbnail %}
+
+{% block title %}{{ branch }}{% endblock %}
+
+{% block extra_head %}
+<script src="http://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false&libraries=places"></script>
+{% endblock %}
+
+{% block content %}
+<div class="row mt">
+    <div class="col-lg-12">
+            <div id="map" style="width: 100%; min-height: 300px;">
+            </div>
+            <div style="display:none;">
+            <div id="title-branch">
+                <h3><i class="fa fa-angle-right"></i> {% trans "Branche" %} {{ branch }}</h3>
+                {% if nb_users != 0 %}
+                <h5><i class="fa fa-user"></i>
+                    {% blocktrans count nb=nb_users %}
+                        {{nb}} participant
+                    {% plural %}
+                        {{nb}} participants
+                    {% endblocktrans %}
+                </h5>
+                {% endif %}
+            </div>
+            <div id="options-branch">
+                {% if branch.creator.id != request.user.id and not request.user.is_superuser%}
+                <button class="btn btn-danger btn-sm" data-toggle="modal" data-target="#modal-leave">
+                    {% trans "Quitter cettte branche" %}
+                </button>
+                {% endif %}
+                {% if branch.creator.is == request.user.id or request.user.is_superuser %}
+                <button class="btn btn-danger btn-sm" data-toggle="modal" data-target="#modal-delete">
+                    {% trans "Supprimer cettte branche" %}
+                </button>
+                {% endif %}
+            </div>
+            </div>
+            {% if branch.creator.id != request.user.id and not request.user.is_superuser %}
+            <div class="modal fade" id="modal-leave" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                            <h4 class="modal-title" id="myModalLabel">{% trans "Quitter la branche ?" %}</h4>
+                        </div>
+                        <div class="modal-body">
+                            {% blocktrans %}
+                            Êtes-vous sûr de vouloir quitter la branche {{branch}} ?
+                            Cela détruira toutes vos demandes dans cette branche.
+                            {% endblocktrans %}
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">{% trans "fermer" %}</button>
+                            <a href="{% url 'branch_leave' branch_id=branch.id user_id=request.user.id %}"
+                    class="btn btn-danger">{% trans "Quitter cettte branche" %}</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% else %}
+            <div class="modal fade" id="modal-delete" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                            <h4 class="modal-title" id="myModalLabel">{% trans "Supprimer la branche ?" %}</h4>
+                        </div>
+                        <div class="modal-body">
+                            {% blocktrans %}
+                            Êtes-vous sûr de vouloir SUPPRIMER la branche {{branch}} ? <br />
+                            Cette action est irréversible. <br />
+                            {% endblocktrans %}
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">{% trans "fermer" %}</button>
+                            <a href="{% url 'branch_delete' branch_id=branch.id %}"
+                    class="btn btn-danger">{% trans "SUPPRIMER cettte branche" %}</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+    </div>
+</div>
+
+{% if vdemands %}
+<div class="row mt">
+    <div class="col-lg-12">
+
+        <div class="content-panel">
+            <h4><i class="fa fa-angle-right"></i> {% trans "Demande de vérification en attente" %}</h4>
+
+            <table class="table table-striped table-advance table-hover rowlink">
+                  
+                  
+                <thead>
+                <tr>
+                    <th><i class="fa fa-user"></i> {% trans "Utilisateur" %}</th>
+                    <th><i class="fa fa-bookmark"></i> {% trans "Nom complet" %}</th>
+                    <th><i class="fa fa-star"></i> {% trans "Date" %}</th>
+                </tr>
+                </thead>
+                <tbody data-link='row'>
+                    {% for demands in vdemands %}           
+                    <tr>
+                        <td><a href="{% url 'verified_display' user_id=demands.user.id %}">{{demands.user}}</a></td>
+                        <td>{{demands.user.get_full_name }}</td>
+                        <td>{{demands.date|date:'DATE_FORMAT'}}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+</div>
+{% endif %}
+
+<div class="row mt">
+  <div class="col-md-6 col-sm-12 text-center"><a class="btn btn-primary btn-lg" href="{% url "create_demand" branch_id=branch.id slug=branch.slug user_id=request.user.id %}">{% trans "J'ai besoin d'aide" %}</a></div>
+  <div class="col-md-6 col-sm-12 text-center"><a class="btn btn-primary btn-lg" href="{% url "create_offer" branch_id=branch.id slug=branch.slug user_id=request.user.id %}">{% trans "J'offre mon aide" %}</a></div>
+<!--# BEGIN|FRAMEWORK : OBJECTS -->
+
+  <div class="col-md-6 col-sm-12 text-center"><a class="btn btn-primary btn-lg" href="{% url "create_demandObj" branch_id=branch.id slug=branch.slug user_id=request.user.id %}">{% trans "Je cherche un objet" %}</a></div>   
+
+  <div class="col-md-6 col-sm-12 text-center"><a class="btn btn-primary btn-lg" href="{% url "create_offerObj" branch_id=branch.id slug=branch.slug user_id=request.user.id %}">{% trans "Je propose un objet" %}</a></div>
+<!--# END|FRAMEWORK : OBJECTS-->
+</div>
+
+<div class="row mt">
+{{ demandobjs }}
+{{ demands }}
+</div>
+
+<div class="row mt">
+  {% show_demands request demands show_branch=False %}
+  {% show_offers request offers show_branch=False %}
+  {% show_demands2 request demandobjs show_branch=False %}
+  {% show_offers2 request offerobjs show_branch=False %}
+</div>
+
+
+{% if is_branch_admin or request.user.is_superuser %}
+<div class="row mt">
+    <div class="col-lg-12">
+        <div class="content-panel ph">
+            <h4><i class="fa fa-angle-right"></i> {% trans "Coin administrateur" %}
+            </h4>
+
+            <p>{% trans "En tant qu'administrateur, vous pouvez voir les statistiques de cette branche." %}</p>
+            <a class="btn btn-primary btn-block mb" href="{% url "stats_branch"  branch_id=branch.id slug=branch.slug user_id=request.user.id %}">
+                <i class=" fa fa-bar-chart-o"></i>
+                {% trans "Statistiques" %}
+            </a>
+        </div>
+    </div>
+</div>
+{% endif %}
+
+<div class="row mt">
+    <div class="col-lg-12">
+
+    	<div class="content-panel ph">
+            {% with mall=branch.membership.all%}
+            <h4><i class="fa fa-angle-right"></i> {% trans "Liste des membres" %}
+            </h4>
+
+            <table class="table table-striped table-advance table-hover rowlink">
+	    	  	  
+	    	  	  
+                <thead>
+                <tr>
+                    <th><i class="fa fa-user"></i> {% trans "Utilisateur" %}</th>
+                    <th><i class="fa fa-bookmark"></i> {% trans "Nom complet" %}</th>
+                    <th><i class="fa fa-star"></i> {% trans "Status" %}</th>
+                    {% if is_branch_admin %}
+                    <th><i class="fa fa-gears"></i> {% trans "Administrer" %}</th>
+                    {% endif %}
+                    <th><i class="fa fa-comments"></i> {% trans "Ecrire" %}
+                    {% if is_branch_admin %}
+                    <br /><a class="btn btn-primary btn-xs" href="{% url 'postman_write' all_usernames %}">
+                        {% trans "Ecrire à tous" %}
+                        </a>
+                    {% endif %}
+                    </th>
+                </tr>
+                </thead>
+                <tbody data-link="row" data-target="a.mainlink">
+                	{% for member in mall %}          	
+                	<tr>
+                	    <td><img class="img-circle" src="{% thumbnail member.user.photo 20x20 crop %}" /><a href="{{ member.user.get_absolute_url }}" class="mainlink">{{member.user}}</a></td>
+                	    <td>{{ member.user.get_full_name }}</td>
+                        {% if not is_branch_admin %}
+                	    <td>{% if member.is_admin %}{% trans "Responsable" %}{% else %}{{ member.user.get_account_type }}{% endif %}</td>
+                        {% else %}
+                        <td>
+                            {% if not member.is_admin %}
+                            <a class="btn btn-primary btn-xs" href="{% url 'branch_promote' branch_id=branch.id user_id=member.user.id %}">{% trans "Promouovir responsable" %}</a>
+                            {% else %}
+                                {% if member.user.id != branch.creator.id %}
+                                <a class="btn btn-danger btn-xs" href="{% url 'branch_demote' branch_id=branch.id user_id=member.user.id %}">{% trans "Retirer responsable" %}</a>
+                                {% else %}
+                                {% trans "Créateur" %}
+                                {% endif %}
+                            {% endif %}
+                        </td>
+                        {% endif %}
+                        {% if is_branch_admin %}
+                	    <td class="rowlink-skip">
+                            <a class="btn btn-primary btn-xs" href="{% url 'create_demand' branch_id=branch.id slug=branch.slug user_id=member.user.id %}"><i class="fa fa-plus"> {% trans "demande" %}</i></a>
+                            <a class="btn btn-primary btn-xs" href="{% url 'create_offer' branch_id=branch.id slug=branch.slug user_id=member.user.id %}"><i class="fa fa-plus"> {% trans "offre" %}</i></a>
+                            {% if not member.user.is_superuser %}
+                	        <a class="btn btn-primary btn-xs" href="{% url 'edit_profile' member.user.id %}"><i class="fa fa-pencil"> {% trans "Modifier" %}</i></a>
+                            {% endif %}
+                            {% if member.user.id != branch.creator.id %}
+                            <button class="btn btn-danger btn-xs" data-toggle="modal" data-target="#modalLeave{{member.user.id}}"><i class="fa fa-trash-o"> {% trans "Enlever" %}</i></button>
+
+                            <!-- Kick Modal -->
+                            <div class="modal fade" id="modalLeave{{member.user.id}}" tabindex="-1" role="dialog" aria-labelledby="myModelLabel" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                                            <h4 class="modal-title" id="myModalLabel">{% trans "Supprimer l'utilisateur de la branche ?" %}</h4>
+                                        </div>
+                                        <div class="modal-body">
+                                            {% blocktrans with member.user.get_full_name as name %}
+                                            Êtes-vous sûr de vouloir SUPPRIMER {{name}} de la branche {{branch}} ? 
+                                            Cela détruira toutes ses demandes et offres<br />
+                                            {% endblocktrans %}
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-default" data-dismiss="modal">{% trans "fermer" %}</button>
+                                            <a href="{% url 'branch_leave' branch_id=branch.id user_id=member.user.id %}"
+                                            class="btn btn-danger">{% trans "supprimer de la branche" %}</a>
+                                        </div>
+                                    </div>  
+                                </div>
+                            </div>
+
+                	        <button class="btn btn-danger btn-xs" data-toggle="modal" data-target="#modalBan{{member.user.id}}"><i class="fa fa-ban"> {% trans "Bannir" %}</i></button>
+                            
+                            <!-- Kick Modal -->
+                            <div class="modal fade" id="modalBan{{member.user.id}}" tabindex="-1" role="dialog" aria-labelledby="myModelLabel" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                                            <h4 class="modal-title" id="myModalLabel">{% trans "Bannir l'utilisateur de la branche ?" %}</h4>
+                                        </div>
+                                        <div class="modal-body">
+                                            {% blocktrans with member.user.get_full_name as name %}
+                                            Êtes-vous sûr de vouloir BANNIR {{name}} de la branche {{branch}} ? 
+                                            Cela détruira toutes ses offres et demandes.<br />
+                                            {% endblocktrans %}
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-default" data-dismiss="modal">{% trans "fermer" %}</button>
+                                            <a href="{% url 'branch_ban' branch_id=branch.id user_id=member.user.id %}"
+                                            class="btn btn-danger">{% trans "Bannir de la branche" %}</a>
+                                        </div>
+                                    </div>  
+                                </div>
+                            </div>
+
+                            {% endif %}
+                	    </td>
+                        {% endif %}
+                        <td><a href="{% url 'postman_write' member.user.username %}"><i class="fa fa-comments"> {% trans "écrire" %}</i></a></td>
+                	</tr>
+                	{% endfor %}
+                </tbody>
+            </table>
+            {% endwith %}
+        </div>
+    </div>
+</div>
+
+
+{% if is_branch_admin or request.user.is_superuser %}
+    <div class="row mt">
+        <div class="col-lg-12">
+
+            <div class="content-panel ph">
+                {% with banned=branch.banned.all%}
+                <h4><i class="fa fa-angle-right"></i> {% trans "Liste des membres bannis" %}
+                </h4>
+
+                <table class="table table-striped table-advance table-hover rowlink">
+                      
+                      
+                    <thead>
+                    <tr>
+                        <th><i class="fa fa-user"></i> {% trans "Utilisateur" %}</th>
+                        <th><i class="fa fa-bookmark"></i> {% trans "Nom complet" %}</th>
+                        {% if is_branch_admin %}
+                        <th><i class="fa fa-gears"></i> {% trans "Administrer" %}</th>
+                        {% endif %}
+                        <th><i class="fa fa-comments"></i> {% trans "Ecrire" %}</th>
+                    </tr>
+                    </thead>
+                    <tbody data-link="row" data-target="a.mainlink">
+                        {% for member in banned %}            
+                        <tr>
+                            <td><a href="{{ member.user.get_absolute_url }}" class="mainlink">{{member.user}}</a></td>
+                            <td>{{ member.user.get_full_name }}</td>
+                            {% if is_branch_admin %}
+                            <td>
+                                {% if member.user.id != branch.creator.id %}
+                                <a class="btn btn-primary btn-xs" href="{% url 'branch_unban' branch_id=branch.id user_id=member.user.id %}"><i class="fa fa-times"> {% trans "Annuler le bannissement" %}</i></a>
+                                {% endif %}
+                            </td>
+                            {% endif %}
+                            <td><a href="{% url 'postman_write' member.user.username %}"><i class="fa fa-comments"> {% trans "écrire" %}</i></a></td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+                {% endwith %}
+            </div>
+        </div>
+    </div>
+{% endif %}
+
+
+{% endblock %}
+
+
+{% block extra_footer %}
+<script src="{% static 'js/rowlink.js' %}"></script>
+<script type="text/javascript">
+$(document).ready(function () {
+    var options = {
+        zoom: 13,
+        center: new google.maps.LatLng({{branch.latitude}}, {{branch.longitude}}),
+        disableDefaultUI: true,
+        panControl: false,
+        overviewMapControl: false,
+        streetViewControl: false,
+        scaleControl: false,
+        rotateControl: false,
+        draggable: false,
+        zoomControl: false,
+        scrollwheel: false,
+        disableDoubleClickZoom: true,
+        mapTypeId: google.maps.MapTypeId.HYBRID,
+    };
+    var map = new google.maps.Map(document.getElementById('map'), options);
+
+    var titleBranch = document.getElementById('title-branch');
+    map.controls[google.maps.ControlPosition.LEFT_TOP].push(titleBranch); 
+
+    var optionsBranch = document.getElementById('options-branch');
+    map.controls[google.maps.ControlPosition.RIGHT_TOP].push(optionsBranch); 
+
+    $('.fa-bars').click(function () {
+        google.maps.event.trigger(map, 'resize');
+    });
+    $(function () {
+      $('[data-toggle="tooltip"]').tooltip()
+    });
+});
+</script>
+{% endblock %}
+

@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+{% load bootstrap3 %}{% load i18n %}
+
+
+{% block title %}{% trans "Devenir un membre vérifié" %}{% endblock %}
+
+
+{% block content %}
+<h3><i class="fa fa-angle-right"></i> {% trans "Documents requis" %}</h3>
+
+<div class="row mt">
+  <div class="col-lg-12">
+    <form action="." role="form" method="post" enctype="multipart/form-data">
+      {% csrf_token %}
+
+      <div class="col-lg-12 col-sm-12 background-gris">
+        <div class="showback">
+          <br>
+           {% trans "Veuillez fournir deux lettres de recommandations et une copie de votre casier judiciaire pour terminer votre demande d'accès au status de membre vérifié. Ces documents sont nécessaires pour nous assurer que les personnes à qui nous accordons ce status sont dignes de confiance. Merci de nous remettre ces documents au format pdf, doc ou docx." %}
+           <p>
+          {% bootstrap_form form %}
+        </div>
+        {% buttons %}
+        <div class="row mt mb">
+          <div class="col-lg-6"><button type="submit" class="btn btn-success btn-lg btn-block">
+        {% bootstrap_icon "ok" %} &nbsp; {% trans "Demander un rendez vous" %}
+        </button></div>
+          <div class="col-lg-6"><a href="{% url 'home' %}" class="btn btn-danger btn-lg btn-block">
+              {% bootstrap_icon "remove" %} &nbsp; {% trans "Annuler" %}
+            </a></div>
+        </div>
+        {% endbuttons %}
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+
+{% endblock %}
+
+{% block extra_footer %}
+{{ form.media }}
+{% endblock %}

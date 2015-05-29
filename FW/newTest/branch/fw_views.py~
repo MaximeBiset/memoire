@@ -1,0 +1,40 @@
+from django.shortcuts import render, redirect, get_object_or_404
+from django.contrib.auth.decorators import login_required, user_passes_test
+from django.utils.decorators import method_decorator
+from django.utils.translation import ugettext as _
+from django.contrib import messages
+from django.views.generic.edit import CreateView, UpdateView
+from django.views.generic.detail import DetailView
+from django.utils import timezone, formats
+from django.core.urlresolvers import reverse, resolve
+from django.db.models import Q
+
+from postman.api import pm_write
+
+from branch.models import Branch, BranchMembers, Demand, Offer, Comment, DemandProposition, SuccessDemand
+from branch.forms import CreateBranchForm, ChooseBranchForm, OfferHelpForm, NeedHelpForm, \
+            CommentForm, UpdateNeedHelpForm, VolunteerForm, ForceVolunteerForm, SuccessDemandForm, \
+            CommentConfirmForm, TakeOfferForm
+
+from main.models import User, VerifiedInformation, JobCategory, MemberType
+from main.utils import can_manage, is_branch_admin, refuse, can_manage_branch_specific, is_in_branch, \
+                        discriminate_demands, discriminate_offers
+
+def fw_man_success(demand, successTime):
+    """
+    if successTime > 100000:
+        successTime = 100000
+    if successTime < 0:
+        successTime = 0
+    demand.real_time =  successTime
+    demand.donor.credit += successTime
+    demand.receiver.credit -= successTime
+    """    
+    return demand
+    
+
+def fw_form_valid(form):
+    """
+    form.instance.real_time = form.instance.estimated_time
+    """
+    return form

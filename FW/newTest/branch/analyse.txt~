@@ -1,0 +1,48 @@
+=========
+MODELS.PY
+=========
+class Branch(models.Model):
+class BranchMembers(models.Model):
+class Comment(models.Model):
+class JobManager(QuerySet):
+class Job(models.Model):
+class Demand(Job):
+class Offer(Job):
+class DemandPropositionManager(QuerySet):
+class DemandProposition(models.Model):
+class SuccessDemand(models.Model):
+
+========
+VIEWS.PY
+========
+
+BRANCHES
+def branch_create(request):
+def branch_home(request, branch_id, slug):
+def branch_join(request):
+def branch_leave(request, branch_id, user_id):
+def branch_ban(request, branch_id, user_id):
+def branch_unban(request, branch_id, user_id):
+def branch_promote(request, branch_id, user_id):
+def branch_demote(request, branch_id, user_id):
+def branch_delete(request, branch_id):
+
+DEMANDS & OFFERS
+def delete_demand(request, branch_id, slug, demand_id):
+def delete_offer(request, branch_id, slug, offer_id):
+def volunteer_decline(request, volunteer_id):
+def volunteer_accept(request, volunteer_id):
+class CreateDemandView(CreateView):
+class TakeOfferDemandView(CreateDemandView):
+class UpdateDemandView(UpdateView):
+class UpdateOfferView(UpdateView):
+class CreateOfferView(CreateView):
+class DetailOfferView(CreateView): # This view is over-hacked. Don't take it as a reference.
+class DetailDemandView(CreateView): # This view is over-hacked. Don't take it as a reference.
+class CreateVolunteerView(CreateView):
+class ForceCreateVolunteerView(CreateVolunteerView):
+class CreateSuccessDemand(CreateView):
+def unsuccess_job(request, demand_id):
+def manage_success(request, success_demand_id):
+
+

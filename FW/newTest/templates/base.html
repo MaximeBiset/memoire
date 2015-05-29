@@ -1,0 +1,502 @@
+{% load bootstrap3 %}{% load staticfiles %}{% load i18n %}{% load branches %}{% load thumbnail %} {% load postman_tags %}
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="Dashboard">
+    <meta name="keyword" content="Dashboard, Bootstrap, Admin, Template, Theme, Responsive, Fluid, Retina">
+
+
+    <meta content="958033600891660" property="fb:app_id"></meta>
+    <meta content="Care4Care" property="og:title"></meta>
+    <meta content="Care4Care" property="og:site_name"></meta>
+    <meta content="{% trans "Care4Care is a membership organization where members support other members in their local community, and in return build up their own care pension." %}" property="og:description"></meta>
+
+    <title>{% trans "Pens(i)ons Voisins" %} - {% block title %}{% endblock%}</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="{% static "css/bootstrap.css" %}" rel="stylesheet">
+    <!--external css-->
+    <link href="{% static "font-awesome/css/font-awesome.css" %}" rel="stylesheet" />
+    <link rel="stylesheet" type="text/css" href="{% static "css/zabuto_calendar.css" %}" />
+    <link rel="stylesheet" type="text/css" href="{% static "js/gritter/css/jquery.gritter.css" %}" />
+    <link rel="stylesheet" type="text/css" href="{% static "lineicons/style.css" %}" />
+    <link rel="stylesheet" type="text/css" href="{% static "css/flag-icon.min.css" %}" />
+  
+
+    <!-- Custom styles for this template -->
+    <link href="{% static "css/style.css" %}" rel="stylesheet">
+    <link href="{% static "css/style-responsive.css" %}" rel="stylesheet">
+    <link href="{% static "css/profile.css" %}" rel="stylesheet">
+    <link href="{% static "css/pagination.css" %}" rel="stylesheet">
+    <link href="{% static "css/bootstrap-table.css" %}" rel="stylesheet">
+
+    <script src="{% static "js/jquery-1.8.3.min.js" %}"></script>
+    <script src="{% static "js/chart-master/Chart.js" %}"></script>
+    <script src="{% static "js/bootstrap-table.js" %}"></script>
+    
+    
+    {% get_current_language as LANGUAGE_CODE %}
+    {% if LANGUAGE_CODE == 'fr' %}
+    <script src="{% static "js/bootstrap-table-fr-fr.js" %}"></script>
+    {% elif LANGUAGE_CODE == 'nl' %}
+    <script src="{% static "js/bootstrap-table-nl-nl.js" %}"></script>
+    {% endif %}
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    {% block extra_head %}
+    {% endblock %}
+  </head>
+
+  <body>
+
+  <section id="container" >
+      <!--header start-->
+      <header class="header black-bg">
+              <div class="sidebar-toggle-box">
+                  <div class="fa fa-bars tooltips" data-placement="right" data-original-title="{% trans "Activer/désactiver le menu de navigation" %}"></div>
+              </div>
+            <!--logo start-->
+            <a href="{% url 'home' %}" class="logo"><b>{% trans "Pens(i)ons Voisins" %}</b></a>
+            <!--logo end-->
+            <div class="nav notify-row" id="top_menu">
+                <!--  notification start -->
+
+
+                <ul class="nav top-menu">
+                    {% if request.user.is_authenticated %}
+                    <!-- inbox dropdown start-->
+                    {% postman_unread as unread_count %}
+                    <li id="header_inbox_bar" class="dropdown">
+                        <a  data-toggle="dropdown" class="dropdown-toggle" href="index.html#">
+                            <i class="fa fa-envelope-o"></i>
+                            {% if  unread_count %}
+                            <span class="badge bg-theme"> {{  unread_count }}</span>
+                            {% endif %}
+                        </a>
+                        <ul class="dropdown-menu extended inbox">
+                            <div class="notify-arrow notify-arrow-white"></div>
+                            <li><span> <a href="{% url 'postman_inbox' %}"> {% trans "Inbox" %}{% if unread_count %} <strong>({{ unread_count }})</strong>{% endif %}</a> </span></li>
+                            <li><span><a href="{% url 'postman_sent' %}"> {% trans "Sent Messages" %}</a></span></li>
+                            <li><span><a href="{% url 'postman_write' %}"> {% trans "Write" %}</a></span></li>
+                            <li><span><a href="{% url 'postman_archives' %}"> {% trans "Archives" %}</a></span></li>
+                            <li><span><a href="{% url 'postman_trash' %}"> {% trans "Trash" %}</a></span></li>
+                        </ul>
+                    </li>
+                    <!-- inbox dropdown end -->
+                    {% endif %}
+                </ul>
+                <!--  notification end -->
+
+            </div>
+            <div class="top-menu">
+              <ul class="nav pull-right top-menu">
+                {% if not request.user.is_authenticated %}
+                <li>
+                  <button type="button" class="btn btn-theme02 btn-login force-size" onclick="window.location.href='{% url 'registration_register' %}'">
+                    {% bootstrap_icon 'pencil' %}
+                    {% trans "Inscription" %}
+                  </button>
+                </li>
+                {% endif %}
+                {% if request.user.is_authenticated %}
+                <li class="search-bar">
+                  <form method="get" action="{% url 'search' %}" id="search">
+                    <input name="q" type="text" class="force-size" size="30" placeholder="{% trans "Trouver un membre..."%}" />
+                  </form>
+                </li>
+                {% endif %}
+                <li class="dropdown">{% block connect %}
+                  <button type="button" class="btn btn-theme03 btn-login force-size dropdown-toggle" data-toggle="dropdown">
+                    <span class="glyphicon glyphicon-user"></span>
+                    {% if not request.user.is_authenticated %}
+                      {% trans "Se connecter" %} <span class="caret"></span>
+                    {% endif %}
+                  </button>{% endblock %}
+                  {% if request.user.is_authenticated %}
+                  <ul class="dropdown-menu" role="user-menu">
+                    <li><a href="{% url 'profile' %}">
+                    {% bootstrap_icon 'user' %} &nbsp; {% trans "Mon Profil" %}</a>
+                    {% if request.user.user_type != NON_MEMBER_TYPE and not request.user.is_verified %}
+                      <a href="{% url 'verified_profile' user_id=request.user.id%}">
+                      {% bootstrap_icon 'star' %} &nbsp; {% trans "Devenir vérifié" %}</a>
+                    {% endif %}
+                   </li>
+                    <li class="divider"></li>
+                    {% if request.user.is_superuser %}
+                    <li><a href="/admin/">{% bootstrap_icon 'star' %} &nbsp; {% trans "Administration" %}</a></li>
+                    {% endif %}
+                    <li><a href="{% url 'logout' %}">
+                    {% bootstrap_icon 'log-out' %} &nbsp; {% trans "Se déconnecter" %}</a>
+                    </li>
+                  </ul>
+                  {% else %}
+                  <ul class="dropdown-menu" style="padding: 15px;min-width: 250px;">
+                        <li>
+                           <div class="row">
+                              <div class="col-md-12">
+                                 <form class="form" role="form" method="post" action="{% url 'login' %}" accept-charset="UTF-8" id="login-nav">
+                                    {% csrf_token %}
+                                    <div class="form-group">
+                                       <label class="sr-only" for="username">{% trans "Nom d'utilisateur" %}</label>
+                                       <input type="input" class="form-control" name="username" id="username" placeholder='{% trans "Utilisateur" %}' required>
+                                    </div>
+
+                                    <div class="form-group">
+                                       <label class="sr-only" for="password">{% trans 'Mot de passe' %}</label>
+                                       <input type="password" class="form-control" name="password" id="password" placeholder="{% trans 'Mot de passe' %}" required>
+                                    </div>
+                                    <div class="form-group">
+                                       <button type="submit" class="btn btn-theme btn-block">{% trans "se connecter"%}</button>
+                                    </div>
+                                 </form>
+                              </div>
+                           </div>
+                        </li>
+                        <li class="divider"></li>
+                        <li>
+                           <a class="btn btn-theme03 btn-block sign-in-social" type="button" id="sign-in-google" href="{% url "google_login" %}">{% trans "se connecter via Google"%}</a>
+                           <a class="btn btn-theme03 btn-block sign-in-social" type="button" id="sign-in-facebook" href="{% url "facebook_login" %}">{% trans "se connecter via Facebook"%}</a>
+                           <a class="btn btn-theme03 btn-block sign-in-social" type="button" id="sign-in-twitter" href="{% url "twitter_login" %}">{% trans "se connecter via Twitter"%}</a>
+                        </li>
+                     </ul>
+                  {% endif %}
+                </li>
+                <li>
+                  <div class="btn-group" style="margin-right : 15px;">
+                    <button id="minustext" alt="Decrease text size" class="btn btn-theme btn-zoom force-size  " onclick="countam();resizeText();"><i class="fa fa-search-minus"></i></button>
+                    <button id="plustext" alt="Increase text size" class="btn btn-theme btn-zoom force-size" onclick="counta();resizeText();"><i class="fa fa-search-plus"></i></button>
+                  </div>
+                </li>
+                <li>
+                  <div class="lang-box">
+
+                  {% get_language_info for LANGUAGE_CODE as lang %}
+                  <form action="{% url 'set_language' %}" method="post" id="lang_form">
+                    {% csrf_token %}
+                    <input name="next" type="hidden" value="{{ redirect_to }}" />
+                    <input name="language" id="lang" type="hidden">
+
+                    <button type="button" class="btn btn-default btn-lang dropdown-toggle force-size" data-toggle="dropdown">
+                      <span class="flag-icon flag-icon-{{lang.code}}"></span>
+                      {{ lang.name_local|capfirst }} <span class="caret"></span>
+                    </button>
+                    {% get_language_info_list for LANGUAGES as languages %}
+                    <ul class="dropdown-menu lang-menu" role="lang">
+                      {% for language in languages %}
+                      <li onclick="$('#lang').val('{{ language.code }}'); $('#lang_form').submit()"><span class="flag-icon flag-icon-{{ language.code }}"></span>&nbsp;{{ language.name }}</li>
+                      {% endfor %}
+                    </ul>
+                  </form>
+                  </div>
+                </li>
+              </ul>
+            </div>
+        </header>
+      <!--header end-->
+
+      <!-- **********************************************************************************************************************************************************
+      MAIN SIDEBAR MENU
+      *********************************************************************************************************************************************************** -->
+      <!--sidebar start-->
+      <aside>
+          <div id="sidebar"  class="nav-collapse ">
+              <!-- sidebar menu start-->
+              <ul class="sidebar-menu" id="nav-accordion">
+
+                  {% if request.user.is_authenticated %}
+                  <p class="centered muser"><a href="{% url 'profile' %}">{{request.user.get_full_name}}</a></p>
+                  <p class="centered"><a href="{% url 'profile' %}">
+                      <img src="{% thumbnail request.user.photo 60x60 crop %}" class="img-circle" width="60">
+                  </a></p>
+<!--BEGIN-FRAMEWORK-->
+		{% include "fw_base.html" %}
+<!--END-FRAMEWORK-->
+                  <p class="centered credit-p"><span class="credit-text">{% trans "Type de compte :" %}</span> {{ request.user.get_account_type }}
+                  {% if not request.user.is_verified %}
+                  {% if request.user.user_type != NON_MEMBER_TYPE %}
+                  <a href="{% url 'verified_profile' request.user.id %}"> <i class="fa fa-caret-square-o-up"></i></a><p class="centered">
+                  {% endif %}
+                  {% endif %}
+                  <hr class="menu-sep"/>
+                  {% endif %}
+
+
+
+                  <li>
+                      <a href="{% url "home" %}">
+                          <i class="fa fa-home"></i>
+                          <span>{% trans "Accueil" %}</span>
+                      </a>
+                  </li>
+
+                  {% if request.user.is_authenticated %}
+                  {% if request.user.user_type != NON_MEMBER_TYPE %}
+                  <li class="sub-menu">
+                      <a href="javascript:;" >
+                          <i class="fa fa-globe"></i>
+                          <span>{% trans "Branches" %}</span>
+                      </a>
+                      <ul class="sub">
+                      {% if not request.user.is_superuser %}
+                        {% for branch in request.user.membership.all %}
+                          <li><a href="{{ branch.branch.get_absolute_url }}"><i class="fa fa-map-marker"></i>{{ branch.branch }}</a></li>
+                        {% endfor %}
+                      {% else %}
+                        <i style="margin-top: 5px; display: block;">{% trans "En tant que superuser, vous voyez toutes les branches" %}</i>
+                        {% branches %}
+                      {% endif %}
+
+                          {% if not request.user.is_superuser %}
+                          <li><a href="{% url "branch_join" %}"><i class="fa fa-plus"></i>{% trans "Rejoindre une branche" %}</a></li>
+                          {% endif %}
+                          {% if request.user.is_verified %}
+                            <li><a href="{% url "branch_create" %}"><i class="fa fa-code-fork"></i>{% trans "Créer une branche" %}</a></li>
+                          {% endif %}
+                      </ul>
+                  </li>
+                  {% endif %}
+                  <li class="sub-menu">
+                    <a href="javascript:;" >
+                      <i class="fa fa-user"></i>
+
+                      <span>{% trans "Mon Profil" %}</span>
+                    </a>
+
+                    <ul class="sub">
+                    <li><span><a href="{% url 'profile' %}"> {% trans "Mon Profil" %}</a></span></li>
+                    </ul>
+                    {% if  request.user.user_type != NON_MEMBER_TYPE and not request.user.is_verified %}
+                      <ul class="sub">
+                      <li><span><a href="{% url 'verified_profile' user_id=request.user.id %}"> {% bootstrap_icon 'star' %} &nbsp; {% trans "Devenir vérifié" %}</a></span></li>
+                      </ul>
+                    {% endif %}
+
+                    {% if request.user.user_type != NON_MEMBER_TYPE %}
+
+<!--BEGIN-FRAMEWORK-->
+		{% include "fw_base2.html" %}
+<!--END-FRAMEWORK-->
+
+                    {% endif %}
+
+                    {% if request.user.is_superuser %}
+                    <ul class="sub">
+                    <li><span><a href="/admin/">  {% trans "Administration" %}</a></span></li>
+                    </ul>
+                    {% endif %}
+                    <ul class="sub">
+                    <li><span><a href="{% url 'logout' %}"> {% trans "Se déconnecter" %}</a></span></li>
+                    </ul>
+                  </li>
+
+                  <li class="sub-menu">
+                    <a href="javascript:;" >
+                      <i class="fa fa-envelope"></i>
+                      <span>{% trans "Messages" %}</span>
+                    </a>
+                    <ul class="sub">
+                    <li><span> <a href="{% url 'postman_inbox' %}"> {% trans "Inbox" %}{% if unread_count %} <strong>({{ unread_count }})</strong>{% endif %}</a> </span></li>
+                    </ul>
+                    <ul class="sub">
+                    <li><span><a href="{% url 'postman_sent' %}"> {% trans "Sent Messages" %}</a></span></li>
+                    </ul>
+                    <ul class="sub">
+                    <li><span><a href="{% url 'postman_write' %}"> {% trans "Write" %}</a></span></li>
+                    </ul>
+                    <ul class="sub">
+                    <li><span><a href="{% url 'postman_archives' %}"> {% trans "Archives" %}</a></span></li>
+                    </ul>
+                    <ul class="sub">
+                    <li><span><a href="{% url 'postman_trash' %}"> {% trans "Trash" %}</a></span></li>
+                    </ul>
+                  </li>
+                  {% endif %}
+
+                  {% if request.user.is_authenticated and request.user.user_type != NON_MEMBER_TYPE %}
+                    <li class="sub-menu">
+                      <a href="{% url "job_search" %}" >
+                          <i class="fa fa-search"></i>
+                          <span>{% trans "Rechercher un job" %}</span>
+                      </a>
+                    </li>
+                  {% endif %}
+
+                  <li class="sub-menu">
+                      <a href="{% url "news_home" %}" >
+                          <i class="fa fa-rss"></i>
+                          <span>{% trans "News" %}</span>
+                      </a>
+                  </li>
+
+                  <li>
+                      <a href="{% url "help" %}">
+                          <i class="fa fa-question"></i>
+                          <span>{% trans "Aide" %}</span>
+                      </a>
+                  </li>
+
+                  <li>
+                      <a href="{% url "about_us" %}">
+                          <i class="fa fa-group"></i>
+                          <span>{% trans "A propos" %}</span>
+                      </a>
+                  </li>
+
+                  <li>
+                      <a href="{% url "what_is" %}">
+                          <i class="fa fa-heart"></i>
+                          <span>{% trans "Qu'est-ce que Care4Care ?" %}</span>
+                      </a>
+                  </li>
+
+                  <li class="sub-menu">
+                      <a href="{% url "jobs_care4care" %}" >
+                          <i class="fa fa-briefcase"></i>
+                          <span>{% trans "Jobs@Care4Care" %}</span>
+                      </a>
+                  </li>
+
+                  {% if request.user.is_superuser %}
+                  <li class="sub-menu">
+                      <a  href="{% url 'stats' %}">
+                        <i class=" fa fa-bar-chart-o"></i>
+                        {% trans "Statistiques" %}
+                      </a>
+                  </li>
+                  {% endif %}
+
+              </ul>
+              <!-- sidebar menu end-->
+          </div>
+      </aside>
+      <!--sidebar end-->
+
+      <!-- **********************************************************************************************************************************************************
+      MAIN CONTENT
+      *********************************************************************************************************************************************************** -->
+      <!--main content start-->
+      <section id="main-content">
+          <section class="wrapper">
+            {% block pre_content %}
+            
+            {% block content %}
+              
+            {% endblock %}
+
+            {% endblock pre_content %}
+          </section>
+      </section>
+
+      <!--main content end-->
+
+      {% comment %}
+      <!--footer start-->
+      <footer class="site-footer">
+          <div class="text-center">
+              2014 - Alvarez.is
+              <a href="index.html#" class="go-top">
+                  <i class="fa fa-angle-up"></i>
+              </a>
+          </div>
+      </footer>
+      <!--footer end-->
+      {% endcomment %}
+
+  </section>
+
+    <!-- js placed at the end of the document so the pages load faster -->
+    {% block bootstrapjs %}<script src="{% static "js/bootstrap.min.js" %}"></script>{% endblock %}
+    <script src="{% static "js/jquery.cookie.js" %}"></script>
+    <script src="{% static "js/jquery.hoverIntent.minified.js" %}"></script>
+    <script class="include" type="text/javascript" src="{% static "js/jquery.dcjqaccordion.2.7.js" %}"></script>
+    <script src="{% static "js/jquery.scrollTo.min.js" %}"></script>
+
+    {% comment %}
+    <script src="{% static "js/jquery.nicescroll.js" %}" type="text/javascript"></script>
+    {% endcomment %}
+    <script src="{% static "js/jquery.sparkline.js" %}"></script>
+
+
+
+    <!--common script for all pages-->
+    <script src="{% static "js/common-scripts.js" %}"></script>
+
+    <script type="text/javascript" src="{% static "js/jquery.gritter.min.js" %}"></script>
+
+    {% comment %}
+    <!--script for this page-->
+    <script src="{% static "js/sparkline-chart.js" %}"></script>
+    <script src="{% static "js/zabuto_calendar.js" %}"></script>
+    {% endcomment %}
+
+  <script type="text/javascript">
+        function counta(){
+          counter += 1;
+          if(counter > 9){
+            counter = 9;
+          }
+        }
+
+        function countam(){
+          counter -= 1;
+          if(counter < 5){
+            counter = 5;
+          }
+        }
+
+        function resizeText() {
+          document.body.style.fontSize = (counter * 2) + "px";
+          $.cookie('zoom', counter, { path: "/" });
+        }
+
+        $(document).ready(function () {
+        //Handles menu drop down
+        $('.dropdown-menu').find('form').click(function (e) {
+            e.stopPropagation();
+        });
+
+        {% for message in messages %}
+            var unique_id = $.gritter.add({
+                // (string | mandatory) the heading of the notification
+                title: 'Notification',
+                // (string | mandatory) the text inside the notification
+                text: '{{ message }}',
+                // (string | optional) the image to display on the left
+                //image: 'assets/img/ui-sam.jpg',
+                // (bool | optional) if you want it to fade out on its own or just sit there
+                sticky: false,
+                // (int | optional) the time you want it to be alive for before fading out
+                time: '5000',
+                // (string | optional) the class name you want to apply to that specific message
+                //class_name: 'notification-class'
+            });
+        {% endfor %}
+
+        if (document.body.style.fontSize == "") {
+            document.body.style.fontSize = "12px";
+          }
+
+        counter = 6;
+        if($.cookie('zoom')){
+          counter = parseInt($.cookie('zoom'));
+        }
+
+        resizeText();
+
+        return false;
+        });
+  
+  </script>
+
+  {% block extra_footer %}{% endblock %}
+
+  </body>
+</html>

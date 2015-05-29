@@ -1,0 +1,17 @@
+from django import template
+
+register = template.Library()
+
+@register.inclusion_tag('templatetags/offerobjs.html')
+def show_demandobjs(request, demandobjs, show_branch=True, check_progress=True):
+
+
+    import pdb; pdb.set_trace()
+
+
+    return locals()
+
+@register.inclusion_tag('templatetags/demandobjs.html')
+def show_offerobjs(request, offerobjs, show_branch=True):
+    return locals()
+

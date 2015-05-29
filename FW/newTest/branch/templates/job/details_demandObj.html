@@ -1,0 +1,179 @@
+{% extends "base.html" %}
+{% load bootstrap3 %}{% load i18n %}{% load staticfiles thumbnail humanize %}
+
+{% block title %}{% endblock %}
+
+{% block extra_head %}
+<meta content="http://{{request.META.HTTP_HOST}}{% static "img/care4care.jpg" %}" property="og:image"></meta>
+{% endblock %}
+
+{% block content %}
+
+<div id="fb-root"></div>
+
+
+{% if can_manage and not object.closed %}
+{{ object }}
+{{ object.volunteers.all }}
+<div class="row mt">
+    <div class="col-md-12">
+        <div class="content-panel">
+        <h4>{% trans "Volontaires" %}</h4>
+        {% blocktrans %}
+        <p class="text-center">Ci-dessous la liste des personnes prêtes à vous aider</p>
+        {% endblocktrans %}
+        <table class="table table-striped table-advance table-hover rowlink">
+            <thead>
+                <tr>
+                    <th>{% trans "Photo" %}</th>
+                    <th>{% trans "Utilisateur" %}</th>
+                    <th>{% trans "Commentaire" %}</th>
+                    <th>{% trans "Km" %}</th>
+                    <th style="width: 190px">{% trans "Actions" %}</th>
+                </tr>
+            </thead>
+            <tbody data-link='row'>
+                {% for volunteer in object.volunteers.all %}
+                <tr>
+                    <td>
+                    <a href="{{volunteer.user.get_absolute_url}}">
+                    <img class="img-circle" src="{% thumbnail volunteer.user.photo 40x40 crop %}" />
+                    </a>
+                    </td>
+                    <td>
+                        <a href="{{volunteer.user.get_absolute_url}}">
+                        {{ volunteer.user.get_full_name }}
+                        </a>
+                    </td>
+                    <td>{{ volunteer.comment }}</td>
+                    <td>{{ volunteer.km }} {% trans "km" %}</td>
+                    <td class="rowlink-skip text-right">
+                        <a class="btn btn-primary btn-sm" href="{% url 'volunteer_acceptObj' obj_type='dem' volunteer_id=volunteer.id demand_id=object.id %}">
+                            {% bootstrap_icon "ok" %} {% trans "Accepter" %}
+                        </a>
+                        <a class="btn btn-danger btn-sm" href="{% url 'volunteer_declineObj' obj_type='dem' volunteer_id=volunteer.id demand_id=object.id %}">
+                            {% bootstrap_icon "trash" %} {% trans "Refuser" %}
+                        </a>
+                    </td>
+                </tr>
+                {% empty %}
+                <tr>
+                <td colspan="6" class="text-center text-info">
+                    {% trans "Aucun volontaire actuellement" %}
+                </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        </div>
+    </div>
+</div>
+{% endif %}
+
+<div class="row mt">
+    <div class="col-xs-12">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h4>
+                    <div class="fb-share-button pull-right" data-layout="button" data-href="{{object.get_absolute_url}}" style="margin-top : 20px;"></div>
+                    <a class="float-right" href="{{ object.donor.get_absolute_url }}">
+                      <img class="img-circle" src="{% thumbnail object.receiver.photo 60x60 crop %}" />
+                      {{object.receiver.get_full_name}}
+                    </a> {% trans "recherche un objet dans la branche " %}
+                    <a href="{{object.branch.get_absolute_url}}">{{object.branch}}</a>
+                </h4>
+            </div>
+            <ul class="list-group">
+              <li class="list-group-item"><strong> {% trans "Date" %}</strong><br/>&nbsp;  {{ object.date|naturalday:'DATE_FORMAT' }}</li>
+              {% if object.description %}
+              <li class="list-group-item"><strong> {% trans "Description" %}</strong><br/> &nbsp; {{object.description}}</li>
+              {% endif %}
+            </ul>
+        </div>
+    </div>
+    {% if not object.closed %}
+    {% if object.receiver.id != request.user.id %}
+    <div class="col-md-12 col-sm-12 mb ph">
+<!--  TAKE DEMANDE OBJ -->    <a  {% if request.user in object.volunteers.all %} onclick="return false" {% endif %} href="{% url 'volunteer_objectD' branch_id=object.branch.id slug=object.branch.slug demand_id=object.id volunteer_id=request.user.id %}" class="btn btn-success btn-block">
+        {% bootstrap_icon "gift" %} {% trans "Se proposer pour cette demande" %} {% if request.user in object.volunteers.all %} {% trans "(Déjà volontaire)" %} {% endif %}
+      </a> 
+    </div>
+    {% endif %}
+    {% endif %}
+   
+    {% if can_manage %}
+    <div class="col-md-12 col-sm-12 mb">
+      <div class="col-md-6 col-sm-6">
+        <a href="{% url 'update_demandObj' branch_id=object.branch.id slug=object.branch.slug demand_id=object.id %}" class="btn btn-primary btn-block">
+          {% bootstrap_icon "pencil" %} {% trans "Modifier" %}
+        </a>
+      </div>
+      <div class="col-md-6 col-sm-6">
+        <a href="{% url 'delete_demandObj' branch_id=object.branch.id slug=object.branch.slug demand_id=object.id %}" class="btn btn-danger btn-block">
+         {% bootstrap_icon "trash" %} {% trans "Supprimer" %}
+        </a>
+      </div>
+    </div>
+    {% endif %}
+    <div class="col-md-12 col-sm-12">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h4>
+                    {% trans "Commentaires" %}
+                </h4>
+            </div>
+            <div class="panel-body">
+
+            <ul class="commentList">
+                {% for comment in object.comments.all %}
+                <li id='{{comment.id}}'>
+                    <div class="commenterImage">
+                      <img src="{% thumbnail comment.user.photo 50x50 crop %}" />
+                    </div>
+                    <div class="commentText">
+                        <p class="text-info"><a href="{{ comment.user.get_absolute_url }}">{{comment.user.get_full_name}}</a> {% trans "a écrit:" %}</p>
+                        <p>{{comment.comment}}</p>
+                        <span class="date sub-text">{{ comment.date|naturaltime}}</span>
+                    </div>
+                </li>
+                {% endfor %}
+            </ul>      
+            
+            <form action="." class="style-form" role="form" method="post">
+                <div class="row vertical-align">
+                    <div class="col-md-10 col-sm-12">
+                    {% csrf_token %}
+                    {% bootstrap_form form %}
+                    </div>
+                    <div class="col-md-2 col-sm-12">
+                    {% buttons %}
+                      <button type="submit" class="btn btn-success btn-lg pull-right">
+                        {% bootstrap_icon "ok" %} &nbsp; {% trans "Commenter" %}
+                      </button>
+                    </div>
+                </div>
+                </form>
+                {% endbuttons %}
+            </div>
+            
+            </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_footer %}
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  {% if LANGUAGE_CODE == 'fr' %}
+  js.src = "//connect.facebook.net/fr_FR/sdk.js#xfbml=1&appId=958033600891660&version=v2.0";
+  {% elif LANGUAGE_CODE == 'nl' %}
+  js.src = "//connect.facebook.net/nl_NL/sdk.js#xfbml=1&appId=958033600891660&version=v2.0";
+  {% else %}
+  js.src = "//connect.facebook.net/en_EN/sdk.js#xfbml=1&appId=958033600891660&version=v2.0";
+  {% endif %}
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+{% endblock %}
+
