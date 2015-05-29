@@ -1,0 +1,165 @@
+% $Id: main.tex 1765 2011-10-05 11:06:47Z s.gonzalez $
+
+\documentclass[british]{article}
+
+% $Id: preamble.tex 1765 2011-10-05 11:06:47Z s.gonzalez $
+% !TEX root = main.tex
+
+% This file contains commands, acronyms, hyphenations, and other
+% auxiliary definitions.
+
+%----[ Packages ]---
+
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{a4wide}
+\usepackage{enumitem}
+\usepackage[french]{babel}
+\usepackage{hyperref}
+\usepackage{listings}
+\usepackage{color}
+\usepackage{graphicx}
+\usepackage{pdfpages}
+\usepackage{titlesec}
+\usepackage{framed}
+
+%----[ Configuration ]---
+
+\setdescription{leftmargin=0pt,style=nextline}
+\setlength{\parindent}{10 pt}
+\setlength{\parskip}{0,2 cm}
+
+\newcommand{\sectionbreak}{\clearpage}
+
+
+
+\DeclareGraphicsExtensions{.png}
+\graphicspath{{graphics/}}
+
+%----[ Commands ]---
+
+% PAGE TITLE FROM UCL : http://www.uclouvain.be/51203.html
+%%%% SPACING %%%%
+\renewcommand{\baselinestretch}{1.3}
+\headsep = 10.mm
+%%%% CHOOSE MARGINS %%%%
+\usepackage{geometry}
+\geometry{hmargin=2.5cm,top=3cm,bottom=2.3cm}
+%%%% COMMANDS %%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% CHANGE HERE %%%%
+\renewcommand\title{Analyse et développement d'un framework open source d'online banking pour des organisations d'échange social en monnaies complémentaires}
+\newcommand\name{\textsc{Maxime Biset}}
+\newcommand\options{}
+\newcommand\supervisor{ \textsc{Kim Mens}}
+\newcommand\readerone{ \textsc{Katleen Deruytter}}
+\newcommand\readertwo{ \textsc{Charles Pêcheur}}
+\newcommand\years{2014-2015}
+
+%%%%%%%%%%%%%%%%%
+    						  
+%%%%%%%%%%%%%%%%%
+
+\begin{document}
+
+%%%% COVER %%%%
+\thispagestyle{empty}
+\noindent\begin{minipage}{.25\textwidth}
+\noindent\includegraphics[width=3.6cm]{UCL.jpg}
+\end{minipage}
+\begin{minipage}{.5\textwidth}
+\begin{center}
+UNIVERSITE CATHOLIQUE DE LOUVAIN
+\\~\\~
+ECOLE POLYTECHNIQUE DE LOUVAIN
+\\~\\~\\~\\~\\~
+\end{center}
+\end{minipage}
+\begin{minipage}{.25\textwidth}
+\hfill\includegraphics[width=3.6cm]{EPL.jpg}
+\\~\\~\\~\\~
+\end{minipage}
+\vspace{4.5cm}
+\begin{center}
+\bfseries{\scshape{\Huge{\title}}}
+\end{center}
+\vspace{4.5cm}
+\begin{minipage}{.5\textwidth}
+\begin{tabular}{ll}
+Superviseur: & \supervisor
+\\ Lecteurs: & \readerone 
+\\          & \readertwo 
+\end{tabular} 
+\\~\\~
+\end{minipage}
+\begin{minipage}{.5\textwidth}
+\begin{tabular}{l}
+Mémoire présenté en vue de l'obtention du grade de
+\\ master 120 crédits en sciences informatiques
+\\ option : ingénierie logicielle et systèmes de programmation \
+\\ par \name \
+\end{tabular}
+\end{minipage}
+\vfill
+\begin{center}
+Louvain-la-Neuve
+\\ Année académique \years
+\end{center}
+%%%% END COVER %%%%
+
+%\title{Analyse et développement d'un framework open source d'online banking pour des organisations d'échange social en monnaies complémentaires}
+%\author{Maxime~Biset}
+
+
+\pagenumbering{gobble}
+
+%\maketitle
+
+\newpage
+
+\input{abstractEtackgmt.tex}
+
+\newpage
+\tableofcontents
+\newpage
+\pagenumbering{arabic}
+
+\input{intro.tex}
+
+\input{bgmaterials.tex}
+
+\input{problem.tex}
+
+\input{approche.tex}
+
+\input{domanalysis.tex}
+
+\input{develop.tex}
+
+\input{validation.tex}
+
+\input{futurework.tex}
+
+\input{conclusion.tex}
+
+
+\bibliographystyle{plain}
+\nocite{*}
+\bibliography{main}
+
+\appendix
+
+\section{BuurtPensioen - Software requirements}
+\label{bpse}
+URL vers GitHub
+%\includepdf[pages={-}]{appendix/SE_requirements_analysis_Care4Care.pdf}
+
+
+\end{document}
+
+\endinput
+
+Emacs config
+------------
+Local Variables:
+TeX-master: t
+End:

@@ -1,0 +1,33 @@
+Une fois cette question réglée,  une rencontre avec le client et d'autres potentiels partenaires du projet a eu lieu.  Ce fut l'occasion d'avoir un meilleur aperçu de différents cas similaires à BuurtPensioen (autres villes,  projets un peu différents) ainsi que des solutions existantes et/ou en cours de développement.  Le schéma ci-après résume assez bien la situation actuelle concernant les acteurs et outils existants dans le domaine des économies d'échange de personne à personne.  
+
+
+Contexte du mémoire
+*********************
+Ce mémoire s'est déroulé dans un domaine assez particulier et vaste.  En effet,  BuurtPensioen fait partie de ces initiatives qui sortent quelques peu du schéma classique "commerçant-client".  Dans cette relation traditionnelle,   l'un des 2 acteurs exerce une profession incluant la vente de biens et/ou services que le second acteur achète.  Dans notre cas,  l'objectif est souvent de mettre en relation 2 acteurs pour une transaction plus unique et qui n'implique pas d'offce que l'un des deux acteurs soit plus "professionnel" que l'autre.  
+
+
+Déroulement de l'analyse.
+
+La demande concernait le développement d'une application open-source De plus, le client n'avait pas d'idée sur les fondements juridiques de ce type de logiciels.  Une première étape a donc été d'analyser les licences existantes pouvant être appliquées à ce projet.  A cet effet,  j'ai consulté le service Administration de la Recherche de l'UCL.  Un entretien avec Sébastien Adam m'a permi d'éclaircir ce domaine.  A partir de là,  j'ai réalisé une petite note résumant les possibilités pour ce projet afin que le client puisse choisir la plus adéquate.  
+
+
+
+****************************
+SCHEMA ACTEURS ET OUTILS
+*****************************
+
+Acteurs : 
+- BuurtPensioen
+
+-> Utilise des documents de bureautique,  centralisés et gérés par quelques personnes.  La communication entre les "administrateurs" et les utilisateurs se fait principalement par téléphone.
+- 
+- 
+- 
+
+Troeven.be : 
+https://www.troeven.be/nl-be/faq/
+
+Time2Care : 
+http://www.time2care.be/
+
+

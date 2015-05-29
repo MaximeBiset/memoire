@@ -1,0 +1,8 @@
+\select@language {french}
+\contentsline {section}{\numberline {1}Related Work}{1}{section.1}
+\contentsline {subsection}{\numberline {1.1}Etude de la Vrije Universiteit van Brussels}{1}{subsection.1.1}
+\contentsline {subsection}{\numberline {1.2}Autres syst\IeC {\`e}mes existants}{1}{subsection.1.2}
+\contentsline {subsection}{\numberline {1.3}Open-source et licences}{1}{subsection.1.3}
+\contentsline {subsection}{\numberline {1.4}Outil : les feature models}{2}{subsection.1.4}
+\contentsline {subsection}{\numberline {1.5}Outil : featureIDE}{2}{subsection.1.5}
+\contentsline {subsection}{\numberline {1.6}Outil : Django}{2}{subsection.1.6}

@@ -1,0 +1,89 @@
+\begin{thebibliography}{10}
+
+\bibitem{buurtpensioen}
+Buurt{P}ensioen.
+\newblock \url{www.woonzorgbrussel.be/BuurtPensioen}.
+\newblock Accessed: 2015-05-01.
+
+\bibitem{django}
+Django framework.
+\newblock \url{https://www.djangoproject.com/}.
+\newblock Accessed: 2015-04-01.
+
+\bibitem{eclipse}
+Eclipse software.
+\newblock \url{https://eclipse.org}.
+\newblock Accessed: 2015-04-13.
+
+\bibitem{featureIDE}
+Feature{I}{D}{E} plug-in for eclipse.
+\newblock \url{http://wwwiti.cs.uni-magdeburg.de/iti_db/research/featureide/}.
+\newblock Accessed: 2015-04-13.
+
+\bibitem{agplv3}
+Licence open-source agplv3.
+\newblock \url{https://www.gnu.org/licenses/agpl-3.0.html}.
+\newblock Accessed: 2015-04-01.
+
+\bibitem{python}
+Python language.
+\newblock \url{https://www.python.org/}.
+\newblock Accessed: 2015-04-15.
+
+\bibitem{STRO}
+Social {TR}ade {O}rganisations.
+\newblock \url{http://www.socialtrade.org/}.
+\newblock Accessed: 2015-05-01.
+
+\bibitem{splot}
+Splot software.
+\newblock \url{http://www.splot-research.org/}.
+\newblock Accessed: 2015-04-13.
+
+\bibitem{Arango89domain}
+G.~Arango.
+\newblock Domain analysis: From art form to engineering discipline.
+\newblock {\em SIGSOFT Softw. Eng. Notes}, 14(3):152--159, April 1989.
+
+\bibitem{GenProg}
+Krzysztof Czarnecki and Ulrich~W. Eisenecker.
+\newblock {\em Generative Programming: Methods, Tools, and Applications}.
+\newblock ACM Press/Addison-Wesley Publishing Co., New York, NY, USA, 2000.
+
+\bibitem{Hubaux2012a}
+A.~Hubaux.
+\newblock {\em Feature-based Configuration: Collaborative, Dependable, and
+  Controlled}.
+\newblock PhD thesis, University of Namur, Belgium, 2012.
+
+\bibitem{Pfleeger_Atlee_2010}
+Pfleeger~Shari Lawrence and Atlee~Joanne M.
+\newblock {\em Software engineering: theory and practice}.
+\newblock Pearson, 2010.
+
+\bibitem{domainAnalyzis}
+Ruben Prieto-Diaz and G.~Arango.
+\newblock {\em Domain Analysis and Software Systems Modeling}.
+\newblock IEEE Computer Society Press, Los Alamitos, CA, USA, 1991.
+
+\bibitem{prietodiaz87domain}
+Rubén Prieto-Díaz.
+\newblock Domain analysis for reusability.
+\newblock In {\em Proc. of the eleventh annual international computer software
+  and applications conference (COMSPAC 87)}. IEEE computer society, 1987.
+
+\bibitem{softComp}
+Clemens Szyperski.
+\newblock {\em Component Software: Beyond Object-Oriented Programming}.
+\newblock Addison-Wesley Longman Publishing Co., Inc., Boston, MA, USA, 2nd
+  edition, 2002.
+
+\bibitem{LTTOlicences}
+Louvain Technology Transfert~Office UCL.
+\newblock {\em Creating software at the Uuniversité Catholique de Louvain}.
+
+\bibitem{LTTOrech}
+Louvain Technology Transfert~Office UCL.
+\newblock {\em Le chercheur face à la propriété intellectuelle}.
+
+\end{thebibliography}

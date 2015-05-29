@@ -1,0 +1,46 @@
+\newpage
+\setcounter{page}{1}
+\section{Introduction}
+
+\begin{description}
+
+\item[Contexte] 
+En 2008,  la crise financière a montré toutes les faiblesses de l'économie traditionnelle ainsi que tous les revers du marché boursier et tout autre organisme de transaction économique à grande échelle.  D'autre part,  les populations des pays développés sont en demande de plus de liens sociaux.  
+
+\item[Problème] 
+Ces 2 constats peuvent être rassemblés dans une solution qui existait déjà bien avant la crise financière : des organisations d'échange de biens et services entre personnes d'un même quartier,  d'une même commune voire d'une même région.  Le principe est assez simple : pourquoi aller chercher dans un grand magasin ou à des centaines de kilomètres,  quelque chose que l'on peut trouver et échanger avec son voisin ?  On économise des frais de transport,  on connait mieux la personne avec qui nous "commerçons" (qualité,  service personnalisé, ... ),  et c'est l'occasion de faire connaissance avec une personne de sa région géographique,  et donc de resserer les liens de voisinnage.  Pour organiser cela,  des organisations,   généralement à but non-lucratif (mais pas exclusivement),  ont vu le jour un peu partout à travers le monde afin de mettre en place ce système d'échange et permettre aux habituelles offres et demandes.  Ces organisations ont dû et doivent s'outiller afin de gérer de la meilleure façon possible les requêtes faites par les utilisateurs.  
+
+\item[Solution] 
+Pour cela,  certaines organisations ont longtemps,  voir utilisent toujours,  des formulaires, tableaux ou autres,  au format papier.  D'autres se sont munies d'un logiciel de bureautique afin d'accélérer un peu les démarches.  Enfin,  certaines ont même eu recours au développement d'une application spécifique.  Allant de la simple "application de gestion interne" à un site web via lequel les utilisateurs peuvent s'enregistrer,  gérer leur profil,  encoder des offres et demandes,  etc.   
+\\
+Une fois que l'on sait cela,  on peut se poser la question de l'existence d'un outil "clé sur porte" pour toutes les organisations de ce type.  Mais ce n'est malheureusement pas aussi simple.  En effet,  la particularité des organisations que nous décrivons,  est qu'elles sont très locales et chacune a sa spécificité.  Par exemple,  certaines organisations permettent l'échange de biens,  d'autres de services,  ou d'autres encore les 2.  Certaines désirent garder une monnaie réelle pour les échanges tandis que d'autres désirent rendre cela plus symbolique et comptabilisent des heures de travail voire même,  il existe des monnaies alternatives et locales.  Alors comment concilier le désir d'avoir un outil utile à tous tout en permettant à chaque unité locale de garder ses spécificités ?  
+
+\item[Motivation] 
+Une réponse intéressante et qui est explorée dans ce mémoire est le développement d'un framework.  Un framework est un logiciel développé dans le but d'avoir des parties flexibles à adapter selon la situation dans laquelle le logiciel sera utilisé.  Ainsi,  si les logiciels étaient des voitures,  un framework correspondrait au chassis de la voiture sur/dans lequel il est prévru d'y insérer un moteur,  une boite de vitesse,  un habitacle,  des peintures,  etc.  Et chaque élément dépend de ce que le conducteur désire.  
+
+\item[Objectifs] 
+Dans le cadre de ce mémoire,  l'idée est d'avoir un logiciel "squelette" dans lequel on pourra venir définir soi-même certains éléments spécifiques.   On aura ainsi un logiciel qui réalise des échanges "d'unités" et qui,  une fois implémenté par l'organisation,  saura qu'une "unité échangée" sera un objet,  ou un service,  ou bien laissera la possibilité aux 2 options.  L'avantage d'un framework est bien sur dans le gain de temps puisque une partie du travail est déjà réalisée.  L'inconvénient est que les grandes lignes sont déjà tracées et il n'y a moins de libertés sur les grandes lignes de l'application.  Dans notre cas,  l'analyse des organisations et outils existants en gardant une vue assez large,  permet de développer un produit englobant un nombre suffisamment large de cas particuliers.  
+
+\item[Approche]
+Pour parvenir à ce résultat,  nous allons d'abord expliquer quelques éléments théoriques qui seront utilisés plus tard dans ce mémoire.  Ensuite,  nous pourrons aborder le problème posé et commencer à plonger dans la thématique du mémoire,  c'est à dire les systèmes d'échange local.  Après avoir décrit le problème,  nous analyserons la situation via l'analyse du domaine.  Ceci nous permettra de passer alors au développement du framework et enfin,  de vérifier via la validation,  que le résultat du développement correspond bien à un framework d'online banking pour les organisations d'échange social.
+
+\item[Contributions]
+
+Ce mémoire a plusieurs résultats utilisables.  D'abord,  le framework développé.  Celui-ci peut être utilisé par des organisations afin de gérer leur projet.  Deux autres contributions théoriques sont intéressantes : l'analyse du domaine réalisée lors de l'analyse du domaine ainsi que les techniques utilisées pour le développement.  L'analyse réalisée peut permettre à des responsables de projets locaux de mieux imaginer l'outil qu'ils pourraient utiliser.  Les techniques utilisées et décrites dans le chapitre de développement peuvent aider pour la programmation des fonctionnalités d'une instanciation du framework.  De plus,  ces techniques peuvent être réutilisées pour étendre le framework en ajoutant de nouveaux features adaptables.
+
+\item[Roadmap] 
+
+Ce mémoire est structuré de façon à permettre une lecture linéaire.  Chaque chapitre apporte de nouveaux éléments,  soit des précisions sur ce qui a déjà été vu (par exemple,  un plus grand niveau de détails d'une partie du domaine),  soit un élargissement du point de vue (par exemple,  l'explication d'un outil qui sera utilisé par la suite).  
+
+Tout d'abord,  nous allons jeter un oeil aux travaux liés de près ou de loin au problème abordé.  Ce sera l'occasion de se rendre compte de l'intérêt du travail qui sera réalisé mais également de présenter quelques outils utilisés par la suite.  Après cela,  nous définirons le problème de base,  la description du cas et les particularités à résoudre.  
+
+Ensuite,  nous décrirons l'approche utilisée pour résoudre le problème qui a été défini dans la section précédente.  
+
+Une fois ces éléments de contexte bien définis,  nous pourrons attaquer le coeur du problème en décrivant l'analyse du domaine.  Celle-ci décrira le vocabulaire utilisé,  quelques cas d'utilisation et surtout un "feature model".  Ce dernier permet de mettre en avant les éléments communs à toutes les applications et ceux qui peuvent se distinguer selon l'application \cite{GenProg}.  
+
+Une fois l'analyse du domaine terminée,  nous pourrons attaquer le développement.  Cette phase a pour but d'analyser le code du logiciel choisi comme base de départ pour ensuite adapter certaines parties du code afin que celui-ci soit plus générique et plus facile à personnaliser.
+
+Ensuite viendra la phase de validation qui permettra de vérifier que le framework développé correspond bien au modèle décrit dans l'analyse.  Pour cela,  le cas de Buurtpensioen sera utilisé comme première instanciation et d'autres cas pour les features seront implémentés.
+
+
+\end{description}

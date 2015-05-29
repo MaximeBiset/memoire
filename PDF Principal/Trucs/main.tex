@@ -1,0 +1,212 @@
+% $Id: main.tex 1765 2011-10-05 11:06:47Z s.gonzalez $
+
+\documentclass[british]{article}
+
+\input{preamble}
+
+\title{Proposed Structure for a Graduation Thesis}
+\author{RELEASeD lab}
+
+\begin{document}
+
+\maketitle
+
+We strongly advise you to write your thesis completely in \LaTeX. It
+will produce a document of significant higher quality of layout, and
+you can easily base yourself on a template of students who made their
+thesis last year.
+
+\section*{Abstract}
+
+Your thesis typically starts with a 1-page abstract of the thesis: it provides a general motivation, a description of the problem you are addressing, a brief sketch of your solution to that problem, and finally it highlights the main results and contributions of the work.
+
+\section*{Acknowledgments}
+
+You can put here all acknowledgements of people that supported you directly or indirectly in this graduation thesis (or in your studies). If you want to give a funny twist to this section, that's okay.
+
+\section*{Introduction}
+
+The introduction states the problem of the thesis and is typically subdivided in the following short sections:
+\begin{description}
+
+\item[Context] Sketch the context and domain of the work.
+
+\item[Problem] Describe and define the problem that will be tackled in
+  this thesis.
+
+\item[Motivation] Motivate why this problem is a relevant one. Why is
+  this problem important, complex, not yet solved, what are the
+  shortcomings today. Optionally add a motivation why you have chosen
+  this particular thesis topic or why this topic was proposed.
+
+\item[Objectives] Highlight the intended objectives of your
+  thesis. What is the goal of this work? (In the conclusion chapter
+  you will come back to these objectives and discuss to what extent
+  you managed to achieve those objectives.)
+
+\item[Approach] Without going in full detail, present in general terms
+  how you will solve the problem and achieve the objectives.
+
+\item[Contributions] Explicitly highlight the major and minor research
+  contributions of your work. These can be of various kinds but it is
+  important to stress the \emph{novel} aspect; e.g.:
+  \begin{itemize}
+  \item identification or specification of a new relevant problem;
+  \item proposal of a novel solution to an existing problem;
+  \item new mathematical formalisms, definitions, theorems or proofs;
+  \item design of a novel framework, system, language, etc.;
+  \item a comparison (or survey) of existing theories, models,
+    designs, systems or implementations in a novel way;
+  \item first implementation of a designed system (or significantly
+    improved implementation of an existing system);
+  \item an empirical analysis, for example a study of the performance
+    of an implemented system;
+  \item confirming or validation of the correctness of someone else’s
+    work (for the first time or in a novel way).
+  \end{itemize}
+
+\item[Roadmap] Finish this section by announcing how the remainder of
+  your thesis document is structured, e.g.:
+  \begin{quote}
+    The remainder of this document is structured as follows: the next
+    two chapters provide the necessary background material and report
+    on related work. Then, the proposed solution to the problem is
+    introduced, motivated, defined and worked out. The software
+    architecture supporting the implementation of that solution is
+    then explained, and exemplified. An experiment / validation / case
+    study is then conducted in order to validate the
+    solution. Finally, a conclusion delivers the main contributions of
+    this research and we present some avenues of future work.
+  \end{quote}
+  Hint: Try to phrase that roadmap paragraph in concrete terms
+  dedicated to your concrete problem and solution. If someone else can
+  just copy paste it and put it in his graduation thesis, then you are
+  probably not concrete enough.
+\end{description}
+
+\section*{Background Material}
+
+In this section, introduce the background material needed for the
+reader to understand the core chapters of your thesis. This includes
+all relevant material to make the thesis “self-contained” so that
+reader can understand the entire thesis without having to consult
+other sources. For example if you use a certain algorithm, or if you
+target a certain platform, or if you rely on a certain mathematical
+theory, it may be useful to summary the essence of that material here,
+so that the user can fall back on it if needed. Users that already
+know this material should be able to safely skip this section. Do not
+forget to explain clearly to the reader why this material is relevant
+in the context of this thesis, so that he doesn’t get bored by all
+this extra stuff, which is only background material but not part of
+the essence of the thesis. Don’t exaggerate with this section. Only
+put what is really necessary to understand what comes later. Some
+theses don’t need a background section at all.
+
+\section*{Related Work}
+
+In this section you should list relevant related work existing today:
+what other solutions are provided today to address the problem that
+you stated in the introduction. You could: provide a summary of some
+articles that you have read, make a comparison table between solutions
+that you found relevant for the problem, analyze existing solutions,
+discuss advantages and shortcomings of some selected solutions,
+discuss in details the limitations of existing practice. The main
+point of the related work is to put in perspective your work, which
+will build upon or be complementary to that related work.
+
+\section*{Problem Statement}
+
+Now that you have introduced the necessary background material and
+related work, you can explain in more detail the research problem that
+you want to address in this thesis, why it is a relevant problem and
+how your solution would advance the state of the art in this research
+area (by positioning it in terms of the related work discussed in the
+previous chapter).
+
+\section*{Running Example [optional]}
+
+When explaining your solution in the next section, it is often helpful
+to do that through a running example. That running example can be
+introduced here. It should be well chosen so that it is not too
+complex yet illustrates the problem well. Note that this running
+example does not have to be a full-fletched case study – that would be
+part of the validation chapter – but can be smaller. Alternatively, it
+could be a subpart of such a larger case study.
+
+\section*{Solution}
+
+In this chapter (or chapters), you describe in detail the solution you
+have developed to address the problem. This chapter may be decomposed
+in several chapters describing different aspects of your solution. For
+example, one chapter introducing a new formalism you developed,
+another describing a novel algorithm you propose based on that
+formalism, and finally a chapter discussing a prototype implementation
+of that algorithm.
+
+What is most important to make clear in these chapters is the
+conceptual ideas behind the solution. Try to describe the essence of
+your solution so that any reader can understand it, even though you
+intricacies of the solution as well. A reader who is only interested
+can add some more detailed sections that dive into the technical in
+the big picture should be able to skip those more detailed sections
+and still understand what your solution is about. A reader who wants
+to understand your solution in full detail can decide to read them.
+
+Where necessary, provide schemas or pictures illustrating how your
+solution works. A (good) picture often tells more than a thousand
+words. Throughout this chapter, illustrate the different aspects of
+your solution on the running example. At the end of the chapter, don’t
+forget to position your particular solution to the related work
+discussed in a previous chapter.
+
+\section*{Validation}
+
+In this chapter, describe the experiment, benchmarks, case study or
+other means of validation, which you conducted to prove that your
+solution attains the objectives put forward in the introduction.
+
+\begin{description}
+
+\item[Method] Describe the details and approach of how you conducted
+  your validation experiment(s).
+
+\item[Results] Present the brute results obtained after having
+  conducted the experiment, but don’t draw any conclusions yet.
+
+\item[Analysis/discussion] Analyse the obtained results and discuss
+  what conclusions you can draw from these results. If possible
+  include statistical tests, charts, graphs to support your analysis.
+
+\item[Threats to validity] Discuss all factors that may have
+  negatively or positively influenced your results or that may cause
+  the experiment to be difficult to replicate by others.
+
+\item[Conclusion] Summarize the main findings of your work: what did
+  you do, what was not covered, advantages, shortcomings, possible
+  future work. Did you attain the initial objectives of the thesis?
+
+  Make sure to revisit the initial problem statement and to point out
+  explicitly how your solution addresses it. Also repeat the achieved
+  contributions.
+
+\end{description}
+
+\section*{Future Work}
+
+Discuss possible paths of future work here. A good idea is to fill in this section throughout the entire year you work on this thesis. Whenever you have a cool idea, put it here. If you don’t have time to develop it, it becomes future work.
+
+\section*{References}
+A section with all references to books, articles and web-sites you
+refer to in the thesis. Make your that your references are as complete
+and detailed as possible and let BibTex take care of the formatting
+for you.
+
+\end{document}
+
+\endinput
+
+Emacs config
+------------
+Local Variables:
+TeX-master: t
+End:

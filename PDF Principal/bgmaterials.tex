@@ -1,0 +1,78 @@
+\section{Background material}
+
+Avant de pouvoir attaquer le fond du sujet,  il est important d'introduire certains concepts et outils qui seront utilisés plus tard dans ce mémoire.  Un premier concept d'analyse qui sera vu dans ce chaptire concerne les feature models.  Ce type d'analyse est utile au développement d'un framework et nous allons donc d'abord voir en quoi consiste ce type de modèle.  Ensuite,  nous verrons un outil concret utilisé pour représenter facilement des diagrammes de features puis nous aborderons un outil destiné au développement.  Il s'agit de la plateforme web Django.  Celle-ci a été utilisée dans le cadre d'un outil devant répondre aux besoins de BuurtPensioen,  un organisme sans but lucratif basé à Bruxelles et organisant des échanges locaux.  Nous utiliserons cette plateforme pour développer le framework générique destiné à être appliquable à d'autres organisations par la suite.  Enfin,  nous aborderons la question des licences pour la distribution du framework obtenu à la fin du projet.
+
+\subsection{Les feature models}
+\label{featuremodel}
+
+Nous allons donc commencer par découvrir en quoi consiste un feature model,  les différents éléments et leur utilité.  Tout d'abord,  la notion centrale dans ce type de modèle est le \textbf{feature}.  Un (software-)feature (une caractérisitique ou spécificité,  en français) est définit comme suit :
+
+\begin{framed} \begin{quote}
+\textbf{A prominent and user-visible aspect,  quality or characteristic of a software system or systems.} \cite{GenProg}\\
+(ou,  en français) \\
+\textbf{Un aspect,  une caractéristique ou qualité,  importante d'un ou plusieurs logiciels perceptible par l'utilisateur.}
+\end{quote} \end{framed}
+
+Par exemple,  un téléphone portable peut avoir de nombreux features :  envoi de SMS,  téléphone,  accès internet,  accès wi-fi,  etc.  
+Les features d'un logiciel peuvent être documentés dans ce qu'on appelle le \textbf{feature model}.  
+
+Ce dernier possède 4 composantes : 
+
+\begin{description}
+	\item[Diagramme des features] Ce diagramme représente une décomposition hiérarchique des features et indique pour chacun d'eux si il est : obligatoire,  optionnel ou alternatif.
+	\item[Définition des features] Les définitions décrivent chaque feature avec précision.
+	\item[Règles de composition] Elles décrivent les incompatibilités entre features ou,  à l'inverse,  le fait qu'inclure un feature implique de devoir en inclure un autre.
+	\item[Raisons d'existence des features] Explication des raisons de présence ou non de chaque feature.
+\end{description}
+
+Pour illustrer ces 4 composantes,  nous pouvons prendre un exemple lié au sujet de ce mémoire,  c'est-à-dire les économies locales d'échanges.  Dans ces dernières,  on peut retrouver une hiérarchie de base comportant plusieurs features.  Plus particulièrement,  on peut s'intéresser aux échanges qui ont lieu ainsi que la monnaie utilisée dans l'économie décrite.  Du côté des échanges possibles,  on pourrait avoir une économie qui permet des échanges d'objets ou de services.  On aura donc 2 features optionnels : un feature pour les biens et un autre pour les services.  Du côté des monnaies,  nous pourrions avoir une monnaie conventionnelle ou bien utiliser simplement une notion du temps pour les échanges.  Et parmi les monnaies conventionnelles,  on peut retrouver les monnaies officielles telles que l'euro,  ou une monnaie complémentaire créée par la communauté de l'économie locale d'échange.  On a donc 3 features alternatifs : le temps,  une monnaie conventionnelle officielle (euro) et la monnaie complémentaire. 
+
+Cet exemple donne le diagramme des features suivant : \\
+
+\fbox{\includegraphics[scale=0.6]{exemple.png}}
+
+Une petite précision est nécessaire pour pouvoir comprendre ce diagramme correctement.  On peut se poser la question des features alternatifs : s'agit-il d'alternatives exclusives ou non ?  Dans ce cas-ci,  nous dirons que oui.  Ainsi,  notre système ne pourra avoir qu'une seule monnaie parmi les choix : Temps,  Euros,  MonnaieComplémentaire.  Conceptuellement parlant,  nous pourrions imaginer un système avec plusieurs monnaies mais cela complexifie assez bien la tâche.
+
+Pour la définition des features,  nous aurions ce qui suit : \\
+\textbf{\underline{Local Sharing Economy : }} Economie locale d'échange,  il s'agit d'une communauté dont l'activité principale est l'échange entre personnes d'une zone géographique restreinte. \\
+\textbf{\underline{Echanges : }} Action du passage d'un bien ou un service d'une personne à une autre,  en échange d'un montant de monnaie fixé.\\
+\textbf{\underline{Monnaie}} Outil de mesure de la valeur d'un bien ou d'un service.
+\textbf{\underline{Objet}} Un bien matériel dont on peut définir le propriétaire. \\
+\textbf{\underline{Service}} Une action utile pour une personne. \\
+\textbf{\underline{Temps}} Unités de temps exprimée en minutes, heures,  jours,  semaines et mois.  \\
+\textbf{\underline{Monnaie conventionnelle}} Monnaie représentée sur forme matérielle et n'existant pas naturelement. \\
+\textbf{\underline{Euro}} Monnaie officielle de la zone Euro. \\
+\textbf{\underline{Monnaie complémentaire}} Monnaie conventionnelle mais non-officielle (non reconnue par les autorités civiles nationales). \\
+
+
+Ensuite,  nous devons décrire les règles de composition.  Une règle que nous pouvons définir concernerait l'échange de biens et la monnaie utilisée.  En effet,  il semble difficile ou,  en tout cas,  peu logique,  de donner une valeur temporelle à un objet.  Nous pouvons donc décrire la règle que si le feature "Biens" est présent,  alors il faut une feature de type "Monnaie conventionnelle",  équivalent au feature "Biens" est mutuellement exclusif au feature "Temps".  D'une manière plus générale,  les règles de compositions sont souvent de 2 types : featureA \textbf{nécessite} featureB et featureA \textbf{est mutellement exclusif avec} featureB.  Tels que les noms l'indiquent,  la première règle signifie que si on désire intégrer featureA,  alors on doit également avoir featureB intégré.  La seconde règle signifie que l'on ne peut pas avoir featureA et featureB. 
+
+%======== Paragraphe à relire car c'était celui d'en dessous avant.
+%====================================================
+
+Pour terminer notre feature model,  nous devons décrire les arguments qui doivent permettre de décider de la présence ou non de chaque feature.  D'abord,  nous voyons que "Echanges" et "Monnaies" sont obligatoires.  Nous n'avons pas le choix car toute économie d'échange local doit avoir défini ces 2 composantes.  Ensuite,  les features "Objet" et "Service" sont optionnels.  Le choix d'inclure un ou les 2 features sera simplement guidé par la réalité du terrain : voulons-nous que les échanges concernent des biens et/ou des services ?  De l'autre côté de notre diagramme,  nous avons la monnaie.  Notre règle compositionnelle nous signale déjà que notre choix sera guidé d'après la présence ou non du feature "Biens".  De plus,  si nous utilisons une monnaie conventionnelle,  le choix d'une monnaie alternative peut être motivé si on désire renforcer l'aspect local de l'économie.  \\
+
+Ceci termine la description d'un exemple de feature model.  Nous avons utilisé un thème lié au mémoire mais,  bien sur,  il s'agit là d'une petite partie de l'analyse qui sera faite plus tard.  Ce chapitre nous a donc permis de mieux comprendre le principe des feature models et nous allons maintenant passer à la suite de la description des outils utilisés pour le mémoire. 
+
+\subsection{Outil : featureIDE}
+
+Pour pouvoir représenter le feature model que nous aurons élaboré,  il va falloir utiliser un outil efficace principalement pour représenter le feature diagram et pouvoir le modifier facilement. 
+
+Au début de l'analyse,  nous avions utilisé une application disponible en ligne et permettant même de sauvegarder les projets sur la base de données du site.  Cet outil se nomme Software Product Line Online Tools \cite{splot}.  Malheureusement,  cet outil est fort simple et ne permet une visualisation que en arborescence textuelle.  Nous nous sommes donc orientés vers un autre outil plus adapté.  Il s'agit d'un module à installer dans l'environnement Eclipse \cite{eclipse} nommé featureIDE \cite{featureIDE}.  Une fois installé,  celui-ci permet de modifier notre feature diagram de plusieurs façon.  La première la plus intuitive est l'environnement graphique.  Ainsi,  les il est très simple d'ajouter / supprimer / modifier un des neouds du diagramme.  On peut aussi modifier directement des contraintes logiques à chaque branchement.  Dans certains cas,  il est intéressant de modifier directement le diagramme en mode "code source".   Ceci est faisable facilement simplement en ouvrant l'onglet "source code".  Le code sourceXML du diagramme apparaît alors et peut être modifié.   
+Une fois que le diagramme est terminé,  on peut facilement exporter le résultat au format .PNG.  Les exemples illustrés dans la partie explicative sur les feature models donnent un aperçu du résultat des diagrammes dessinés via featureIDE.  Une autre utilité de ce programme est de pouvoir vérifier que le modèle est cohérent.  Il peut analyser le diagramme afin de voir s'il n'y a pas des éléments contradictoires.
+
+\subsection{Outil : Django}
+
+\input{django.tex}
+
+\subsection{Open-source et licences}
+
+Dès le début de l'analyse des besoins,  il est apparu qu'il fallait éviter que l'histoire se répète pour l'outil qui allait être développé. En effet,  d'autres outils existent et certains ont été,  à une époque,  en accès gratuit pour les organisations qui le désiraient.  Mais vu le succès rencontré,  les propriétaires ont repéré l'opportunité de faire du profit et certains outils sont maintenant devenus (parfois partiellement) payants.  La question de la licence d'utilisation a donc été une des premières questions à poser.  
+
+Pour cela,  une rencontre avec le Louvain Technology Transfert Office a été organisée et de bons éléments de réponses ont pu être apportés.   L'idée étant d'analyser ce que l'on désire pour l'avenir de notre application et de choisir une licence appropriée en fonction de ces perspectives pour le futur.
+
+D'abord,  2 catégories de licences existent : les licences propriétaires et les licences open-sources.  Dans les 2 cas,  il faut prêter attention au transfert de licence.  C'est-à-dire du fait qu'utiliser un programme ou un bout de programme dans son propre projet,  peut avoir des conséquences sur la licence de notre projet.  Par exemple,  il se peut que la licence de la bibliothèque utilisée soit transférée à tout notre projet,  si on l'utilise.  De plus,  les questions de la disponibilité du code source ainsi que la possibilité de l'utiliser/modifer gratuitement occupent une place centrale dans la réflexion.  Dans notre cas,  comme dis ci-dessus,  l'inquiétude principale était d'empêcher qu'une personne puisse s'approprier le projet et le rende payant pour les utilisateurs.  Dès lors,  les licences open-source semblent correspondre et parmis elles,  on peut citer la plus connue : GPL (GNU Public Licence).  Cette licence est celle utilisée "par défaut" pour les projets open-source.  Elle semble correspondre car elle ne supporte pas le mélange avec des logiciels propriétaire et oblige à rendre le code de l'application disponible lorsqu'on la distribue.  Elle peut donc empêcher qu'une partie ou  l'entièreté du projet soit privatisée.  Cependant,  nous ne sommes pas au bout de la réflexion.  En effet,  sachant que notre projet prendra très probablement la forme d'un site web,  il est intéressant de voir si une licence n'est pas plus adaptée à cette sitaution.  Pour cela,  le cas de l'AGPLv3 (Affero GNU Public Licence) semble correspondre à nos besoins.  Il s'agit d'une licence basée sur GPL  mais exigeant que,  pour les applications online,  l'accès au code source doit être explicitement référencé quelque part.  Ce système permet d'éviter le cas,  par exemple,  de certains applications Google.  En effet,   l'utilisation de ces systèmes est gratuite mais il n'est techniquement pas possible de récupérer le code source.  Sous licence AGPL,  l'application doit inclure quelque part un lien vers le code source du projet.  
+
+En définitive,  c'est la licence AGPLv3 qui sera choisie pour couvrir le projet de framework.  Ceci permettra aussi peut-être de pouvoir créer une communauté de développement autour du framework afin d'améliorer celui-ci,  à l'instar de Linux et d'autres projets open-source portés par une forte communauté.
+
+Cette section sur les licences clôture ce chapitre à propos des outils utilisés dans le cadre de ce mémoire.  Nous avons également déjà pu,   via les exemples, aborder la thématique des échanges locaux.  Il s'agit du sujet principal du chapitre suivant qui vise à décrire le problème traité dans ce travail.

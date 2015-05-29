@@ -1,0 +1,29 @@
+\select@language {french}
+\contentsline {section}{\numberline {1}Introduction}{1}{section.1}
+\contentsline {section}{\numberline {2}Background material}{4}{section.2}
+\contentsline {subsection}{\numberline {2.1}Les feature models}{4}{subsection.2.1}
+\contentsline {subsection}{\numberline {2.2}Outil : featureIDE}{6}{subsection.2.2}
+\contentsline {subsection}{\numberline {2.3}Outil : Django}{7}{subsection.2.3}
+\contentsline {subsection}{\numberline {2.4}Open-source et licences}{11}{subsection.2.4}
+\contentsline {section}{\numberline {3}Problem Statement}{13}{section.3}
+\contentsline {subsection}{\numberline {3.1}BuurtPensioen}{13}{subsection.3.1}
+\contentsline {subsection}{\numberline {3.2}Solution propos\IeC {\'e}e dans le cadre du cours LSINF/INFO 2255}{15}{subsection.3.2}
+\contentsline {subsection}{\numberline {3.3}Autres organisations existantes}{18}{subsection.3.3}
+\contentsline {section}{\numberline {4}Approche}{20}{section.4}
+\contentsline {section}{\numberline {5}Analyse du domaine}{21}{section.5}
+\contentsline {subsection}{\numberline {5.1}Dictionnaire des termes - Glossaire}{21}{subsection.5.1}
+\contentsline {subsection}{\numberline {5.2}Feature model}{22}{subsection.5.2}
+\contentsline {subsubsection}{\numberline {5.2.1}Feature diagram}{22}{subsubsection.5.2.1}
+\contentsline {subsubsection}{\numberline {5.2.2}D\IeC {\'e}finition et justification des features}{24}{subsubsection.5.2.2}
+\contentsline {subsubsection}{\numberline {5.2.3}R\IeC {\`e}gles de composition}{38}{subsubsection.5.2.3}
+\contentsline {section}{\numberline {6}Developpement}{40}{section.6}
+\contentsline {subsection}{\numberline {6.1}Approche}{40}{subsection.6.1}
+\contentsline {subsubsection}{\numberline {6.1.1}D\IeC {\'e}veloppement d'un framework}{40}{subsubsection.6.1.1}
+\contentsline {subsubsection}{\numberline {6.1.2}Outils}{41}{subsubsection.6.1.2}
+\contentsline {subsection}{\numberline {6.2}Recherche et impl\IeC {\'e}mentation des features}{42}{subsection.6.2}
+\contentsline {subsubsection}{\numberline {6.2.1}Feature Temps}{42}{subsubsection.6.2.1}
+\contentsline {subsection}{\numberline {6.3}Architecture du framework}{49}{subsection.6.3}
+\contentsline {section}{\numberline {7}Validation}{50}{section.7}
+\contentsline {section}{\numberline {8}Future Work}{51}{section.8}
+\contentsline {section}{\numberline {9}Conclusion}{52}{section.9}
+\contentsline {section}{\numberline {A}BuurtPensioen - Software requirements}{53}{appendix.A}

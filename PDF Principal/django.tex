@@ -1,0 +1,145 @@
+Lors du développement d'une solution pour BuurtPensioen dans le cadre du cours SINF/INFO 2255,  le groupe 8 (et d'autres) a choisi d'utiliser le framework Django.  Ce choix se comprend assez facilement pour plusieurs raisons.  D'abord,  Django est assez répandu et permet donc d'avoir accès à un grand nombre de ressources d'aide au développement (tutoriels,  FAQs,  forums, \dots ).  Ensuite,  Django permet d'utiliser des extensions très facilement.  Ceci est utile pour rajouter des fonctionnalités sans devoir réinventer la roue.  Nous allons donc aborder maintenant cet outil plus technique et qui sera utilisé pour l'étape de développement de notre framework.  Étant donné l'ampleur de l'outil et l'importance de celui-ci dans le projet,  il est intéressant de passer un peu de temps à se familiariser avec le framework Django.  
+
+\label{django}
+Django \cite{django} est un framework écrit en python \cite{python} et destiné à faciliter la mise en place de sites internet.  
+
+D'un point de vue architectural,  un \textbf{projet} django utilise une ou plusieurs \textbf{application(s)}.  Ensuite,  chaque application fonctionne sous le principe Model-View-Controller.  C'est-à-dire qu'on divise l'application en 3 \textit{couches} : le modèle contient les données (classes,  bases de données, ....),  la vue s'occupe de la partie visible par l'utilisateur et enfin la partie controlleur gère la logique de l'application.  Dans le cas d'une application Django,  on décrit les données (=le modèle) dans un seul fichier : models.py.  Celui-ci est utilisé pour générer automatiquement la base de données.  La vue est gérée dans différents fichiers que l'on nomme  \textbf{templates}.  On aura un fichier par page web et Django rajoutera,  aux endroits définis par le code,  les informations issues de la base de données.  En plus des \textbf{templates},  il faut définir les URL qui seront utilisées et préciser quelle fonction va gérer chacune d'elle.  Ceci se fait dans le fichier urls.py.  Enfin,  on décrit le fonctionnement de l'application (couche controlleur) dans un fichier qui porte le nom,  à tort,  views.py.  Ce nom lui a été attribué car il contient,  en fait,  la logique pour chacune des pages de la vue.  Il y a donc un lien fort avec la vue mais c'est bel et bien là que se retrouvera toute la logique du site web.  Dans ce fichier,  on retrouve chacune des fonctions pointées par les URL définies précédemment.  Les fonctions peuvent faire appel ou mettre à jour la base de données,  manipuler les données,  puis les envoyers à un template qui permettra d'afficher le tout à l'utilisateur.  
+
+Afin de voir plus en détails le fonctionnement de Django,  nous allons créer une simple application web.  Étant donné que le sujet de ce mémoire concerne des offres et demandes de biens ou services,  nous allons créer un mini-site qui aura pour but d'enregistrer des offres ou demandes ainsi que de voir la liste des éléments enregistrés.
+
+Après avoir installé Django sur notre machine,  nous pouvons créer notre premier projet.  Une commande crée automatiquement une structure de base.  Nous créons ensuite aussi automatiquement les fichiers et dossiers de notre application.  Il ne reste plus qu'à programmer dans celle-ci.  
+
+D'abord,  concernant la couche "modèle" (données) de notre application,  nous avons simplement des "BusinessUnits" et des "Actors".  Les BusinessUnits représentent les entités vendues ou échangées tandis que les Actors représentent les vendeurs ou acheteurs de notre système.  Chaque BusinessUnit possède les caractéristiques suivantes : un nom,  un vendeur (=Actor),  un acheteur (=Actor) et une date de validation.  Les Actors eux ont simplement un nom.  Nous allons donc décrire ceci dans le fichier models.py : 
+
+\lstset{language=Python,frame=single,keywordstyle=\color{blue},commentstyle=\color{green},breaklines=true}
+
+\begin{lstlisting}
+class Actor(models.Model):
+	name = models.CharField(max_length=50)
+
+class BusinessUnit(models.Model):
+	descr_text = models.CharField(max_length=200)
+	vendor_name = models.ForeignKey('Actor',related_name='actor_vendor')
+	buyer_name = models.ForeignKey('Actor',related_name='actor_buyer')
+	date_validated = models.DateTimeField('validation date')
+\end{lstlisting}
+
+Ce code est suffisant et sera utilisé par Django pour générer puis gérer les accès à la base de données.  Une simple commande permet d'appliquer ce schéma à la base de données et directement après,  nous pouvons insérer ou lire les données selon le schéma que nous venons de définir.
+
+Maintenant que le modèle des données est défini,  nous allons passer aux vues (templates) et aux controlleurs (views.py).  Pour essayer d'être le plus clair possible sur le fonctionnement,  nous allons retracer les appels de fonctions au sein du code source.  Ainsi,  étant donné que nous réalisons une application web,  nous allons démarer d'une URL.  Nous allons définir dans l'application Django une URL qui permettra d'accéder à une page reprenant toutes les BusinessUnit présentes dans la base de données.
+
+Pour cela,  nous modifions d'abord le fichier urls.py et définissons comme suit : 
+
+\begin{lstlisting}
+from django.conf.urls import url
+from . import views
+
+urlpatterns = [
+    url(r'^$', views.index, name='index'),
+]
+\end{lstlisting}
+
+Cette définition permet d'indiquer à Django la fonction utilisée pour gérer l'URL pointant sur l'index de notre application.  La fonction utilisée sera celle donc views.index,  c'est-à-dire la fonction index dans le fichier views.  
+
+Nous devons maintenant définir cette fonction dans le fichier views.py.  Dans cette fonction,  nous devrons récupérer tous les BusinessUnits,  puis choisir un template qui affichera les données,  ensuite créer le contexte,  c'est-à-dire la correspondance entre les données récupérées dans la base de données avec le nom des variables présentes dans le template.  Enfin,  il faut renvoyer à l'utilisateur le mélange des 2 : notre template avec du contenu dans les variables.  Nous verrons juste après le template proprement dit.  D'abord le code de la logique décrite ci-avant : 
+
+\begin{lstlisting}
+from django.template import RequestContext, loader
+from django.shortcuts import render
+from django.http import HttpResponse
+
+from .models import BusinessUnit, Actor
+
+def index(request):
+
+    # On recupere 5 BusinessUnits de la base de donnees
+    liste = BusinessUnit.objects.order_by('date_validated')[:5]
+   # On cree un contexte avec les donnees recuperees
+    context = RequestContext(request, {
+        'liste': liste,
+    })
+
+   # On charge un template qui sera utilise pour presenter les donnees
+    template = loader.get_template('basiceconomy/index.html')
+
+   # On retourne a l'utilisateur le template avec son contexte
+    return HttpResponse(template.render(context))
+
+\end{lstlisting}
+
+Il ne nous reste plus qu'à créer notre template dans le dossier "templates" de l'appliaction et à l'endroit que nous avons indiqué,  c'est-à-dire dans le sous dossier basiceconomy/.  Un fichier de template est un mix entre du HTML et du python.  Le HTML représente de la mise en forme finale tandis que le python est utilisé pour insérer des données ou messages divers à partir des variables définies dans le contexte de la page.  A la base,  le code est considéré comme du HTML et lorsqu'on décide d'insérer du python,  on place le code entre \{\% et \%\} ou bien \{\{ et \}\} pour insérer purement le contenu d'une variable.  Le code du template de notre page d'index repenant la liste des BusinessUnits se présente donc comme suit : 
+
+\begin{lstlisting}
+
+{% if liste %}
+    <ul>
+    {% for bu in liste %}
+        <li>{{ bu.descr_text }}</li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>No business units are available.</p>
+{% endif %}
+
+\end{lstlisting}
+
+Tout ceci étant fait,  il ne reste plus qu'à lier notre application à notre projet afin qu'elle soit accessible.  Pour cela,  il suffit de modifier 2 fichiers dans le dossier du projet : le fichier de configuration (settings.py) dans lequel on indique qu'on utilise notre application,  et le fichier urls.py dans lequel nous indiquons qu'il faut inclure les urls de notre application dans celles du projet en général.  
+En guise de résumé de ce petit tutoriel,  nous allons jeter un oeil à l'arborescence finale de notre projet.  A noter que nous avons nommé notre projet "testproject" et notre application se nomme "basiceconomy".  L'arborescence,   au départ du dossier principal du projet,  est la suivante.
+\\
+\\
+\underline{\textbf{.:}} \newline
+\textbf{testproject} \newline
+\textbf{basiceconomy} \newline
+db.sqlite3 \newline
+manage.py \newline
+
+A la racine,  nous retrouvons 1 dossier du même nom que notre projet principal ainsi qu'un dossier du même nom que notre application.  Pour chaque application développée pour le projet,  nous créerons un nouveau dossier ici qui portera son nom.  On retrouve aussi le fichier manage.py qui permet d'administrer le serveur django (effectuer les migrations de la base de données,  créer un superuser,  lancer le serveur, \dots )
+\\
+\\
+\underline{\textbf{./testproject:}} \\
+\textbf{\_\_pycache\_\_} \\
+\_\_init\_\_.py \\
+settings.py \\
+urls.py \\
+wsgi.py \\
+
+Le dossier du même nom que notre projet reprend le code qui le concerne.  Nous n'y avons modifié que 2 fichiers : settings.py dans lequel nous avons renseigné que nous utilisions l'application basiceconomy et urls.py dans lequel nous avons indiqué qu'il fallait inclure les urls de l'application basiceconomy dans les urls du projet général.Le reste des fichiers et dossiers a été généré automatiquement lors de la création du projet.
+\\
+\\
+\underline{\textbf{./basiceconomy:}} \\
+\textbf{migrations} \\
+\textbf{templates} \\
+\textbf{\_\_pycache\_\_} \\
+admin.py \\
+\_\_init\_\_.py \\
+models.py \\
+tests.py \\
+urls.py \\
+views.py \\
+
+Nous sommes maintenant dans le dossier principal de notre application basiceconomy.  Nous avosn commencé par modifier models.py afin d'y décrire notre modèle de données.  Il fallait alors effectuer une migration (au moyen du fichier manage.py présent à la racine du projet) de la base de données.  Ensuite,  nous avons modifié urls.py pour pouvoir lier une url avec une fonction.  La fonction en question est décrite dans views.py et récupèrera un template.  Ce template se retrouve plus loin dans l'arborescence (dans le dossier templates).
+\\
+\\
+\underline{\textbf{./basiceconomy/migrations:}} \\
+\textbf{\_\_pycache\_\_} \\
+0001\_initial.py \\
+0002\_auto\_20150409\_1142.py \\
+0003\_auto\_20150409\_1445.py \\
+\_\_init\_\_.py \\
+
+Ce dossier est utilisé pour retenir les différentes migrations,  c'est-à-dire les différences entre le modèle décrit dans models.py et la base de données.  Tout ceci est géré automatiquement via une simple commande.
+\\
+\\
+\underline{\textbf{./basiceconomy/templates:}} \\
+\textbf{basiceconomy} \\
+
+Les templates sont regroupés dans des sous-dossiers pour des raisons d'organisation.
+\\
+\\
+\underline{\textbf{./basiceconomy/templates/basiceconomy:}} \\
+details.html \\
+index.html \\
+
+On retrouve finalement nos templates qui,  une fois couplés avec un contexte de données,    permettront d'afficher une page à l'utilisateur.
+
+Ce petit exemple terminé,  nous avons pu avoir un aperçu du fonctionnement global de Django.  
