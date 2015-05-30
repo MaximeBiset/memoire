@@ -1,9 +1,0 @@
-K 10
-svn:ignore
-V 37
-*.aux
-*.log
-main.pdf
-main.synctex.gz
-
-END

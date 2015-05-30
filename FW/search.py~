@@ -8,7 +8,7 @@ if len(sys.argv) > 0:
 else:
     searchfor = "real_time"
 # give the aimed directory here:
-searchdir = "/media/maxime/Data/Memoire/FW/newTest"
+searchdir = "/media/maxime/Data/framework/newTest"
 #-----------------------------------------------------
 wordsize = len(searchfor)
 unreadable = []

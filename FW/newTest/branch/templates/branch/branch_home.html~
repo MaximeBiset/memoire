@@ -131,8 +131,7 @@
 </div>
 
 <div class="row mt">
-{{ demandobjs }}
-{{ demands }}
+
 </div>
 
 <div class="row mt">

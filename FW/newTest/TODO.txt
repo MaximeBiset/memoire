@@ -1,1 +1,0 @@
-- Créer un template main/templates/registration/activation_email.html

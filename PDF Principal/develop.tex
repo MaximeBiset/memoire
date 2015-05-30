@@ -7,7 +7,7 @@ Développer un framework est assez particulier et,  parce que nous partons d'un 
 
 \subsubsection{Développement d'un framework}
 
-Le développement du framework va,  à l'instar de l'analyse,  se faire selon une démarche un peu particulière.  Pour illustrer celle-ci,  partons d'une comparaison.  Considérons qu'un logiciel est  comme un grand puzzle dont chaque pièce correspond à la partie du code liée à une fonctionnalité de l'application.  Dans le cas d'un framework,  le puzzle possède des trous à l'endroit de certaines pièces et c'est en complétant ces trous que l'on obtient une application fonctionnelle.  Pour pouvoir développer les features un à un,  la démarche utilisée consiste donc à d'abord tenter de retrouver,  dans le projet,  toutes les parties du code qui concernent le feature dont il est question pour ensuite reprogrammer cette partie pour qu'il soit plus facile d'adapter cette fonctionnalité selon les cas prévus.
+Le développement du framework va,  à l'instar de l'analyse,  se faire selon une démarche un peu particulière.  Pour illustrer celle-ci,  partons d'une comparaison.  Considérons qu'un logiciel est  comme un grand puzzle dont chaque pièce correspond à la partie du code liée à une fonctionnalité de l'application.  Dans le cas d'un framework,  par contre,  le puzzle possède des trous à l'endroit de certaines pièces et c'est en complétant ces trous que l'on obtient une application fonctionnelle.  Pour pouvoir développer les features un à un,  la démarche utilisée consiste donc à d'abord tenter de retrouver,  dans le projet,  toutes les parties du code qui concernent le feature dont il est question pour ensuite reprogrammer cette partie pour qu'il soit plus facile d'adapter cette fonctionnalité selon les cas prévus.
 
 Le schéma suivant reprend les principales étapes du développement.  D'abord,  nous avons un logiciel foncionnel.  Ensuite,  on identifie les parties de code liées aux fonctionnalités (1 pièce = 1 fonctionnalité).  Après cela,  il faut transformer ce code pour qu'i soit facilement adaptable selon la situation.  On obtient ainsi les pièces en bleu.  Et enfin,  lorsqu'on désire instancier notre framework à un cas particulier,  on pourra programmer dans les parties nécessaires,  qui correspondent aux pièces en vert.
 
@@ -21,7 +21,7 @@ Pour faire face à cette complexité,  quelques outils peuvent aider lors du la 
 
 \subsubsection{Outils}
 
-Pour nous aider dans le développement,  nous allons utiliser un simple script python récupéré d'internet et légèrement adapté.  Son principe est assez simple,  il parcourt toute l'arborescence du projet et ouvre les fichiers un par un.  Pour chacun d'eux,  il recherche le mot passé en argument du script.  Après chaque fichier,  si le script a trouvé au moins 1 occurence,  le nom et le chemin du fichier sont affichés dans la console avec le nombre d'occurences dans le fichier.  Ceci permet de rapidement retrouver quelles parties de code utilisent une classe ou fonction que l'on recherche,  à partir du mot clé donné.  Par exemple,  si nous voulons retrouver tous les endroits où l'attribut first\_name (d'un utilisateur) est utilisé,  il suffit de se placer à la racine du projet et de lancer la commande : python3 search.py first\_name.  Dans ce cas-ci,  pour l'exemple,  nous avons précisé qu'il ne fallait lire que les fichiers python (nomDuFichier.endswith(".py") ) et le résultat est : 
+Pour nous aider dans le développement,  nous allons utiliser un simple script Python récupéré d'internet et légèrement adapté.  Son principe est assez simple,  il parcourt toute l'arborescence du projet et ouvre les fichiers un par un.  Pour chacun d'eux,  il recherche un mot clé passé en argument du script.  Après chaque fichier,  si le script a trouvé au moins 1 occurence,  le nom et le chemin du fichier sont affichés dans la console avec le nombre d'occurences dans le fichier.  Ceci permet de rapidement retrouver quelles parties de code utilisent une classe ou fonction que l'on recherche,  à partir du mot clé donné.  Par exemple,  si nous voulons retrouver tous les endroits où l'attribut first\_name (d'un utilisateur) est utilisé,  il suffit de se placer à la racine du projet et de lancer la commande : python3 search.py first\_name.  Dans ce cas-ci,  pour l'exemple,  nous avons précisé qu'il ne fallait lire que les fichiers python (nomDuFichier.endswith(".py") ) et le résultat est : 
 
 \begin{lstlisting}
 Found matches:
@@ -48,11 +48,14 @@ Dans la console,  on peut inspecter toutes les variables du programme en cours. 
 
 \subsection{Recherche et implémentation des features}
 
-Pour le développement du framework,  nous allons donc démarrer de l'application du groupe 8 et tenter d'y retrouver les portions de code qui sont liées à des features précis.  L'objectif sera donc de partir du fait que,  dans notre arbre des features,  le groupe 8 a mis en place un feature feuille,  et l'objectif va être de transformer le programme pour correspond à un branchement supérieur.
+Pour le développement du framework,  nous allons donc démarrer de l'application du groupe 8 et tenter d'y retrouver les portions de code qui sont liées à des features précis.  L'objectif sera donc de partir du fait que,  dans notre arbre des features,  le groupe 8 a mis en place un feature feuille,  et l'objectif va être de transformer le programme pour correspond à un branchement supérieur.  Nous allons prendre un exemple avec le feature Temps pour arriver au feature Monnaie.  
 
 \subsubsection{Feature Temps}
+
 Le premier feature que nous allons analyser consiste en la monnaie utilisée.  Le travail du groupe 8 a appliqué le feature "Temps -> Normal",  c'est à dire que la monnaie utilisée dans l'outil est du temps.  L'objectif de cette partie consiste donc à retrouver les parties du code liées à la monnaie et de trouver une solution pour rendre ces parties plus génériques.
-\\
+
+\paragraph{Etape 1 : localiser le feature}
+
 \textbf{main/models.py}
 \\%=================
 La première chose à retrouver dans le code se trouve dans la description du modèle.  On y retrouve la classe User avec un attribut Credit ainsi qu'une méthode permettant de traduire en mots la valeur du crédit.
@@ -114,6 +117,8 @@ Dans ce fichier,   l'élément estimated\_time apparait plusieurs fois dans 3 m�
 \textbf{Fichiers de rendu visuel}
 \\%=======================
 3 fichiers de templates sont concernés par l'élément estimated\_time dans le dossier branch/templates/job/ : details\_demand.html,  need\_help.html et take\_offer.html.
+
+\paragraph{Etape 2 : Refactoring vers un framework}
 
 Maintenant que nous avons pu retrouver et comprendre les différentes portions de code qui sont impliquées dans le feature "Temps",  nous pouvons passer à l'action.  Pour ce faire,  allons suivre le cheminement général des appels dans l'application.  Mais juste avant,  précisons une dernière chose concernant la structure du logiciel dans lequel nous travaillons.  Il est important de rappeler que celle-ci est divisée en "sous-applications".  Chacune d'elle correspond à un sous-dossier du projet.  Les 2 sous-applications qui nous concernent sont Branch et Main.  Branch regroupe les fonctionnalités liées aux échanges et Main celles liées aux utilisateurs.  On remarque cette division en analysant le chemin des fichiers analysés ici avant (1 sous application = 1 sous-dossier).  
 
@@ -298,8 +303,7 @@ Dans fw_base2.html :
 \end{lstlisting} 
 \end{minipage}
 
-
-
+\subsubsection{Autres features}
 
 \subsection{Architecture du framework}
 

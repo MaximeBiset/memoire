@@ -182,28 +182,23 @@ class UpdateDemandObjForm(NeedHelpForm):
             'date': DateTimePicker(options={"pickTime": False,}),
         }
 
-class OfferObjForm(FWMoneyForm):
-    """ Form for asking object """
+class OfferObjForm(forms.ModelForm):
+    """ Form for offering an object """
 
     def clean_date(self):
         date = self.cleaned_data.get('date')
-        if date < timezone.now() - timezone.timedelta(hours=24):
+        if date < timezone.now() + timezone.timedelta(hours=-24):
             raise forms.ValidationError(_("Veuillez choisir une date dans le futur."))
         return date
 
-    def clean(self):
-        if not self.cleaned_data['latitude'] and not self.cleaned_data['longitude']:
-            raise forms.ValidationError(_("Veuillez choisir une adresse"))
-        super(DemandObjForm, self).clean()
-
     class Meta:
-        model = Demandobj
-        fields = ['description', 'date', 'location', 'latitude', 'longitude', 'title', 'receive_help_from_who'] + FWAddMoney()
+        model = Offerobj
+        fields = ['title', 'location', 'latitude', 'longitude', 'date', 'receive_help_from_who', 'description']
         widgets = {
             'latitude': forms.HiddenInput,
             'longitude': forms.HiddenInput,
             'location': forms.HiddenInput,
-            'date': DateTimePicker(options={"pickTime": False,})
+            'date' : DateTimePicker(options={"pickTime": False,}),
         }
 
 # ==========================

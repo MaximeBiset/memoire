@@ -35,7 +35,15 @@
                 </a></div>
                 <div class="col-md-12 mb">
 
-                <a type="submit" class="btn btn-danger btn-lg btn-block" href="{% url "unsuccess_job" demand.id %}">
+                <a type="submit" class="btn btn-danger btn-lg btn-block" href="
+{% if type_obj== %}
+{% url 'success_demandObj' type_obj=1 demand_id=uv.demand.id %}
+{% else %}
+{% url 'success_demandObj' type_obj=2 demand_id=uv.demand.id %}
+{% endif %}
+{% url "unsuccess_job" demand.id %}
+
+">
                     {% bootstrap_icon "remove" %} &nbsp; {% trans "Transaction annulée" %}
                 </a>
                 </div>

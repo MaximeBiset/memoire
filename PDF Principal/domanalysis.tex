@@ -96,50 +96,55 @@ Nous arrivons maintenant dans le premier sous-arbre : \textbf{PublicCible}.
 \newline
 
 \item [PersonnesMorales]
-\underline{Déf. :}  Une personne morale est une construction juridique.  On place dans cette catégorie d'acteurs toutes les entités,  institutions,  organisations et autres regroupements (de personnes physiques ou morales).  
+\underline{Déf. :}  Une personne morale est une construction juridique.  On place dans cette catégorie d'acteurs toutes les entités,  institutions,  organisations et autres groupes considérés comme des acteurs du système.  
 \\ \underline{Justif. :}  Certaines organisations permettent,  par exemple,  à des entreprises de faire des échanges entre elles.  Il peut aussi s'agir d'acteurs du service public.  La distinction entre personne morale et physique est nécessaire car cela pourra avoir des répercutions sur l'outil utilisé d'une part pour les fonctionnalités accessibles et d'autre part pour la représentation des données.  Ainsi,  une personne physique pourrait être identifiée par ses nom,  prénom et date de naissance tandis qu'une personne morale ne requièrerait qu'une dénomination générale. 
 \newline
 
-\item [PetitsCommerces]
-\underline{Déf. :}  Ce feature regroupe les personnes morales de type privé et de petite taille (PME,  indépendants,  \dots )
-\\ \underline{Justif. :}  Etant donné la visée géographique des systèmes d'échange local,  il est tout à fait envisageable qu'une organisation permette,  par exemple,  aux artisans locaux de participer aux échanges.  
-\newline
+Parmi les personnes morales,  on distingue les \textbf{petits commerces},  les \textbf{services publics} et les \textbf{autres entreprises}.
 
-\item [ServicesPublics]
-\underline{Déf. :}  Les services publics sont toutes les institutions reconnues juridiquement comme agissant pour l'intérêt général.
-\\ \underline{Justif. :}  Des institutions publiques locales peuvent être impliqués dans l'oganisation.  Par exemple,  une commune pourrait faire un appel aux volontaires pour participer à une campagne de nettoyage de la commune.  
-\newline
-
-\item [AutresEntreprises]
-\underline{Déf. :}  Certains acteurs d'un système d'échange peuvent ne pas être des petits commerces ni services publics.  Par exemple,  une multinationale qui désire insérer sa filiale locale dans l'organisation.
-\\ \underline{Justif. :}  Ce feature permet de prendre en compte les acteurs qui ne seraient pas repris dans les cas pré-cités.  
-\newline
+%\item [PetitsCommerces]
+%\underline{Déf. :}  Ce feature regroupe les personnes morales de type privé et de petite taille (PME,  indépendants,  \dots )
+%\\ \underline{Justif. :}  Etant donné la visée géographique des systèmes d'échange local,  il est tout à fait envisageable qu'une organisation permette,  par exemple,  aux artisans locaux de participer aux échanges.  
+%\newline
+%
+%\item [ServicesPublics]
+%\underline{Déf. :}  Les services publics sont toutes les institutions reconnues juridiquement comme agissant pour l'intérêt général.
+%\\ \underline{Justif. :}  Des institutions publiques locales peuvent être impliqués dans l'oganisation.  Par exemple,  une commune pourrait faire un appel aux volontaires pour participer à une campagne de nettoyage de la commune.  
+%\newline
+%
+%\item [AutresEntreprises]
+%\underline{Déf. :}  Certains acteurs d'un système d'échange peuvent ne pas être des petits commerces ni services publics.  Par exemple,  une multinationale qui désire insérer sa filiale locale dans l'organisation.
+%\\ \underline{Justif. :}  Ce feature permet de prendre en compte les acteurs qui ne seraient pas repris dans les cas pré-cités.  
+%\newline
 
 \item [PersonnesPhysiques]
 \underline{Déf. :}  Une personne physique est un être humain.
 \\ \underline{Justif. :}  Dans la pratique,  beaucoup d'organisations sont composées en très grande majorité de personnes physiques.  Mais il convient de faire une distinction parmi celles-ci car  l'outil peut varier  selon le type de personnes visées.
 \newline
 
-\item [Moins18ans]
-\underline{Déf. :}  Ce feature représente la possibilité à des personnes de moins de 18 ans d'être acteurs dans l'organisation.
-\\ \underline{Justif. :}  Ce cas est à prendre en considération car si des personnes mineures aux yeux de la loi peuvent intégrer le système,   il se peut qu'il faille adapter l'outil pour éviter toute dérive.
-\newline
+Parmi les personnes physiques,  on distingue les différentes tranches d'âge : \textbf{Moins18ans}, \textbf{Etudiants}, \textbf{Adultes}, \textbf{le3emeAge}.
 
-% ================= 10 ===========
-\item [Etudiants]
-\underline{Déf. :}  Ce feature représente la possibilité aux étudiants d'être acteurs dans l'organisation.
-\\ \underline{Justif. :}  Cibler les étudiants (jeunes) dans l'organisation peut être lié à diverses raisons.  D'abord,  le système peut être destiné aux jeunes.  Mais aussi,  il se pourrait que l'organisation,  telle que BuurtPensioen,  favorise les liens intergénérationnels.
-\newline
-
-\item [Adultes]
-\underline{Déf. :}  Ce feature reprend la plus grand emajorité de la population.
-\\ \underline{Justif. :}  Au même titre que les étudiants,  les adultes peuvent être une cible du système si,  par exemple,  on désire favoriser l'intergénérationnel.
-\newline
-
-\item [le3emeAge]
-\underline{Déf. :}   On désigne ici un public plus âgé.  Ce public peut englober différents profils : les personnes retraitées,  à mobilité réduire due à l'âge,  \dots 
-\\ \underline{Justif. :}  Un système tel que BuurtPensioen place ce feature au centre se objectifs puisqu'il s'agit,  tel que expliqué dans la description du problème,  d'un système de pensions entre voisins.  Le 3ème âge est donc un public privilégié et influe,  par exemple,  sur l'ergonomie de l'outil.
-\newline
+%
+%\item [Moins18ans]
+%\underline{Déf. :}  Ce feature représente la possibilité à des personnes de moins de 18 ans d'être acteurs dans l'organisation.
+%\\ \underline{Justif. :}  Ce cas est à prendre en considération car si des personnes mineures aux yeux de la loi peuvent intégrer le système,   il se peut qu'il faille adapter l'outil pour éviter toute dérive.
+%\newline
+%
+%% ================= 10 ===========
+%\item [Etudiants]
+%\underline{Déf. :}  Ce feature représente la possibilité aux étudiants d'être acteurs dans l'organisation.
+%\\ \underline{Justif. :}  Cibler les étudiants (jeunes) dans l'organisation peut être lié à diverses raisons.  D'abord,  le système peut être destiné aux jeunes.  Mais aussi,  il se pourrait que l'organisation,  telle que BuurtPensioen,  favorise les liens intergénérationnels.
+%\newline
+%
+%\item [Adultes]
+%\underline{Déf. :}  Ce feature reprend la plus grand emajorité de la population.
+%\\ \underline{Justif. :}  Au même titre que les étudiants,  les adultes peuvent être une cible du système si,  par exemple,  on désire favoriser l'intergénérationnel.
+%\newline
+%
+%\item [le3emeAge]
+%\underline{Déf. :}   On désigne ici un public plus âgé.  Ce public peut englober différents profils : les personnes retraitées,  à mobilité réduire due à l'âge,  \dots 
+%\\ \underline{Justif. :}  Un système tel que BuurtPensioen place ce feature au centre se objectifs puisqu'il s'agit,  tel que expliqué dans la description du problème,  d'un système de pensions entre voisins.  Le 3ème âge est donc un public privilégié et influe,  par exemple,  sur l'ergonomie de l'outil.
+%\newline
 
 Ceci termine notre premier sous-arbre dont l'objectif était de décrire le ou les public(s) cible(s) du modèle économique.  La second partie que nous allons voir concerne la \textbf{monnaie} utilisée au sein du système.
 
@@ -213,7 +218,7 @@ Ceci termine notre premier sous-arbre dont l'objectif était de décrire le ou l
 \newline
 
 \item [Outil]
-\underline{Déf. :}  Après avoir analysé le modèle économique du système d'échange local,  nous allons passer à l'outil.  Ce feature est optionnel car il est possible d'analyser un système sans que celui-ci ne possède d'outil.  
+\underline{Déf. :}  Après avoir analysé le modèle économique du système d'échange local,  nous allons passer à l'outil.  On désigne ici les moyens matériels utilisés pour gérer l'économie locale.  Ce feature est optionnel car il est possible d'analyser un système sans que celui-ci ne possède d'outil.  
 \\ \underline{Justif. :}  Le feature est à inclure si l'organisation possède un quelconque outil de gestion matérialisé,  c'est-à-dire au minimum sous forme papier.
 \newline
 
@@ -231,15 +236,17 @@ Ceci termine notre premier sous-arbre dont l'objectif était de décrire le ou l
 \\ \underline{Justif. :}  Ce feature est obligatoire car pour qu'il y ait échange,  il faut qu'il y ait quelque chose à échanger.
 \newline
 
-\item [BiensObjets]
-\underline{Déf. :}  Les biens ou objets sont des choses perceptibles par la vue et le toucher \footnote{\href{http://www.larousse.fr/dictionnaires/francais/objet/55366}{http://www.larousse.fr/dictionnaires/francais/objet/55366}}  et qui,  dans notre cas,  peuvent changer de propriétaire.
-\\ \underline{Justif. :}  Ce feature est à inclure si l'outil permet l'échange d'objets matérialisés. 
-\newline
+2 types d'unités sont échangeables : les \textbf{Biens ou Objet}s,  et les \textbf{Services}
 
-\item [Services]
-\underline{Déf. :}  Un service est un travail manuel ou intellectuel réalisé par une personne pour aider une ou plusieurs autres personnes.  Exemples de services : tâches ménagères,  jardinage,  baby-sitting,  \dots .
-\\ \underline{Justif. :} Ce feature est à inclure si 'lorganisation permet l'échange de services entre les acteurs. 
-\newline
+%\item [BiensObjets]
+%\underline{Déf. :}  Les biens ou objets sont des choses perceptibles par la vue et le toucher \footnote{\href{http://www.larousse.fr/dictionnaires/francais/objet/55366}{http://www.larousse.fr/dictionnaires/francais/objet/55366}}  et qui,  dans notre cas,  peuvent changer de propriétaire.
+%\\ \underline{Justif. :}  Ce feature est à inclure si l'outil permet l'échange d'objets matérialisés. 
+%\newline
+%
+%\item [Services]
+%\underline{Déf. :}  Un service est un travail manuel ou intellectuel réalisé par une personne pour aider une ou plusieurs autres personnes.  Exemples de services : tâches ménagères,  jardinage,  baby-sitting,  \dots .
+%\\ \underline{Justif. :} Ce feature est à inclure si 'lorganisation permet l'échange de services entre les acteurs. 
+%\newline
 
 % ================= 30 ===========
 \item [MatchingSysteme]
@@ -270,7 +277,7 @@ Ceci termine notre premier sous-arbre dont l'objectif était de décrire le ou l
 \item [ModeleOffreDemande]
 \phantomsection
 \label{featOD}
-\underline{Déf. :}  Le modèle d'offre et demande correspond aux fonctionnalités présentes dans l'outil pour faire savoir au ssystème que l'on recherche ou que l'on propose un bien ou un service.  
+\underline{Déf. :}  Le modèle d'offre et demande correspond aux fonctionnalités présentes dans l'outil pour faire savoir au système que l'on recherche ou que l'on propose un bien ou un service.  Ceci représente les actions possibles pour un acteur du système (enregistré ou non,  administrateur ou non,  à voir selon les autres features décrits ci-après).
 \\ \underline{Justif. :}  Ce feature est important à définir car l'outil peut être tout à fait différent selon les possibilités offertes aux acteurs.  Par facilité pour l'élaboration des contraintes décrites plus loin,  3 features sont disponibles mais 1 seul peut être choisi.  Soit on encode les offres,  soit les demandes,  soit les 2.  Cette notation remplace une cardinalité de 1 ou + avec 2 éléments possibles mais ne change pas sa signification.
 \newline
 
@@ -295,13 +302,13 @@ Ceci termine notre premier sous-arbre dont l'objectif était de décrire le ou l
 
 \item [Administration]
 \underline{Déf. :}  L'existence d'un système d'administration permet d'accéder à des fonctionnalités avancées de l'outil qui ne sont pas accessibles aux utilisateurs.
-\\ \underline{Justif. :}  Beuacoup d'outils ont une possibilité d'administration mais ce n'est pas une obligation.  Le feature est donc optionnel.  De plus,  les 2 sous-arbres sont optionnels car ils représentent une modification des données du système mais des outils pourraient avoir des fonctionnalités d'administration plus orientées "technique" (description d'une page, \dots).
+\\ \underline{Justif. :}  Beuacoup d'outils ont une possibilité d'administration mais ce n'est pas une obligation.  Le feature est donc optionnel.  De plus,  les 2 sous-arbres sont optionnels car ils représentent une modification des données du système mais des outils pourraient avoir des fonctionnalités d'administration plus orientées "technique" (modification du texte de description dans une page, \dots).
 \newline
 
 % ================= 40 ===========
 \item [GestionProfils]
 \underline{Déf. :}  Une des fonctionnalités administratives peut être la gestion des comptes d'utilisateurs.
-\\ \underline{Justif. :}  Inclure ce feature signifie qu'il est possible de modifier la représentation des utilisateurs dans le système.
+\\ \underline{Justif. :}  Inclure ce feature signifie qu'il est possible de modifier les données qui présentent les acteurs dans le système.
 \newline
 
 \item [CreationP - EditionP - SuppressionP]
@@ -326,7 +333,7 @@ Ceci termine notre premier sous-arbre dont l'objectif était de décrire le ou l
 \\ \underline{Justif. :}  Un exemple d'utilité à cette fonction est simplement la surveillance des annonces faites dans l'outil afin d'éviter les dérives telles que les arnaques ou trafics d'objets volés,  \dots .   
 \newline
 
-Nous allons maintenant analyser les fonctionnalités qui peuvent êtres offertes par un système de gestion des acteurs.
+Nous allons maintenant analyser les fonctionnalités qui peuvent êtres offertes par un système de gestion des utilisateurs enregistrés.
 
 \begin{center}
 \fbox{\includegraphics[scale=0.5]{Utilisateurs.png}}
@@ -345,30 +352,32 @@ Nous allons maintenant analyser les fonctionnalités qui peuvent êtres offertes
 \\ \underline{Justif. :}  Ce feature est obligatoire car,  si l'outil intègre un système d'utilisateurs enregistrés (le feature supérieur),  il faut pouvoir s'enregistrer pour au moins 1 type d'utilisateur.   C'est pourquoi la cardinalité pour les fils est de 1 ou plus.
 \newline
 
-\item [PersPhysiques]
-\underline{Déf. :}  Ce feature représente la possibilité pour des personnes physiques de s'enregistrer.  
-\\ \underline{Justif. :}  Inclure ce feature signifie qu'il faut pouvoir être identifié de façon unique dans le système.  Pour cela,  le feature "Identifiant" est obligatoire mais d'autres caractéristiques peuvent être encodées en plus.  
-\newline
+Le sous-arbre de ce feature est comparable au feature \textbf{PublicCible}.  On y retrouve les \textbf{PersonnesPhysiques} et \textbf{PersonnesMorales} ainsi que les informations que le système peut enregistrer à leur propos.
 
-\item [Identifiant]
-\underline{Déf. :}  L'identifiant est la donnée de référence qui caractérise chaque acteur de façon unique dans le système.   Il peut s'agir d'un surnom unique,  du numéro de carte d'identité,  ou autre.
-\\ \underline{Justif. :}  L'identifiant est obligatoire si les personnes physiques sont incluses dans les profils.  
-\newline
-
-\item [DateNaissance - Adresse - EtatCivil - Sexe - Revenu - Formation - NbEnfants - Ethnicité - TimestampInscription]
-\underline{Déf. :}  Toutes ces informations sont liées à la demande faite par \href{http://www.vub.ac.be/EDWE/index.php?option=com_content&task=view&id=82}{Liesbeth De Donder} d'intégrer autant que possible des possibilités de statistiques relevantes dans le cadres des études menées à la VUB.  Notons que TimestampeInscription correspond à la date et à l'heure d'inscription de l'utilisateur afin de connaitre le moment où il s'est enregistré dans l'application.
-\\ \underline{Justif. :}  Il est intéressant de pouvoir inclure ces données dans le système si un système de statistiques peut être mis en place pour pouvoir récupérer et étudier ces données dans le cadre de recherches scientifiques.
-\newline
-
-\item [PersMorales]
-\underline{Déf. :}  Si le modèle économique vise,  entre autres,  des personnes morales et que l'outil intègre une gestion des utilisateurs,  alors un compte de type personne morale doit être possible.
-\\ \underline{Justif. :}  La distinction avec les personnes physiques est nécessaire car les données enregistrées ne sont pas les mêmes.
-\newline
-
-\item [Denomination]
-\underline{Déf. :}  La dénomination est une description texte courte qui représente la personne morale de façon unique.  
-\\ \underline{Justif. :}  Pour une personne morale,  on estime qu'un identifiant composé de la dénomination est la seule information de base nécessaire.  
-\newline
+%\item [PersPhysiques]
+%\underline{Déf. :}  Ce feature représente la possibilité pour des personnes physiques de s'enregistrer.  
+%\\ \underline{Justif. :}  Inclure ce feature signifie qu'il faut pouvoir être identifié de façon unique dans le système.  Pour cela,  le feature "Identifiant" est obligatoire mais d'autres caractéristiques peuvent être encodées en plus.  
+%\newline
+%
+%\item [Identifiant]
+%\underline{Déf. :}  L'identifiant est la donnée de référence qui caractérise chaque acteur de façon unique dans le système.   Il peut s'agir d'un surnom unique,  du numéro de carte d'identité,  ou autre.
+%\\ \underline{Justif. :}  L'identifiant est obligatoire si les personnes physiques sont incluses dans les profils.  
+%\newline
+%
+%\item [DateNaissance - Adresse - EtatCivil - Sexe - Revenu - Formation - NbEnfants - Ethnicité - TimestampInscription]
+%\underline{Déf. :}  Toutes ces informations sont liées à la demande faite par \href{http://www.vub.ac.be/EDWE/index.php?option=com_content&task=view&id=82}{Liesbeth De Donder} d'intégrer autant que possible des possibilités de statistiques relevantes dans le cadres des études menées à la VUB.  Notons que TimestampeInscription correspond à la date et à l'heure d'inscription de l'utilisateur afin de connaitre le moment où il s'est enregistré dans l'application.
+%\\ \underline{Justif. :}  Il est intéressant de pouvoir inclure ces données dans le système si un système de statistiques peut être mis en place pour pouvoir récupérer et étudier ces données dans le cadre de recherches scientifiques.
+%\newline
+%
+%\item [PersMorales]
+%\underline{Déf. :}  Si le modèle économique vise,  entre autres,  des personnes morales et que l'outil intègre une gestion des utilisateurs,  alors un compte de type personne morale doit être possible.
+%\\ \underline{Justif. :}  La distinction avec les personnes physiques est nécessaire car les données enregistrées ne sont pas les mêmes.
+%\newline
+%
+%\item [Denomination]
+%\underline{Déf. :}  La dénomination est une description texte courte qui représente la personne morale de façon unique.  
+%\\ \underline{Justif. :}  Pour une personne morale,  on estime qu'un identifiant composé de la dénomination est la seule information de base nécessaire.  
+%\newline
 
 \item [GestionID]
 \underline{Déf. :}  Ce feature représente les différentes possibilités existantes liées aux profils des acteurs enregistrés dans l'outil.  
@@ -537,32 +546,20 @@ Nous allons maintenant analyser les fonctionnalités qui peuvent êtres offertes
 
 TO DO 
 
+\underline{Objectif > Social REQUIRES PublicCible > PersonnesPhysiques : }
 
-Objectif > Social REQUIRES PublicCible > PersonnesPhysiques
+\underline{BusinessUnits > Biens/Objets REQUIRES Monnaie > Temps : }
 
+\underline{GestionEchanges > chaque fils REQUIRES ModeleOffreDemande > le même fils présent : }
 
-BusinessUnits > Biens/Objets REQUIRES Monnaie > Temps
+\underline{TypesUtilisateurs > chaque fils REQUIRES PublicCible > les mêmes fils présents : }
 
+\underline{Reporting > Niveaux > Utilisateurs REQUIRES Utilisateurs : }
 
-GestionEchanges > chaque fils REQUIRES ModeleOffreDemande > le même fils présent
+\underline{Reporting REQUIRES Support > Informatique : }
 
+\underline{Rating > Personnes REQUIRES Utilisateurs : }
 
-TypesUtilisateurs > chaque fils REQUIRES PublicCible > les mêmes fils présents
+\underline{Support > Informatique > Interface > Contact Humain REQUIRES Administration : }
 
-
-Reporting > Niveaux > Utilisateurs REQUIRES Utilisateurs
-
-
-Reporting REQUIRES Support > Informatique
-
-
-Rating > Personnes REQUIRES Utilisateurs
-
-
-Support > Informatique > Interface > Contact Humain REQUIRES Administration
-
-
-Administration > Gestion Profils REQUIRES Utilisateurs
-
-
-
+\underline{Administration > Gestion Profils REQUIRES Utilisateurs : }
