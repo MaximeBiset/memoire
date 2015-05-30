@@ -277,7 +277,7 @@ Ceci termine notre premier sous-arbre dont l'objectif était de décrire le ou l
 \item [ModeleOffreDemande]
 \phantomsection
 \label{featOD}
-\underline{Déf. :}  Le modèle d'offre et demande correspond aux fonctionnalités présentes dans l'outil pour faire savoir au système que l'on recherche ou que l'on propose un bien ou un service.  Ceci représente les actions possibles pour un acteur du système (enregistré ou non,  administrateur ou non,  à voir selon les autres features décrits ci-après).
+\underline{Déf. :}  Le modèle d'offre et demande correspond aux fonctionnalités présentes dans l'outil pour faire savoir au système que l'on recherche ou que l'on propose un bien ou un service.  Par exemple,  les sites de type eBay,  2ememain et autres,  ne permettent l'encodage que des offres.  Si un utilisateur désire acquérir un objet,  il n'a pas la possibilité d'encoder sa recherche dans le site,  il doit chercher et essayer de trouver ce qui correspond le mieux à ses besoins.  Ce feature représente les actions possibles pour un acteur du système (enregistré ou non,  administrateur ou non,  à voir selon les autres features décrits ci-après).  
 \\ \underline{Justif. :}  Ce feature est important à définir car l'outil peut être tout à fait différent selon les possibilités offertes aux acteurs.  Par facilité pour l'élaboration des contraintes décrites plus loin,  3 features sont disponibles mais 1 seul peut être choisi.  Soit on encode les offres,  soit les demandes,  soit les 2.  Cette notation remplace une cardinalité de 1 ou + avec 2 éléments possibles mais ne change pas sa signification.
 \newline
 
@@ -540,26 +540,29 @@ Le sous-arbre de ce feature est comparable au feature \textbf{PublicCible}.  On 
 
 \end{description}
 
-
-
 \subsubsection{Règles de composition}
 
-TO DO 
+Nous allons ici décrire les contraintes de composition du schéma.   Ces contraintes doivent être respectées pour obtenir un framework instancié fonctionnel.  Certaines sont plutôt d'ordre "philosophique",  c'est-à-dire qu'elles décrivent une contrainte pour qu'une instanciation soit cohérente.  D'autres sont d'ordre technique,  c'est-à-dire qu'il n'est pas possible d'instancier et programmer le modèle si on ne respecte la règle.
 
-\underline{Objectif > Social REQUIRES PublicCible > PersonnesPhysiques : }
+\underline{BusinessUnits > Biens/Objets REQUIRES Monnaie > Temps : } Cette règle  signifie que cela n'a pas de sens d'échanger des objets matériels contre du temps.  Par contre,  une monnaie alternative peut être définie et utilisée.
 
-\underline{BusinessUnits > Biens/Objets REQUIRES Monnaie > Temps : }
+\underline{GestionEchanges > chaque fils REQUIRES ModeleOffreDemande > le même fils présent : }  Cette règle est d'ordre technique.  Si,  par exemple,  si on désire qu'un administarteur puisse gérer une description d'une offre,  alors le système doit permettre d'encoder des descriptions d'offres.  Ceci s'applique pour chacun des fils. 
 
-\underline{GestionEchanges > chaque fils REQUIRES ModeleOffreDemande > le même fils présent : }
+\underline{TypesUtilisateurs > chaque fils REQUIRES PublicCible > les mêmes fils présents : }  Cette contrainte est d'ordre philosophique et souligne que les utilisateurs qui s'enregistrent dans le système doivent faire partie du public cible de l'économique qui l'utilise.
 
-\underline{TypesUtilisateurs > chaque fils REQUIRES PublicCible > les mêmes fils présents : }
+\underline{Reporting > Niveaux > Utilisateurs REQUIRES Utilisateurs : }  Cette règle technique spécifie qu'il n'est pas possible d'avoir de statistiques par niveau si l'application ne possède pas cet élément de  hierarchie.
 
-\underline{Reporting > Niveaux > Utilisateurs REQUIRES Utilisateurs : }
+\underline{Rating > Personnes REQUIRES Utilisateurs : }  De même,  il n'est pas possible d'attribuer des appréciation aux comptes des utilisateurs si le système ne permet pas de créer des comptes.
 
-\underline{Reporting REQUIRES Support > Informatique : }
+\underline{Reporting REQUIRES Support > Informatique : } Pour que des statistiques puissent être faites,  il est nécessaire d'avoir un support informatique.  
 
-\underline{Rating > Personnes REQUIRES Utilisateurs : }
+\underline{Support > Informatique > Interface > Contact Humain REQUIRES Administration : }  Cette règle souligne que pour pouvoir intéragir avec le système au nom d'une tierce personne,  il faut pouvoir usurper son identité et donc utiliser un "mode administrateur".  
 
-\underline{Support > Informatique > Interface > Contact Humain REQUIRES Administration : }
+\underline{Administration > Gestion Profils REQUIRES Utilisateurs : } Cette contrainte souligne qu'il n'est pas possible de gérer des profils si le système n'offre pas de système de comptes d'utilisateur.
 
-\underline{Administration > Gestion Profils REQUIRES Utilisateurs : }
+\subsubsection{Le feature model de Buurtpensioen}
+
+Maintenant que le modèle des features est défini,  nous allons l'instancier au cas de Buurtpensioen,  et plus particulièrement à la solution proposée par le groupe d'étudiants,  afin de vérifier que le modèle est correct.
+
+$\vcenter{\hbox{\fbox{\includegraphics[scale=0.38,angle=90]{BP1.png} } }}$ \hspace{3 cm}
+$\vcenter{\hbox{\fbox{\includegraphics[scale=0.38,angle=90]{BP2.png} } }}$

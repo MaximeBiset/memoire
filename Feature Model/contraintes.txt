@@ -1,0 +1,16 @@
+/!\ Sur le feature diagram.  Notations : "< rempli" = 1 fils ou + ; "< avec arc dans l'angle" = 1 et 1 seul fils ; Rond plein = feature obligatoire ; Rond vide = feature optionniel.
+
+Voir aussi les contraintes dans descriptions.ods/.pdf
+
+CONTRAINTES COMPOSITIONNELLES
+=============================
+
+Objectif > Social REQUIRES PublicCible > PersonnesPhysiques
+BusinessUnits > Biens/Objets REQUIRES Monnaie > Temps
+GestionEchanges > chaque fils REQUIRES ModeleOffreDemande > le même fils présent
+TypesUtilisateurs > chaque fils REQUIRES PublicCible > les mêmes fils présents
+Reporting > Niveaux > Utilisateurs REQUIRES Utilisateurs
+Reporting REQUIRES Support > Informatique
+Rating > Personnes REQUIRES Utilisateurs
+Support > Informatique > Interface > Contact Humain REQUIRES Administration
+Administration > Gestion Profils REQUIRES Utilisateurs

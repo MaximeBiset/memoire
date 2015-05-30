@@ -1,0 +1,59 @@
+Origine =
+https://communities.cyclos.org/#page-content!id=7762070814178009151
+
+Features
+
+On-line banking
+
+    Register on-line (optional registration agreement)
+    Home (dashboard) page with status overview, quick access icons, message board
+    On-line client profile (client information, images)
+    Payments (normal, installments, scheduled, authorization levels)
+    Account summary / history, print & export payments lists
+    Personal alerts & notifications
+    References and transaction qualifications
+    On-line request forms (e.g. loan request)
+    Personal documents, group documents
+    Manage account operators (a user can create operators and give them permissions to do specific tasks)
+
+
+E-commerce
+
+    Market place (offers & wants)
+    On-line (rich text) editor
+    Advertisement matching alerts
+    Shopping cart
+    Stock management
+    Promotional price
+    Contact list
+    Messaging module
+    Advertisement questions
+
+
+Mobile banking (coming soon)
+
+    Sign-up via mobile
+    Payment to other users or administration
+    Payment request (two-way payment)
+    Retrieve account information / browse through transaction history)
+    Info texts (texts managed in Cyclos can be retrieved by mobile)
+    Notifications & alerts (personal alerts and general alerts & notifications)
+    Mailings (from administration and agents)
+    Bank and Telecom provider independent
+    Optional OTP (One Time Password) for all commands
+    Custom operations (programming interface that allows adding new operations)
+
+
+System administration & configuration
+
+    Dynamic system configuration (support for various economic models)
+    Define custom fields for users, advertisements, loans, payments, member records
+    Account & user management
+    Import tools (users, advertisements)
+    Content management (translations, pages, images, styles)
+    System alerts & logging
+    Reports & Statistics
+    System tasks (e.g. set system offline, indexing)
+    Automatic upgrades (version check on initialization process)
+    Strong security (bank level security implementation)
+    API (application programming interface) for communication with third party software.
