@@ -46,15 +46,77 @@ import pdb; pdb.set_trace()
 Lorsque le serveur arrive à ce point d'arrêt,  il se met en pause et une console s'ouvre.  
 Dans la console,  on peut inspecter toutes les variables du programme en cours.  C'est très utile pour vérifier que les données sont bien correctes entre différents appels/pages/requêtes.
 
+\subsubsection{Concepts pour le refactoring}
+
+Nous allons ici aborder quelques techniques de design destinées au développement de frameworks.  En effet,  certains design patterns et autres techniques ou attentions rendent le code d'un framework plus facile à instancier par la suite et sont donc un bon objectif à suivre.
+
+\begin{description}
+
+\item[Composition et Héritage]
+Le concept de composition peut être utilisé pour un framework dans certains cas.  L'idée est simplement d'avoir une classe contenant une autre classe.  Nous pouvons imaginer un exemple simple dans le cadre du développement d'un framework à partir d'une solution existante (c'est notre cas avec Buurtpensioen).  Nous pouvons imaginer une simple classe Acteur ayant comme attributs : un nom et  une adresse (tous deux chaines de caractères) et un nombre de crédits (un nombre).  Si nous désirons rendre le concept de crédits plus "maléable",  nous pouvons utiliser la composition.  Pour cela,  nous créons une classe Portefeuille et dans la classe Acteur,  nous définissons l'attribut de crédits comme étant du type Portefeuille.  Ainsi,  le système de crédits est séparé du reste des concepts liés à l'acteur.  
+
+\begin{minipage}{.5\textwidth}
+\begin{center} \textbf{Avant}
+
+\fbox{\includegraphics[scale=0.5]{composition1.png}}
+\end{center}
+\end{minipage}
+\hspace{0.3cm}
+\begin{minipage}{.5\textwidth}
+\begin{center} \textbf{Après}\end{center}
+
+\fbox{\includegraphics[scale=0.5]{composition2.png}}
+
+\end{minipage}
+\vspace{0.3cm}
+
+Le concept d'héritage est une autre technique de base de la programmation orientée objets et a pour but de séparer une classe de base en 2 classes dont l'une sera la classe "mère" et l'autre la classe "fille",  qui aura ses propres caractéristiques en plus de celles de la classe mère.  Dans notre exemple d'acteur avec un compte en banque,  nous pouvons imaginer un système où les portefeuilles peuvent être de différent type : des points,  du temps,  des euros,  etc.  Chaque type pourrait être une classe mère définissant des méthodes particulières.  Par exemple,  la méthode "EquivalentDollars" pour la classe Euros,  retournerait la valeur en dollars d'un montant en euros.  Dans ce cas,  la classe Portefeuille pourrait hériter d'une classe mère "Euros",  "Temps",  ou autres.   
+
+\vspace{0.3cm}
+\begin{minipage}{.5\textwidth}
+\begin{center} \textbf{Avant}
+
+\fbox{\includegraphics[scale=0.5]{heritage1.png}}
+\end{center}
+\end{minipage}
+\hspace{0.3cm}
+\begin{minipage}{.5\textwidth}
+\begin{center} \textbf{Après}\end{center}
+
+\fbox{\includegraphics[scale=0.5]{heritage2.png}}
+
+\end{minipage}
+\vspace{0.3cm}
+
+La composition et l'héritage sont des technique qui peuvent être utilisées pour modifier un logiciel afin d'obtenir un framework.  En effet,  ces 2 concepts permettent de séparer des parties de code selon une structure logique.  Cette séparation permet de simplifier le futur travail du programmeur de l'instanciation.  L'important reste d'utiliser la bonne technique dans la bonne situation afin que le tout reste cohérent et compréhensible.  
+
+
+\item[Template method]
+Ce design pattern consiste à identifier les parties communes à plusieurs classes et à les rassembler dans une classe dite abstraite.  On utilise ensuite l'héritage de cette classe abstraite,  dans les classes concrètes,  pour définir plus précisement les attributs et comportements de cette classe.  Prenons l'exemple du cas de Buurtpensioen que nous aimerions rendre plus abstrait afin d'obtenir un framework.  Dans le cas de départ,  le logiciel permet l'échange de services.  Mais nous pourrions vouloir échanger des biens également.  Pour implémenter cela,  nous analysons que les biens et les services ont des choses en commun : ils sont tous liés à un donneur et à un receveur,  ils possèdent un "montant de la transaction",  etc.  Nous pouvons donc créer une classe abstraite qui reprendra ces éléments en commun et les classes concrètes (objet ou service) hériteront de ces éléments.  L'avantage pour le programmeur qui instanciera le framework est que s'il désire,  par exemple,  que les transactions n'aient pas de montant car le système n'utilise pas de monnaie,  il suffit de supprimer un attribut dans le la classe mère plutôt que de devoir le supprimer dans chacune des 2 classes filles.
+
+
+
+\item[Principe d'Hollywood et inversion de controlle]
+Le principe d'Hollywood est ce qui permet de différencier un framework d'une librairie logicielle.  En effet,  celui-ci se décrit par la phrase : "Ne nous appelez pas,  nous vous appellerons".  Elle sous-entend que d'un point de vue du programmeur de l'instanciation du framework,   il ne faut pas faire appel à des méthodes du framework.  Au contraire,  ce dernier doit permettre d'écrire du code à des endroits prévus et le framework fera lui-même appel à ce code.  Par exemple,  la méthode toString() de Java permet au programmeur de définir lui-même la description textuelle d'un objet et Java fera appel à cette méthode,  par exemple,  lorsqu'on désire imprimer dans la console la valeur de l'objet. 
+
+L'inversion de contrôlle est un concept qui se base sur le principe d'Hollywood.  Dans un logiciel "traditionnel",  le programmeur décrit une logique dans son programme et fait appel à des librairies quand c'est nécessaire.  C'est donc lui qui possède le contrôlle sur la coordination des différents éléments de l'application.  Dans un framework,  la coordination entre les classes ou autres parties est décrite dans la partie fixe du framework et le programmeur de l'instanciation doit définir les détails du code qui sera appelé par le framework.  
+
+Un exemple lié à notre cas de Buurtpensioen et d'un framework qui serait dérivé de ce projet peut être le suivant.  Django utilise des templates pour l'affichage des données.  Si dans le cas de Buurtpensioen on affiche un bouton "Voir mon crédit" et que l'on désire pouvoir rendre ce bouton invisible facilement,  on peut remplacer le bouton par l'inclusion d'un autre template.  Dans ce dernier,  nous décrirons le bouton dont il est question et si le programmeur de l'instanciation désire le supprimer ou le cacher voire en changer le nom,  il sait exactement où modifier le code.  Le principe d'Hollywood s'applique car le template du bouton est inclus systématiquement dans la page web.  L'inversion de contrôlle a lieu car le programmeur ne décide pas de l'endroit ou se trouve le bouton,  c'est le framework qui a été programmé pour que le bouton (ou rien) apparaisson à tel ou tel endroit.  
+
+\end{description}
+
+
 \subsection{Recherche et implémentation des features}
 
-Pour le développement du framework,  nous allons donc démarrer de l'application du groupe 8 et tenter d'y retrouver les portions de code qui sont liées à des features précis.  L'objectif sera donc de partir du fait que,  dans notre arbre des features,  le groupe 8 a mis en place un feature feuille,  et l'objectif va être de transformer le programme pour correspond à un branchement supérieur.  Nous allons prendre un exemple avec le feature Temps pour arriver au feature Monnaie.  
+Pour le développement du framework,  nous allons donc démarrer de l'application du groupe 8 et tenter d'y retrouver les portions de code qui sont liées à des features précis.  L'objectif sera donc de partir du fait que,  dans notre arbre des features,  le groupe 8 a mis en place un feature feuille,  et l'objectif va être de transformer le programme pour correspondre à un branchement supérieur et laisser le choix de la feuille pour le programmeur qui instanciera le framework.  Nous allons prendre un exemple avec le feature Temps pour arriver au feature Monnaie.  Cet exemple permet de mettre en avant la façon de programmer un feature sans avoir besoin de beaucoup de subtilités techniques liées à l'architecture du projet ou à Python/Django.
 
 \subsubsection{Feature Temps}
 
 Le premier feature que nous allons analyser consiste en la monnaie utilisée.  Le travail du groupe 8 a appliqué le feature "Temps -> Normal",  c'est à dire que la monnaie utilisée dans l'outil est du temps.  L'objectif de cette partie consiste donc à retrouver les parties du code liées à la monnaie et de trouver une solution pour rendre ces parties plus génériques.
 
 \paragraph{Etape 1 : localiser le feature}
+
+Cette première étape a pour but de retrouver les occurences du feature dans le code original.  C'est pour cette étape que nous allons utiliser l'outil search.py.  Pour cela,  nous allons devoir trouver des mots clés à retrouver dans le code.  Ainsi,  une analyse manuelle de la description des modèles (dans models.py) pourra nous éclairer.
 
 \textbf{main/models.py}
 \\%=================
@@ -120,9 +182,11 @@ Dans ce fichier,   l'élément estimated\_time apparait plusieurs fois dans 3 m�
 
 \paragraph{Etape 2 : Refactoring vers un framework}
 
-Maintenant que nous avons pu retrouver et comprendre les différentes portions de code qui sont impliquées dans le feature "Temps",  nous pouvons passer à l'action.  Pour ce faire,  allons suivre le cheminement général des appels dans l'application.  Mais juste avant,  précisons une dernière chose concernant la structure du logiciel dans lequel nous travaillons.  Il est important de rappeler que celle-ci est divisée en "sous-applications".  Chacune d'elle correspond à un sous-dossier du projet.  Les 2 sous-applications qui nous concernent sont Branch et Main.  Branch regroupe les fonctionnalités liées aux échanges et Main celles liées aux utilisateurs.  On remarque cette division en analysant le chemin des fichiers analysés ici avant (1 sous application = 1 sous-dossier).  
+Maintenant que nous avons pu retrouver et comprendre les différentes portions de code qui sont impliquées dans le feature "Temps",  nous pouvons passer à l'étape suivante qui consiste à re-programmer les parties nécessaires en ajoutant,  supprimant,  déplaçant ou modifiant le code concerné.  Pour ce faire,  nous allons suivre le cheminement général des appels dans l'application.  Mais juste avant,  précisons une dernière chose concernant la structure du logiciel dans lequel nous travaillons.  Il est important de rappeler que celle-ci est divisée en "sous-applications".  Chacune d'elle correspond à un sous-dossier du projet.  Les 2 sous-applications qui nous concernent sont Branch et Main.  Branch regroupe les fonctionnalités liées aux échanges et Main celles liées aux utilisateurs.  On remarque cette division en analysant le chemin des fichiers analysés ici avant (1 sous application = 1 sous-dossier).  
 
 Les 2 types de points de départ que nous allons exploiter pour notre développement sont : les fichiers models.py qui définissent les modèles de données (1 par application),  et les templates,  qui contiennent des URL's qui représenteront les actions que les utilisateurs peuvent "activer".  
+
+Dernière remarque,   il existe des techniques pour le refactoring de code afin de créer un framework tels que des templates patterns,  l'héritage,  etc.  Nous aborderons ce point à la fin du chapitre en résumant les techniques utilisées,  ou non,  et la/les raison(s) qui ont poussé à ce choix.  La description qui suit a pour but de décrire globalement la démarche de refactoring pour un feature.  Les justifications des choix seront repris lors de la description du feature Biens/Objets.
 
 Pour le premier point qui concerne la description des modèles,  ce sont les fichiers models.py qui nous intéressent.  Dans l'analyse qui précède,  nous avions retrouvé 3 choses liées aux modèles : l'attribut Credit (et la fonction de type verbose qui va avec) dans la classe User,  définie dans l'application Main,  et les attributs estimated\_time et real\_time dans la classe Demand,  définie dans l'application Branch.  Le cas de la classe User est assez simple : nous allons simplement transformer la classe User ayant 1 attribut Crédit en 1 classe User qui peut hériter d'une autre classe,  qui elle-même possède l'attribut dont il est question.  Ceci permet de pouvoir hériter ou non de la classe (donc utilisation,  ou non,  d'une monnaie) ainsi que de définir dans une classe dédiée,  le comportement de la monnaie (dans le cas d'une monnaie alternative ou du temps ou autres).  
 
@@ -279,6 +343,7 @@ Les derniers éléments à modifier pour mettre en place notre feature concernen
 \begin{minipage}{.5\textwidth}
 \begin{center} \textbf{Après}\end{center}
 \begin{lstlisting}
+Dans base.html :
 ...
 {% include "fw_base.html" %}
 ...
@@ -286,24 +351,26 @@ Les derniers éléments à modifier pour mettre en place notre feature concernen
 ...
 
 Dans fw_base.html : 
-<!--
-{% comment %}
 <p class="centered credit-p"><span class="credit-text">{% trans "Credit restant :" %}</span> {{ request.user.get_verbose_credit | safe }}</p>
-{% endcomment %}
--->
 
 Dans fw_base2.html : 
-<!--
-{% comment %}
 <ul class="sub">
      <li><span><a href="{% url 'credit_page' %}"> {% trans "Mes credits" %}</a></span></li>
                 </ul>
-{% endcomment %}
--->
+
 \end{lstlisting} 
 \end{minipage}
 
-\subsubsection{Autres features}
+Cette dernière étape clôture la mise en place du feature monnaie.  Cet exemple,  assez simple,  a été l'occasion de se confronter à certaines particularités de notre code.  Par exemple,  la description des classes du modèle avec ses contraintes,  les templates d'affichage utilisant des tags ( {% include %}, {% if %} ) définis par Django,   l'architecture globale 
+
+\subsubsection{Feature BusinessUnits}
+
+Après avoir développé un premier feature simple,  nous pouvons entreprendre de mettre en place le feature des objets.  L'objectif de ce feature est de pouvoir échanger des objets matériels en plus des échanges de services.  Cette fonctionnalité étant assez transversale à l'application,  nous allons lister quelques points clés et difficultés rencontrés lors du développement.  Nous allons en profiter pour souligner l'utilisation ou non de techniques liées au développement d'un framework tels que les design patterns et autres.
+
+\begin{description}
+\item{Le modèle}
+
+\end{description}
 
 \subsection{Architecture du framework}
 

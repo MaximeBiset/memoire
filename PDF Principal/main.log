@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013/Debian) (format=pdflatex 2014.9.8)  30 MAY 2015 23:42
+This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013/Debian) (format=pdflatex 2014.9.8)  31 MAY 2015 12:48
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -646,7 +646,7 @@ e
 * \@reversemarginfalse
 * (1in=72.27pt=25.4mm, 1cm=28.453pt)
 
-<graphics/UCL.jpg, id=124, 856.19875pt x 1185.42876pt>
+<graphics/UCL.jpg, id=128, 856.19875pt x 1185.42876pt>
 File: graphics/UCL.jpg Graphic file (type jpg)
  <use graphics/UCL.jpg>
 Package pdftex.def Info: graphics/UCL.jpg used on input line 72.
@@ -656,7 +656,7 @@ LaTeX Font Info:    External font `cmex10' loaded for size
 LaTeX Font Info:    External font `cmex10' loaded for size
 (Font)              <5> on input line 73.
 
-<graphics/EPL.jpg, id=125, 513.92pt x 513.92pt>
+<graphics/EPL.jpg, id=129, 513.92pt x 513.92pt>
 File: graphics/EPL.jpg Graphic file (type jpg)
  <use graphics/EPL.jpg>
 Package pdftex.def Info: graphics/EPL.jpg used on input line 83.
@@ -742,7 +742,7 @@ l.126 \newpage
 identifier (name{page.}) has been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.31 ...\numberline {8}Future Work}{49}{section.8}
+l.31 ...{\numberline {7}Validation}{50}{section.7}
                                                    [7
 
 ])
@@ -763,7 +763,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 30--31
 
  []
 
-<graphics/exemple.png, id=205, 539.01375pt x 207.77625pt>
+<graphics/exemple.png, id=210, 539.01375pt x 207.77625pt>
 File: graphics/exemple.png Graphic file (type png)
 
 <use graphics/exemple.png>
@@ -849,35 +849,35 @@ Underfull \hbox (badness 10000) in paragraph at lines 13--17
 
 [12
 
-] [13] <graphics/gr8home1.png, id=312, 1304.875pt x 640.3925pt>
+] [13] <graphics/gr8home1.png, id=317, 1304.875pt x 640.3925pt>
 File: graphics/gr8home1.png Graphic file (type png)
 
 <use graphics/gr8home1.png>
 Package pdftex.def Info: graphics/gr8home1.png used on input line 51.
 (pdftex.def)             Requested size: 326.21796pt x 160.09773pt.
 
-<graphics/gr8inscr.png, id=313, 1290.8225pt x 645.41125pt>
+<graphics/gr8inscr.png, id=318, 1290.8225pt x 645.41125pt>
 File: graphics/gr8inscr.png Graphic file (type png)
 
 <use graphics/gr8inscr.png>
 Package pdftex.def Info: graphics/gr8inscr.png used on input line 62.
 (pdftex.def)             Requested size: 322.70483pt x 161.35242pt.
  [14 <./graphics/gr8home1.png>]
-<graphics/gr8profil.png, id=318, 1273.75874pt x 638.385pt>
+<graphics/gr8profil.png, id=323, 1273.75874pt x 638.385pt>
 File: graphics/gr8profil.png Graphic file (type png)
 
 <use graphics/gr8profil.png>
 Package pdftex.def Info: graphics/gr8profil.png used on input line 70.
 (pdftex.def)             Requested size: 318.4389pt x 159.59586pt.
 
-<graphics/gr8home.png, id=319, 1304.875pt x 640.3925pt>
+<graphics/gr8home.png, id=324, 1304.875pt x 640.3925pt>
 File: graphics/gr8home.png Graphic file (type png)
 
 <use graphics/gr8home.png>
 Package pdftex.def Info: graphics/gr8home.png used on input line 78.
 (pdftex.def)             Requested size: 326.21796pt x 160.09773pt.
  [15 <./graphics/gr8inscr.png> <./graphics/gr8profil.png>] <graphics/encoder.pn
-g, id=324, 1365.1pt x 770.88pt>
+g, id=329, 1365.1pt x 770.88pt>
 File: graphics/encoder.png Graphic file (type png)
 
 <use graphics/encoder.png>
@@ -893,7 +893,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 53--54
 
  []
 
-<graphics/exempleCardinalites.png, id=350, 166.6225pt x 138.5175pt>
+<graphics/exempleCardinalites.png, id=355, 166.6225pt x 138.5175pt>
 File: graphics/exempleCardinalites.png Graphic file (type png)
 
 <use graphics/exempleCardinalites.png>
@@ -901,14 +901,14 @@ Package pdftex.def Info: graphics/exempleCardinalites.png used on input line 56
 .
 (pdftex.def)             Requested size: 99.97426pt x 83.11113pt.
 
-<graphics/fmGenP1.png, id=351, 1420.30624pt x 322.20375pt>
+<graphics/fmGenP1.png, id=356, 1420.30624pt x 322.20375pt>
 File: graphics/fmGenP1.png Graphic file (type png)
 
 <use graphics/fmGenP1.png>
 Package pdftex.def Info: graphics/fmGenP1.png used on input line 64.
 (pdftex.def)             Requested size: 539.72198pt x 122.43869pt.
 
-<graphics/fmGenP2.png, id=352, 1671.24374pt x 327.2225pt>
+<graphics/fmGenP2.png, id=357, 1671.24374pt x 327.2225pt>
 File: graphics/fmGenP2.png Graphic file (type png)
 
 <use graphics/fmGenP2.png>
@@ -930,7 +930,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 87--89
 
  []
 
-<graphics/PublicCible.png, id=364, 627.34375pt x 137.51375pt>
+<graphics/PublicCible.png, id=369, 627.34375pt x 137.51375pt>
 File: graphics/PublicCible.png Graphic file (type png)
 
 <use graphics/PublicCible.png>
@@ -958,7 +958,7 @@ es tranches d'âge : \T1/cmr/bx/n/10 Moins18ans\T1/cmr/m/n/10 , \T1/cmr/bx/n/10
 Etu-diants\T1/cmr/m/n/10 , \T1/cmr/bx/n/10 Adultes\T1/cmr/m/n/10 ,
  []
 
-<graphics/Monnaie.png, id=370, 305.14pt x 183.68625pt>
+<graphics/Monnaie.png, id=375, 305.14pt x 183.68625pt>
 File: graphics/Monnaie.png Graphic file (type png)
 
 <use graphics/Monnaie.png>
@@ -1009,7 +1009,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 197--200
 
  []
 
-<graphics/Objectif.png, id=380, 134.5025pt x 84.315pt>
+<graphics/Objectif.png, id=385, 134.5025pt x 84.315pt>
 File: graphics/Objectif.png Graphic file (type png)
 
 <use graphics/Objectif.png>
@@ -1035,7 +1035,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 221--224
 
  []
 
-<graphics/Transactions.png, id=381, 562.1pt x 226.8475pt>
+<graphics/Transactions.png, id=386, 562.1pt x 226.8475pt>
 File: graphics/Transactions.png Graphic file (type png)
 
 <use graphics/Transactions.png>
@@ -1103,7 +1103,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 295--298
 
  []
 
-<graphics/Administration.png, id=393, 502.87875pt x 139.52126pt>
+<graphics/Administration.png, id=398, 502.87875pt x 139.52126pt>
 File: graphics/Administration.png Graphic file (type png)
 
 <use graphics/Administration.png>
@@ -1140,7 +1140,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 332--335
  []
 
 [29 <./graphics/Administration.png>]
-<graphics/Utilisateurs.png, id=409, 916.42375pt x 208.78pt>
+<graphics/Utilisateurs.png, id=414, 916.42375pt x 208.78pt>
 File: graphics/Utilisateurs.png Graphic file (type png)
 
 <use graphics/Utilisateurs.png>
@@ -1176,7 +1176,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 398--401
 
  []
 
-<graphics/Reporting.png, id=420, 429.605pt x 244.915pt>
+<graphics/Reporting.png, id=425, 429.605pt x 244.915pt>
 File: graphics/Reporting.png Graphic file (type png)
 
 <use graphics/Reporting.png>
@@ -1232,7 +1232,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 458--461
 
  []
 
-<graphics/Support.png, id=429, 578.16pt x 252.945pt>
+<graphics/Support.png, id=435, 578.16pt x 252.945pt>
 File: graphics/Support.png Graphic file (type png)
 
 <use graphics/Support.png>
@@ -1293,7 +1293,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 518--521
 
  []
 
-<graphics/Rating.png, id=441, 162.6075pt x 88.33pt>
+<graphics/Rating.png, id=446, 162.6075pt x 88.33pt>
 File: graphics/Rating.png Graphic file (type png)
  <use graphics/Rating.png>
 Package pdftex.def Info: graphics/Rating.png used on input line 523.
@@ -1318,13 +1318,13 @@ Overfull \hbox (5.04915pt too wide) in paragraph at lines 559--560
 []$[]$ \T1/cmr/m/n/10 Cette règle sou-ligne
  []
 
-<graphics/BP1.png, id=447, 1421.31pt x 293.095pt>
+<graphics/BP1.png, id=452, 1421.31pt x 293.095pt>
 File: graphics/BP1.png Graphic file (type png)
  <use graphics/BP1.png>
 Package pdftex.def Info: graphics/BP1.png used on input line 567.
 (pdftex.def)             Requested size: 540.10342pt x 111.37724pt.
 
-<graphics/BP2.png, id=448, 1694.33pt x 337.26pt>
+<graphics/BP2.png, id=453, 1694.33pt x 337.26pt>
 File: graphics/BP2.png Graphic file (type png)
  <use graphics/BP2.png>
 Package pdftex.def Info: graphics/BP2.png used on input line 568.
@@ -1335,7 +1335,7 @@ Overfull \vbox (6.48178pt too high) has occurred while \output is active []
 
 
 [37 <./graphics/BP1.png> <./graphics/BP2.png>]
-<graphics/puzzle.png, id=457, 460.72125pt x 412.54124pt>
+<graphics/puzzle.png, id=462, 460.72125pt x 412.54124pt>
 File: graphics/puzzle.png Graphic file (type png)
 
 <use graphics/puzzle.png>
@@ -1343,30 +1343,69 @@ Package pdftex.def Info: graphics/puzzle.png used on input line 15.
 (pdftex.def)             Requested size: 184.28523pt x 165.01357pt.
  [38
 
-] [39 <./graphics/puzzle.png>] [40] [41]
-Overfull \hbox (22.97925pt too wide) in paragraph at lines 129--170
+] [39 <./graphics/puzzle.png>]
+<graphics/composition1.png, id=476, 166.6225pt x 125.46875pt>
+File: graphics/composition1.png Graphic file (type png)
+
+<use graphics/composition1.png>
+Package pdftex.def Info: graphics/composition1.png used on input line 61.
+(pdftex.def)             Requested size: 83.31104pt x 62.7342pt.
+
+<graphics/composition2.png, id=477, 384.43625pt x 124.465pt>
+File: graphics/composition2.png Graphic file (type png)
+
+<use graphics/composition2.png>
+Package pdftex.def Info: graphics/composition2.png used on input line 68.
+(pdftex.def)             Requested size: 192.21765pt x 62.23235pt.
+
+Overfull \hbox (12.97925pt too wide) in paragraph at lines 58--72
+[]$[]$   $[]$
+ []
+
+[40] <graphics/heritage1.png, id=491, 133.49875pt x 82.3075pt>
+File: graphics/heritage1.png Graphic file (type png)
+
+<use graphics/heritage1.png>
+Package pdftex.def Info: graphics/heritage1.png used on input line 79.
+(pdftex.def)             Requested size: 66.74919pt x 41.15364pt.
+
+<graphics/heritage2.png, id=492, 330.23375pt x 193.72375pt>
+File: graphics/heritage2.png Graphic file (type png)
+
+<use graphics/heritage2.png>
+Package pdftex.def Info: graphics/heritage2.png used on input line 86.
+(pdftex.def)             Requested size: 165.11646pt x 96.86163pt.
+
+Overfull \hbox (12.97925pt too wide) in paragraph at lines 76--90
+[]$[]$   $[]$
+ []
+
+[41 <./graphics/composition1.png (PNG copy)> <./graphics/composition2.png (PNG 
+copy)> <./graphics/heritage1.png (PNG copy)> <./graphics/heritage2.png (PNG cop
+y)>] [42] [43] [44]
+Overfull \hbox (22.97925pt too wide) in paragraph at lines 193--234
 []$[]$   $[]$ 
  []
 
-[42]
-Overfull \hbox (22.97925pt too wide) in paragraph at lines 174--202
+
+Overfull \hbox (22.97925pt too wide) in paragraph at lines 238--266
 []$[]$   $[]$ 
  []
 
-[43]
-Overfull \hbox (22.97925pt too wide) in paragraph at lines 206--257
+[45]
+Overfull \hbox (22.97925pt too wide) in paragraph at lines 270--321
 []$[]$   $[]$ 
  []
 
-[44] [45]
-Overfull \hbox (22.97925pt too wide) in paragraph at lines 264--305
+[46] [47]
+Overfull \hbox (22.97925pt too wide) in paragraph at lines 328--363
 []$[]$   $[]$ 
  []
 
-[46]) (./validation.tex [47]) (./futurework.tex [48
+[48]) (./validation.tex [49]) (./futurework.tex [50
 
 ]) (./conclusion.tex
-[49
+[51
 
 ]) (./main.bbl
 LaTeX Font Info:    Try loading font information for T1+cmtt on input line 5.
@@ -1378,11 +1417,11 @@ Underfull \hbox (badness 10000) in paragraph at lines 19--22
  wwwiti . cs . uni-[]magdeburg . de / iti _ db / research /
  []
 
-) [50
+) [52
 
 ]
 Package atveryend Info: Empty hook `BeforeClearDocument' on input line 162.
- [51
+ [53
 
 ]
 Package atveryend Info: Empty hook `AfterLastShipout' on input line 162.
@@ -1390,31 +1429,35 @@ Package atveryend Info: Empty hook `AfterLastShipout' on input line 162.
 Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 162.
 Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 162.
 Package rerunfilecheck Info: File `main.out' has not changed.
-(rerunfilecheck)             Checksum: A9B2F0724AF95A3A2F495B6FA2510956;2067.
+(rerunfilecheck)             Checksum: 0846DA21E578355E35A5F8DB50380FA9;2161.
 Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 162.
- ) 
+ )
+(\end occurred inside a group at level 1)
+
+### simple group (level 1) entered at line 364 ({)
+### bottom level 
 Here is how much of TeX's memory you used:
- 10533 strings out of 494999
- 150781 string characters out of 6180229
+ 10549 strings out of 494999
+ 151215 string characters out of 6180229
  432259 words of memory out of 5000000
- 13272 multiletter control sequences out of 15000+600000
+ 13288 multiletter control sequences out of 15000+600000
  12844 words of font info for 27 fonts, out of 8000000 for 9000
  14 hyphenation exceptions out of 8191
  31i,11n,40p,2143b,1863s stack positions out of 5000i,500n,10000p,200000b,80000s
- </home/maxime/.texmf-var/fonts/pk/ljfour/jknappen/ec/ectt1000.600pk> </home/
-maxime/.texmf-var/fonts/pk/ljfour/jknappen/ec/ecrm0800.600pk> </home/maxime/.te
-xmf-var/fonts/pk/ljfour/jknappen/ec/ecrm0700.600pk> </home/maxime/.texmf-var/fo
-nts/pk/ljfour/jknappen/ec/ecti1000.600pk> </home/maxime/.texmf-var/fonts/pk/ljf
-our/jknappen/ec/ecbx1200.600pk> </home/maxime/.texmf-var/fonts/pk/ljfour/jknapp
-en/ec/ecbx1000.600pk> </home/maxime/.texmf-var/fonts/pk/ljfour/jknappen/ec/ecbx
-1440.600pk> </home/maxime/.texmf-var/fonts/pk/ljfour/jknappen/ec/eccc1000.600pk
-> </home/maxime/.texmf-var/fonts/pk/ljfour/jknappen/ec/ecxc2488.600pk> </home/m
-axime/.texmf-var/fonts/pk/ljfour/jknappen/ec/ecrm1000.600pk></usr/share/texlive
-/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb>
-Output written on main.pdf (59 pages, 2630209 bytes).
+ </home/maxime/.texmf-var/fonts/pk/ljfour/jknappen/ec/ectt1000.
+600pk> </home/maxime/.texmf-var/fonts/pk/ljfour/jknappen/ec/ecrm0800.600pk> </h
+ome/maxime/.texmf-var/fonts/pk/ljfour/jknappen/ec/ecrm0700.600pk> </home/maxime
+/.texmf-var/fonts/pk/ljfour/jknappen/ec/ecti1000.600pk> </home/maxime/.texmf-va
+r/fonts/pk/ljfour/jknappen/ec/ecbx1200.600pk> </home/maxime/.texmf-var/fonts/pk
+/ljfour/jknappen/ec/ecbx1000.600pk> </home/maxime/.texmf-var/fonts/pk/ljfour/jk
+nappen/ec/ecbx1440.600pk> </home/maxime/.texmf-var/fonts/pk/ljfour/jknappen/ec/
+eccc1000.600pk> </home/maxime/.texmf-var/fonts/pk/ljfour/jknappen/ec/ecxc2488.6
+00pk> </home/maxime/.texmf-var/fonts/pk/ljfour/jknappen/ec/ecrm1000.600pk></usr
+/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb>
+Output written on main.pdf (61 pages, 2659886 bytes).
 PDF statistics:
- 1207 PDF objects out of 1440 (max. 8388607)
- 689 compressed objects within 7 object streams
- 298 named destinations out of 1000 (max. 500000)
- 356 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 1217 PDF objects out of 1440 (max. 8388607)
+ 693 compressed objects within 7 object streams
+ 294 named destinations out of 1000 (max. 500000)
+ 384 words of extra memory for PDF output out of 10000 (max. 10000000)
 
