@@ -15,7 +15,7 @@ from django.template.defaultfilters import filesizeformat
 # FEATURE BEGIN : MONEY
 # =====================
 class GiftForm(forms.Form):
-    """
+
     check = forms.ChoiceField(label = __("Donner à:"),widget=forms.RadioSelect, choices=GIVINGTO, initial=1)
     user = forms.CharField(required=False, label = __("Username"), widget=AutoCompleteWidget('user'))
     amount = forms.IntegerField(label = __("Montant du temps (plus que 1)"), min_value=1, initial=60)
@@ -46,7 +46,7 @@ class GiftForm(forms.Form):
         if self.cleaned_data['amount'] > self.ruser.credit:
             raise forms.ValidationError(_("Vous ne pouvez pas donner plus d'heure que ce que vous avez."))
         return cleaned_data['amount']
-    """
+
 # ===================
 # FEATURE END : MONEY
 # ===================

@@ -544,15 +544,15 @@ Le sous-arbre de ce feature est comparable au feature \textbf{PublicCible}.  On 
 
 Nous allons ici décrire les contraintes de composition du schéma.   Ces contraintes doivent être respectées pour obtenir un framework instancié fonctionnel.  Certaines sont plutôt d'ordre "philosophique",  c'est-à-dire qu'elles décrivent une contrainte pour qu'une instanciation soit cohérente.  D'autres sont d'ordre technique,  c'est-à-dire qu'il n'est pas possible d'instancier et programmer le modèle si on ne respecte la règle.
 
-\underline{BusinessUnits > Biens/Objets REQUIRES Monnaie > Temps : } Cette règle  signifie que cela n'a pas de sens d'échanger des objets matériels contre du temps.  Par contre,  une monnaie alternative peut être définie et utilisée.
+\underline{BusinessUnits > Biens/Objets REQUIRES Monnaie > Temps : }  Cette règle  signifie que cela n'a pas de sens d'échanger des objets matériels contre du temps.  Par contre,  une monnaie alternative peut être définie et utilisée.
 
-\underline{GestionEchanges > chaque fils REQUIRES ModeleOffreDemande > le même fils présent : }  Cette règle est d'ordre technique.  Si,  par exemple,  si on désire qu'un administarteur puisse gérer une description d'une offre,  alors le système doit permettre d'encoder des descriptions d'offres.  Ceci s'applique pour chacun des fils. 
+\underline{GestionEchanges > chaque fils REQUIRES ModeleOffreDemande > le même fils présent : }  Cette règle est d'ordre technique.  Si,  par exemple,  si on désire qu'un administarteur puisse gérer la description d'une offre,  alors le système doit permettre d'encoder des descriptions d'offres.  Ceci s'applique pour chacun des fils. 
 
 \underline{TypesUtilisateurs > chaque fils REQUIRES PublicCible > les mêmes fils présents : }  Cette contrainte est d'ordre philosophique et souligne que les utilisateurs qui s'enregistrent dans le système doivent faire partie du public cible de l'économique qui l'utilise.
 
 \underline{Reporting > Niveaux > Utilisateurs REQUIRES Utilisateurs : }  Cette règle technique spécifie qu'il n'est pas possible d'avoir de statistiques par niveau si l'application ne possède pas cet élément de  hierarchie.
 
-\underline{Rating > Personnes REQUIRES Utilisateurs : }  De même,  il n'est pas possible d'attribuer des appréciation aux comptes des utilisateurs si le système ne permet pas de créer des comptes.
+\underline{Rating > Personnes REQUIRES Utilisateurs : }  De même,  il n'est pas possible d'attribuer des appréciations aux comptes des utilisateurs si le système ne permet pas de créer des comptes.
 
 \underline{Reporting REQUIRES Support > Informatique : } Pour que des statistiques puissent être faites,  il est nécessaire d'avoir un support informatique.  
 

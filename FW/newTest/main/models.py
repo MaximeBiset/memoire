@@ -145,7 +145,7 @@ class JobType:
 class FWUser(models.Model):
     """
     credit = models.IntegerField(default=0, verbose_name=_("CréditTEST restant")) # in minuts   
-
+    """
     def get_verbose_credit(self):
         credit = self.credit
         chunks = (
@@ -178,7 +178,7 @@ class FWUser(models.Model):
             credit -= count2 * minuts2
             i += 1
         return result
-    """
+
     class Meta:
         abstract = True
 # ===================

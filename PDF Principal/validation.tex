@@ -1,33 +1,18 @@
 \section{Validation}
 
-Groupe 8 | BuurtPensioen + 1 au customisation 
-
-In this chapter, describe the experiment, benchmarks, case study or
-other means of validation, which you conducted to prove that your
-solution attains the objectives put forward in the introduction.
-
 \begin{description}
 
-\item[Method] Describe the details and approach of how you conducted
-  your validation experiment(s).
+\item[Méthode]  Pour valider le framework,  nous devons instancier les features que nous avons développés et vérifier que l'application fonctionne correctement.  Pour cela,  nous allons donc implémenter le feature Monnaie ainsi que le feature des transactions de type services ou objets.  
 
-\item[Results] Present the brute results obtained after having
-  conducted the experiment, but don’t draw any conclusions yet.
+Le premier cas simple sera celui de BuurtPensioen.  Il faudra donc ré-instancier le framework afin d'obtenir le même résultat qu'avant les modifications et abstractions.  Les features qui seront implémentés sont donc une monnaie en temps et des échanges de services uniquement.  
 
-\item[Analysis/discussion] Analyse the obtained results and discuss
-  what conclusions you can draw from these results. If possible
-  include statistical tests, charts, graphs to support your analysis.
+Le second cas qui permettra la validation du framework est moins évident.  En effet,  seuls 2 features ont pu être implémentés.  Dès lors,  la partie fixe du framework est assez large et il est difficile de trouver un cas réel correspondant à cette situation.  Nous allons donc tenter d'implémenter l'opposé de l'instanciation de Buurtpensioen.  Étant donné que ce dernier utilise une monnaie de type temps,  nous tenterons d'instancier un projet fonctionnant sans crédits.  Techniquement,  ce cas est plus complexe que de changer de type de monnaie.  Pour le feature des transactions,  nous tenterons d'instancier l'utilisation des services et des objets,  utilisables en même temps.  En effet,  ces 2 types de BusinessUnits fonctionnent totalement séparément.  Donc s'ils peuvent cohabiter,  ils pourront exister seuls.
 
-\item[Threats to validity] Discuss all factors that may have
-  negatively or positively influenced your results or that may cause
-  the experiment to be difficult to replicate by others.
+D'un point de vue pratique,  les éléments liés au feature Monnaie ont été signalés par une ``balise'' de commentaire.  Il est donc facile de retrouver les éléments de code liés à ce feature.  Par contre,  pour le feature des transactions,  presque tous les éléments du fichier /branch/views.py sont liés à ce feature.  
 
-\item[Conclusion] Summarize the main findings of your work: what did
-  you do, what was not covered, advantages, shortcomings, possible
-  future work. Did you attain the initial objectives of the thesis?
+\item[Resultats] Plusieurs problèmes surviennent lorsque,  après avoir implémenté les solutions,  on tente d'utiliser le serveur.  D'abord,  modifier le modèle des données (par exemple,  pour le feature Monnaie,  un nouveau champ est ajouté dans une table),  il faut effectuer une migration des tables de la base de données.  Une erreur arrive à ce stade là et concerne les classes Demand,  Demandobj et Offerobj.  Ceci semble être lié à un bug signalé il y a quelques mois \footnote{https://code.djangoproject.com/ticket/22319}.  Mais nous pouvons aussi souligner qu'il existe quelques problèmes sur la fin du cheminement d'une demande.  En effet,  les dernières étapes de confirmation qu'une transaction s'est bien déroulée,  ne sont pas opérationnelles à 100\% (des liens sont incorrects pour confirmer le bon déroulement final et clôturer la transaction).
 
-  Make sure to revisit the initial problem statement and to point out
-  explicitly how your solution addresses it. Also repeat the achieved
-  contributions.
+\item[Analyse/discussion] Un premier constat sur cette étape de validation est celui du nombre de features développés.  En effet,  le modèle des features reprend un grand nombre de possibilités.  Mais le framework développé n'a que les fonctionnalités liées à la monnaie et aux échanges d'objets et services.   Le second constat est la présence de ``bugs''.  Ces 2 conclusions suite au tests peuvent être expliquées par la diffculté rencontrée lors de la programmation des features.  En effet,  la mise en place du feature Temps est assez simple car elle n'impacte que des données pures et quelques éléments de logique.  Par contre,  l'ajout de la possibilité d'échanger des objets impacte le modèle de données (nouvelles tables ou attributs dans la base de données),  la couche de contrôle (le fichier views.py) ainsi que les templates utilisés.  Parmi ces éléments,  le plus important en terme de complexité se trouve au niveau de la couche de contrôle.  En effet,  celle-ci se trouve au centre de l'architecture d'une application Django,  dans le sens où elle fait le lien entre : les classes du modèle,  les classes de formulaires (eux-même liés aux modèles) et les templates.  C'est en particulier cette dernière interaction qui a soulevé le plus de problèmes.  En effet,  les interactions entre les éléments du fichier views.py et ceux des templates,  ne sont pas toujours claires.  La complexité de cette couche peut se mesurer,  par exemple,  en terme de nombre de lignes et de méthodes ou classes différentes : plus de 1200 lignes de code réparties parmis une trentaine de méthodes ou classes,  uniquement pour gérer les intéractions liées aux transactions d'objets ou services.
+
 
 \end{description}

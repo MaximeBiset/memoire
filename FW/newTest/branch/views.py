@@ -29,7 +29,7 @@ from main.utils import can_manage, is_branch_admin, refuse, can_manage_branch_sp
 # =====================
 class MoneyFramework():
     def fw_man_success(demand, success):
-        """
+
         if success.time > 100000:
             success.time = 100000
         if success.time < 0:
@@ -37,12 +37,12 @@ class MoneyFramework():
         demand.real_time =  success.time
         demand.donor.credit += success.time
         demand.receiver.credit -= success.time
-        """    
+ 
         return demand
     def fw_form_valid(form):
-        """
+
         form.instance.real_time = form.instance.estimated_time
-        """
+
         return form
 # ===================
 # FEATURE END : MONEY
