@@ -14,14 +14,14 @@ Warning--to sort, need author or key in agplv3
 You've used 17 entries,
             2118 wiz_defined-function locations,
             583 strings with 5924 characters,
-and the built_in function-call counts, 3468 in all, are:
-= -- 336
+and the built_in function-call counts, 3476 in all, are:
+= -- 338
 > -- 89
 < -- 0
 + -- 41
 - -- 24
-* -- 148
-:= -- 532
+* -- 150
+:= -- 534
 add.period$ -- 50
 call.type$ -- 17
 change.case$ -- 57
@@ -30,17 +30,17 @@ cite$ -- 25
 duplicate$ -- 156
 empty$ -- 378
 format.name$ -- 24
-if$ -- 777
+if$ -- 779
 int.to.chr$ -- 0
 int.to.str$ -- 17
 missing$ -- 10
 newline$ -- 86
 num.names$ -- 18
-pop$ -- 137
+pop$ -- 133
 preamble$ -- 1
 purify$ -- 46
 quote$ -- 0
-skip$ -- 97
+skip$ -- 99
 stack$ -- 0
 substring$ -- 110
 swap$ -- 20
@@ -51,5 +51,5 @@ type$ -- 60
 warning$ -- 8
 while$ -- 20
 width$ -- 19
-write$ -- 165
+write$ -- 167
 (There were 8 warnings)
