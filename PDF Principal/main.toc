@@ -30,4 +30,4 @@
 \contentsline {section}{\numberline {7}Validation}{53}{section.7}
 \contentsline {section}{\numberline {8}Future Work}{55}{section.8}
 \contentsline {section}{\numberline {9}Conclusion}{56}{section.9}
-\contentsline {section}{\numberline {A}Liens vers les annexes}{59}{appendix.A}
+\contentsline {section}{\numberline {A}Annexes}{59}{appendix.A}
