@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013/Debian) (format=pdflatex 2014.9.8)  1 JUN 2015 09:12
+This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013/Debian) (format=pdflatex 2014.9.8)  1 JUN 2015 09:19
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -926,7 +926,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 87--89
 
  []
 
-<graphics/PublicCible.png, id=364, 627.34375pt x 137.51375pt>
+<graphics/PublicCible.png, id=365, 627.34375pt x 137.51375pt>
 File: graphics/PublicCible.png Graphic file (type png)
 
 <use graphics/PublicCible.png>
@@ -954,7 +954,7 @@ es tranches d'âge : \T1/cmr/bx/n/10 Moins18ans\T1/cmr/m/n/10 , \T1/cmr/bx/n/10
 Etu-diants\T1/cmr/m/n/10 , \T1/cmr/bx/n/10 Adultes\T1/cmr/m/n/10 ,
  []
 
-<graphics/Monnaie.png, id=370, 305.14pt x 183.68625pt>
+<graphics/Monnaie.png, id=371, 305.14pt x 183.68625pt>
 File: graphics/Monnaie.png Graphic file (type png)
 
 <use graphics/Monnaie.png>
@@ -1005,7 +1005,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 197--200
 
  []
 
-<graphics/Objectif.png, id=380, 134.5025pt x 84.315pt>
+<graphics/Objectif.png, id=381, 134.5025pt x 84.315pt>
 File: graphics/Objectif.png Graphic file (type png)
 
 <use graphics/Objectif.png>
@@ -1031,7 +1031,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 221--224
 
  []
 
-<graphics/Transactions.png, id=381, 562.1pt x 226.8475pt>
+<graphics/Transactions.png, id=382, 562.1pt x 226.8475pt>
 File: graphics/Transactions.png Graphic file (type png)
 
 <use graphics/Transactions.png>
@@ -1099,7 +1099,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 295--298
 
  []
 
-<graphics/Administration.png, id=393, 502.87875pt x 139.52126pt>
+<graphics/Administration.png, id=394, 502.87875pt x 139.52126pt>
 File: graphics/Administration.png Graphic file (type png)
 
 <use graphics/Administration.png>
@@ -1136,7 +1136,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 332--335
  []
 
 [29 <./graphics/Administration.png>]
-<graphics/Utilisateurs.png, id=409, 916.42375pt x 208.78pt>
+<graphics/Utilisateurs.png, id=410, 916.42375pt x 208.78pt>
 File: graphics/Utilisateurs.png Graphic file (type png)
 
 <use graphics/Utilisateurs.png>
@@ -1172,7 +1172,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 398--401
 
  []
 
-<graphics/Reporting.png, id=420, 429.605pt x 244.915pt>
+<graphics/Reporting.png, id=421, 429.605pt x 244.915pt>
 File: graphics/Reporting.png Graphic file (type png)
 
 <use graphics/Reporting.png>
@@ -1228,7 +1228,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 458--461
 
  []
 
-<graphics/Support.png, id=429, 578.16pt x 252.945pt>
+<graphics/Support.png, id=430, 578.16pt x 252.945pt>
 File: graphics/Support.png Graphic file (type png)
 
 <use graphics/Support.png>
@@ -1289,7 +1289,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 518--521
 
  []
 
-<graphics/Rating.png, id=441, 162.6075pt x 88.33pt>
+<graphics/Rating.png, id=442, 162.6075pt x 88.33pt>
 File: graphics/Rating.png Graphic file (type png)
  <use graphics/Rating.png>
 Package pdftex.def Info: graphics/Rating.png used on input line 523.
@@ -1314,20 +1314,20 @@ Overfull \hbox (5.04915pt too wide) in paragraph at lines 559--560
 []$[]$ \T1/cmr/m/n/10 Cette règle sou-ligne
  []
 
-<graphics/BP1.png, id=447, 1421.31pt x 293.095pt>
+<graphics/BP1.png, id=448, 1421.31pt x 293.095pt>
 File: graphics/BP1.png Graphic file (type png)
  <use graphics/BP1.png>
 Package pdftex.def Info: graphics/BP1.png used on input line 567.
 (pdftex.def)             Requested size: 540.10342pt x 111.37724pt.
 
-<graphics/BP2.png, id=448, 1666.225pt x 331.2375pt>
+<graphics/BP2.png, id=449, 1666.225pt x 331.2375pt>
 File: graphics/BP2.png Graphic file (type png)
  <use graphics/BP2.png>
 Package pdftex.def Info: graphics/BP2.png used on input line 568.
 (pdftex.def)             Requested size: 633.17209pt x 125.87155pt.
 )
 (./develop.tex [36] [37 <./graphics/BP1.png> <./graphics/BP2.png>]
-<graphics/puzzle.png, id=457, 460.72125pt x 412.54124pt>
+<graphics/puzzle.png, id=458, 460.72125pt x 412.54124pt>
 File: graphics/puzzle.png Graphic file (type png)
 
 <use graphics/puzzle.png>
@@ -1336,14 +1336,14 @@ Package pdftex.def Info: graphics/puzzle.png used on input line 15.
  [38
 
 ] [39 <./graphics/puzzle.png>]
-<graphics/composition1.png, id=471, 166.6225pt x 125.46875pt>
+<graphics/composition1.png, id=472, 166.6225pt x 125.46875pt>
 File: graphics/composition1.png Graphic file (type png)
 
 <use graphics/composition1.png>
 Package pdftex.def Info: graphics/composition1.png used on input line 61.
 (pdftex.def)             Requested size: 83.31104pt x 62.7342pt.
 
-<graphics/composition2.png, id=472, 384.43625pt x 124.465pt>
+<graphics/composition2.png, id=473, 384.43625pt x 124.465pt>
 File: graphics/composition2.png Graphic file (type png)
 
 <use graphics/composition2.png>
@@ -1354,14 +1354,14 @@ Overfull \hbox (12.97925pt too wide) in paragraph at lines 58--73
 []$[]$   $[]$
  []
 
-[40] <graphics/heritage1.png, id=486, 133.49875pt x 82.3075pt>
+[40] <graphics/heritage1.png, id=487, 133.49875pt x 82.3075pt>
 File: graphics/heritage1.png Graphic file (type png)
 
 <use graphics/heritage1.png>
 Package pdftex.def Info: graphics/heritage1.png used on input line 80.
 (pdftex.def)             Requested size: 66.74919pt x 41.15364pt.
 
-<graphics/heritage2.png, id=487, 330.23375pt x 193.72375pt>
+<graphics/heritage2.png, id=488, 330.23375pt x 193.72375pt>
 File: graphics/heritage2.png Graphic file (type png)
 
 <use graphics/heritage2.png>
@@ -1372,14 +1372,14 @@ Overfull \hbox (12.97925pt too wide) in paragraph at lines 77--91
 []$[]$   $[]$
  []
 
-<graphics/templateMethod1.png, id=488, 350.30875pt x 145.54375pt>
+<graphics/templateMethod1.png, id=489, 350.30875pt x 145.54375pt>
 File: graphics/templateMethod1.png Graphic file (type png)
 
 <use graphics/templateMethod1.png>
 Package pdftex.def Info: graphics/templateMethod1.png used on input line 101.
 (pdftex.def)             Requested size: 175.15395pt x 72.77168pt.
 
-<graphics/templateMethod2.png, id=489, 319.1925pt x 277.035pt>
+<graphics/templateMethod2.png, id=490, 319.1925pt x 277.035pt>
 File: graphics/templateMethod2.png Graphic file (type png)
 
 <use graphics/templateMethod2.png>
@@ -1392,14 +1392,14 @@ Overfull \hbox (12.97925pt too wide) in paragraph at lines 98--113
 
 [41 <./graphics/composition1.png (PNG copy)> <./graphics/composition2.png (PNG 
 copy)> <./graphics/heritage1.png (PNG copy)> <./graphics/heritage2.png (PNG cop
-y)>] <graphics/hollywood1.png, id=495, 244.915pt x 102.3825pt>
+y)>] <graphics/hollywood1.png, id=496, 244.915pt x 102.3825pt>
 File: graphics/hollywood1.png Graphic file (type png)
 
 <use graphics/hollywood1.png>
 Package pdftex.def Info: graphics/hollywood1.png used on input line 125.
 (pdftex.def)             Requested size: 122.45718pt x 51.19112pt.
 
-<graphics/hollywood2.png, id=496, 289.08pt x 196.735pt>
+<graphics/hollywood2.png, id=497, 289.08pt x 196.735pt>
 File: graphics/hollywood2.png Graphic file (type png)
 
 <use graphics/hollywood2.png>
@@ -1432,14 +1432,14 @@ Overfull \hbox (22.97925pt too wide) in paragraph at lines 362--397
 []$[]$   $[]$ 
  []
 
-[49] [50] <graphics/modelsBU1.png, id=655, 179.67125pt x 155.58125pt>
+[49] [50] <graphics/modelsBU1.png, id=656, 179.67125pt x 155.58125pt>
 File: graphics/modelsBU1.png Graphic file (type png)
 
 <use graphics/modelsBU1.png>
 Package pdftex.def Info: graphics/modelsBU1.png used on input line 415.
 (pdftex.def)             Requested size: 89.83539pt x 77.79042pt.
 
-<graphics/modelsBU2.png, id=656, 407.5225pt x 274.02374pt>
+<graphics/modelsBU2.png, id=657, 407.5225pt x 274.02374pt>
 File: graphics/modelsBU2.png Graphic file (type png)
 
 <use graphics/modelsBU2.png>
@@ -1482,12 +1482,6 @@ Overfull \hbox (23.56996pt too wide) in paragraph at lines 159--162
  master / Annexes / SE _ requirements _ analysis _ Care4Care .
  []
 
-
-Overfull \hbox (23.56996pt too wide) in paragraph at lines 163--166
-[] []$\T1/cmtt/m/n/10 https : / / github . com / MaximeBiset / memoire / blob /
- master / Annexes / SE _ requirements _ analysis _ Care4Care .
- []
-
 Package atveryend Info: Empty hook `BeforeClearDocument' on input line 167.
 [59
 
@@ -1522,9 +1516,9 @@ nappen/ec/ecbx1440.600pk> </home/maxime/.texmf-var/fonts/pk/ljfour/jknappen/ec/
 eccc1000.600pk> </home/maxime/.texmf-var/fonts/pk/ljfour/jknappen/ec/ecxc2488.6
 00pk> </home/maxime/.texmf-var/fonts/pk/ljfour/jknappen/ec/ecrm1000.600pk></usr
 /share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb>
-Output written on main.pdf (67 pages, 2800789 bytes).
+Output written on main.pdf (67 pages, 2801457 bytes).
 PDF statistics:
- 1266 PDF objects out of 1440 (max. 8388607)
+ 1268 PDF objects out of 1440 (max. 8388607)
  714 compressed objects within 8 object streams
  300 named destinations out of 1000 (max. 500000)
  406 words of extra memory for PDF output out of 10000 (max. 10000000)
