@@ -99,8 +99,8 @@ class BranchMembers(models.Model):
 # =====================
 class FWMoney(models.Model):
     """
-    estimated_time = models.IntegerField(verbose_name=_("Temps estimé (en minutes)"), blank=True, null=True)
-    real_time = models.IntegerField(verbose_name=_("Temps réel (en minutes)"), blank=True, null=True)
+    estimated_money = models.IntegerField(verbose_name=_("Temps estimé (en minutes)"), blank=True, null=True)
+    real_money = models.IntegerField(verbose_name=_("Temps réel (en minutes)"), blank=True, null=True)
     """
     class Meta:
         abstract = True

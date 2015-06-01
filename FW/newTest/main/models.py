@@ -142,7 +142,7 @@ class JobType:
 # =====================
 # FEATURE BEGIN : MONEY
 # =====================
-class FWUser(models.Model):
+class FWMoney(models.Model):
     """
     credit = models.IntegerField(default=0, verbose_name=_("CréditTEST restant")) # in minuts   
 
@@ -304,7 +304,7 @@ class UserManager(BaseUserManager):
         super_user.save()
         return super_user
 
-class User(AbstractBaseUser, FWUser, PermissionsMixin, CommonInfo, VerifiedUser):
+class User(AbstractBaseUser, FWMoney, PermissionsMixin, CommonInfo, VerifiedUser):
     """
     Custom user class
     AbstractBaseUser gives us the following fields :

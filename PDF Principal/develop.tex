@@ -1,27 +1,27 @@
 \section{Developpement}
 
-Maintenant que nous avons une analyse plus complète du domaine et plus particulièrement,  un arbre des fonctionnalités qui peuvent être intégrées dans le framework,  nous pouvons attaquer le développement.  Étant donné qu'il s'agit ici de programmation,  ce chapitre ne sera pas exhaustif du travail fourni mais permet de donner un aperçu du fonctionnement.  Quelques exemples concrets et réels seront repris car nous éviterons de nous attarder sur des aspects trop techniques.  Nous allons commencer par décrire l'approche suivie pour la programmation du framework et ensuite,   nous passerons à la description du développement d'un feature choisi : la monnaie.  Celui-ci a été choisi car il permet de se rendre compte des différentes étapes pour l'implémentation d'un feature dans un projet Django.  Ce sera l'occasion de voir les techniques et patterns utilisés sans pour autant devoir expliquer trop de spécificités techniques liées à Django ou Python.  Notons que l'objectif ici est bien de modifier le code pour le rendre plus facile à appliquer par la suite.  Nous verrons dans le chapitre 7 (Validation) un exemple d'application concrète basée sur les features développés.   
+Maintenant que nous avons une analyse plus complète du domaine et plus particulièrement,  un arbre des fonctionnalités qui peuvent être intégrées dans le framework,  nous pouvons attaquer le développement.  Étant donné qu'il s'agit ici de programmation,  ce chapitre ne sera pas exhaustif du travail fourni mais permet de donner un aperçu du fonctionnement.  Quelques exemples concrets et réels seront repris car nous éviterons de nous attarder sur des aspects trop techniques.  Nous allons commencer par décrire l'approche suivie pour la programmation du framework et ensuite,   nous passerons à la description du développement d'un feature choisi : la monnaie.  Celui-ci a été choisi car il permet de se rendre compte des différentes étapes pour l'implémentation d'un feature dans un projet Django.  Ce sera l'occasion de voir les techniques et patterns utilisés sans pour autant devoir expliquer trop de spécificités techniques liées à Django ou Python.  Notons que l'objectif ici est bien de modifier le code pour que sa structure logique permette de facilement programmer une instanciation.  Nous verrons dans le chapitre 7 (Validation) un exemple d'application concrète basée sur les features développés.   
 
 \subsection{Approche}
 Développer un framework est assez particulier et,  parce que nous partons d'un programme existant,  la méthode change quelque peu du cycle de développement habituel d'un logiciel.  Nous allons donc d'abord voir la façon dont nous allons fonctionner pour partir d'une solution existante spécifique et arriver à un framework plus générique,  dans le but de pouvoir ensuite dériver d'autres instanciations de ce framework.  Après avoir spécifié la méthode,  nous allons aborder rapidement un outil particulier qui a été utilisé pour le développement ainsi que les principales difficultés rencontrées pendant le processus.
 
 \subsubsection{Développement d'un framework}
 
-Le développement du framework va,  à l'instar de l'analyse,  se faire selon une démarche un peu particulière.  Pour illustrer celle-ci,  partons d'une comparaison.  Considérons qu'un logiciel est comme un grand puzzle dont chaque pièce correspond à la partie du code liée à une fonctionnalité de l'application.  Dans le cas d'un framework,  par contre,  le puzzle possède des trous à l'endroit de certaines pièces et c'est en complétant ces trous que l'on obtient une application fonctionnelle.  Pour pouvoir développer les features un à un,  la démarche utilisée consiste donc à d'abord tenter de retrouver,  dans le projet,  toutes les parties du code qui concernent le feature dont il est question pour ensuite reprogrammer cette partie pour qu'il soit plus facile d'adapter cette fonctionnalité selon les cas prévus.
+Le développement du framework va,  à l'instar de l'analyse,  se faire selon une démarche un peu particulière.  Pour illustrer celle-ci,  partons d'une comparaison.  Considérons qu'un logiciel est comme un grand puzzle dont chaque pièce correspond à la partie du code liée à une fonctionnalité de l'application.  Dans le cas d'un framework,  par contre,  le puzzle possède des trous à l'endroit de certaines pièces et c'est en complétant ces trous que l'on obtient une application fonctionnelle.  Pour pouvoir développer les features un à un,  la démarche utilisée consiste donc à d'abord tenter d'identifier,  dans le projet,  toutes les parties du code qui concernent le feature dont il est question pour ensuite reprogrammer cette partie pour qu'il soit plus facile d'adapter cette fonctionnalité selon les cas prévus.  D'une façon plus générale,  nous devons identifier les parties du codes qui font parties du "code commun" ("commonnalities" en anglais) et celles qui feront partie des "variabilités",  c'est-à-dire les parties de code qui varient d'une application à une autre.
 
-Le schéma suivant reprend les principales étapes du développement.  D'abord,  nous avons un logiciel foncionnel.  Ensuite,  on identifie les parties de code liées aux fonctionnalités (1 pièce = 1 fonctionnalité).  Après cela,  il faut transformer ce code pour qu'il soit facilement adaptable selon la situation.  On obtient ainsi les pièces en bleu.  Et enfin,  lorsqu'on désire instancier notre framework à un cas particulier,  on pourra programmer dans les parties nécessaires,  qui correspondent aux pièces en vert.
+Le schéma suivant reprend les principales étapes du développement.  D'abord,  nous avons un logiciel foncionnel.  Ensuite,  on identifie les parties de code liées aux fonctionnalités (1 pièce = 1 fonctionnalité) mais ces parties peuvent s'entre-mêler et peuvent ne pas être bien distinctes.  Après cela,  il faut transformer ce code pour qu'il soit facilement adaptable selon la situation.  On obtient ainsi des pièces en bleu foncé,  c'est-à-dire des commonalités,  et des pièces en bleu clair,  c'est-à-dire des "trous" qui pourront être complétés pour instancier le framework.  Et enfin,  lorsqu'on désire instancier notre framework à un cas particulier,  on pourra programmer dans les parties nécessaires,  qui correspondent aux pièces en vert.
 
 \begin{center}
 \fbox{\includegraphics[scale=0.4]{puzzle.png}}
 \end{center}
 
-Enfin,  il est important de noter une difficulté particulière dans le cas du développement de notre framework.  En effet,  contrairement à une application orientée-objet classique,  notre framework est destiné au web.  Dès lors,  l'architecture est assez particulière et complique les choses pour toute la partie de retro-ingénierie du développement,  c'est-à-dire retrouver dans l'application,  les portions de code à traiter.  Cette complexité se rajoute aux diverses particularités de Django comme la description rigide du modèle de données ou les templates rédigés en HTML et quelques mots clés.
+Enfin,  il est important de noter une difficulté particulière dans le cas du développement de notre framework.  En effet,  contrairement à une application orientée-objet classique,  notre framework est destiné au web.  Dès lors,  l'architecture imposée est déjà assez particulière et complique les choses pour toute la partie de retro-ingénierie du développement,  c'est-à-dire retrouver et retravailler dans l'application,  les portions de code à traiter et à rendre plus utilisables.  Cette complexité se rajoute aux diverses particularités de Django comme la description rigide du modèle de données ou les templates rédigés en HTML agrémenté de mots clés ("tags").
 
 Pour faire face à cette complexité,  quelques outils peuvent aider lors du la rétro-ingénierie faite sur le logiciel de base (le travail du groupe 8) ainsi que pendant le développement.  Nous allons les décrire dans la prochaine section.
 
 \subsubsection{Outils}
 
-Pour nous aider dans le développement,  nous allons utiliser un simple script Python récupéré d'internet et légèrement adapté.  Son principe est assez simple,  il parcourt toute l'arborescence du projet et ouvre les fichiers un par un.  Pour chacun d'eux,  il recherche un mot clé passé en argument du script.  Après chaque fichier,  si le script a trouvé au moins 1 occurence,  le nom et le chemin du fichier sont affichés dans la console avec le nombre d'occurences dans le fichier.  Ceci permet de rapidement retrouver quelles parties de code utilisent une classe ou fonction que l'on recherche,  à partir du mot clé donné.  Par exemple,  si nous voulons retrouver tous les endroits où l'attribut first\_name (d'un utilisateur) est utilisé,  il suffit de se placer à la racine du projet et de lancer la commande : python3 search.py first\_name.  Dans ce cas-ci,  pour l'exemple,  nous avons précisé qu'il ne fallait lire que les fichiers python (nomDuFichier.endswith(".py") ) et le résultat est : 
+Pour nous aider dans le développement du framework,  nous allons utiliser un simple script Python récupéré d'internet et légèrement adapté.  Son principe est assez simple,  il parcourt toute l'arborescence du projet et ouvre les fichiers un par un.  Pour chacun d'eux,  il recherche un mot clé passé en argument du script.  Après chaque fichier,  si le script a trouvé au moins 1 occurence,  le nom et le chemin du fichier sont affichés dans la console avec le nombre d'occurences dans le fichier.  Ceci permet de rapidement retrouver quelles parties de code utilisent une classe ou fonction que l'on recherche,  à partir du mot clé donné.  Par exemple,  si nous voulons retrouver tous les endroits où l'attribut first\_name (d'un utilisateur) est utilisé,  il suffit de se placer à la racine du projet et de lancer la commande : python3 search.py first\_name.  Dans ce cas-ci,  pour l'exemple,  nous avons précisé qu'il ne fallait lire que les fichiers python (nomDuFichier.endswith(".py") ) et le résultat est : 
 
 \begin{lstlisting}
 Found matches:
@@ -37,7 +37,7 @@ Found matches:
 /media/maxime/Data/framework/newTest/main/views.py ['first_name', 'first_name', 'first_name', 'first_name', 'first_name']
 \end{lstlisting}
 
-Grâce à cela,  nous savons quels sont les fichiers qui utilisent cet attribut.  Et si nous le modifions,  nous devons vérifier/modifier à chaque endroit le code correspondand. 
+Grâce à cela,  nous savons quels sont les fichiers qui utilisent cet attribut.  Et si nous le modifions,  nous devons vérifier/modifier à chaque endroit le code correspondant. 
 
 Une autre astuce a été utilisée pour pouvoir débugger dans Django pendant le développement.  Il s'agit d'une simple instruction python permettant d'insérer l'équivalent d'un breakpoint. 
 \begin{lstlisting}
@@ -52,8 +52,8 @@ Nous allons ici aborder quelques techniques de design destinées au développeme
 
 \begin{description}
 
-\item[Composition et Héritage]
-Le concept de composition peut être utilisé pour un framework dans certains cas.  L'idée est simplement d'avoir une classe contenant une autre classe.  Nous pouvons imaginer un exemple simple dans le cadre du développement d'un framework à partir d'une solution existante (c'est notre cas avec Buurtpensioen).  Nous pouvons imaginer une simple classe Acteur ayant comme attributs : un nom et  une adresse (tous deux chaines de caractères) et un nombre de crédits (un nombre).  Si nous désirons rendre le concept de crédits plus "maléable",  nous pouvons utiliser la composition.  Pour cela,  nous créons une classe Portefeuille et dans la classe Acteur,  nous définissons l'attribut de crédits comme étant du type Portefeuille.  Ainsi,  le système de crédits est séparé du reste des concepts liés à l'acteur.  
+\item[Composition et héritage]
+Le concept de \textit{composition} peut être utilisé pour un framework dans certains cas.  L'idée est simplement d'avoir une classe contenant une autre classe.  Nous pouvons imaginer un exemple simple dans le cadre du développement d'un framework à partir d'une solution existante (c'est notre cas avec Buurtpensioen).  Nous pouvons imaginer une simple classe Acteur ayant comme attributs : un nom et  une adresse (tous deux chaines de caractères) et un nombre de crédits (un nombre).  Si nous désirons rendre le concept de crédits plus "maléable",  nous pouvons utiliser la composition.  Pour cela,  nous créons une classe Portefeuille et dans la classe Acteur,  nous définissons l'attribut de crédits comme étant du type Portefeuille.  Ainsi,  le système de crédits est séparé du reste des concepts liés à l'acteur.  
 
 \begin{minipage}{.5\textwidth}
 \begin{center} \textbf{Avant}
@@ -71,7 +71,7 @@ Le concept de composition peut être utilisé pour un framework dans certains ca
 \end{minipage}
 \vspace{0.3cm}
 
-Le concept d'héritage est une autre technique de base de la programmation orientée objets et a pour but de séparer une classe de base en 2 classes dont l'une sera la classe "mère" et l'autre la classe "fille",  qui aura ses propres caractéristiques en plus de celles de la classe mère.  Dans notre exemple d'acteur avec un compte en banque,  nous pouvons imaginer un système où les portefeuilles peuvent être de différents types : des points,  du temps,  des euros,  etc.  Chaque type pourrait être une classe mère définissant des méthodes particulières.  Par exemple,  la méthode "EquivalentDollars" pour la classe Euros,  retournerait la valeur en dollars d'un montant en euros.  Dans ce cas,  la classe Portefeuille pourrait hériter d'une classe mère "Euros",  "Temps",  ou autres.   
+Le concept d'héritage est une autre technique de base de la programmation orientée objets et a pour but de séparer une classe de base en 2 classes dont l'une sera la classe "mère" et l'autre la classe "fille",  qui aura ses propres caractéristiques en plus de celles de la classe mère.  Dans notre exemple d'acteur avec un compte en banque,  nous pouvons imaginer un système où les portefeuilles peuvent être de différents types : des points,  du temps,  des euros,  etc.  Chaque type pourrait être une classe fille définissant des méthodes particulières.  Par exemple,  la méthode "EquivalentDollars" pour la classe Euros,  retournerait la valeur en dollars d'un montant en euros.  Dans ce cas,  les classes filles dont nous venons de parler,  hériteraient des caractéristiques de la classe mère Portefeuille.  Les classes filles ont ainsi la possibilité d'étendre la classe Portefeuille avec des fonctionnalités additionnelles,  voire raffiner le comportement de méthodes existantes,  comme par exemple getCrédits().
 
 \vspace{0.3cm}
 \begin{minipage}{.5\textwidth}
@@ -92,8 +92,11 @@ Le concept d'héritage est une autre technique de base de la programmation orien
 La composition et l'héritage sont des techniques qui peuvent être utilisées pour modifier un logiciel afin d'obtenir un framework.  En effet,  ces 2 concepts permettent de séparer des parties de code selon une structure logique.  Cette séparation permet de simplifier le futur travail du programmeur de l'instanciation.  L'important reste d'utiliser la bonne technique dans la bonne situation afin que le tout reste cohérent et compréhensible.  
 
 
+\label{inclMod}
+Une dernière chose concernant l'héritage et la composition,  pour le cas particulier du framework que nous allons développer.  En effet,  le projet dans lequel nous travaillons ( framework Django,  écrit en Python) permet l'héritage mutliple.  Ainsi,  nous avons la possibilité d'utiliser cet héritage multiple pour implémenter la composition via l'inclusion de modules.  Nous verrons un exemple concret plus loin lors de la mise en palce du feature Monnaie.
+\vspace{1cm}
 \item[Template method - patron de méthode]
-Ce design pattern consiste à identifier les parties communes à plusieurs classes et à les rassembler dans une classe dite abstraite.  On utilise ensuite l'héritage de cette classe abstraite,  dans les classes concrètes,  pour définir précisement les attributs et comportements de cette classe.  Prenons l'exemple de Buurtpensioen que nous aimerions rendre plus abstrait afin d'obtenir un framework.  Dans le cas de départ,  le logiciel permet l'échange de services.  Mais nous pourrions vouloir échanger des biens également.  Pour implémenter cela,  nous analysons ce que les biens et les services ont en commun : ils sont tous liés à un donneur et à un receveur,  ils possèdent un "montant de la transaction",  etc.  Nous pouvons donc créer une classe abstraite qui reprendra ces éléments en commun,  et les classes concrètes (objet ou service) hériteront de ces éléments.  L'avantage pour le programmeur qui instanciera le framework est le suivant.  S'il désire,  par exemple,  que les transactions n'aient pas de montant (car le système n'utilise pas de monnaie),  il suffit de supprimer/modifier un attribut dans la classe mère plutôt que de devoir le supprimer/modifier dans chacune des 2 classes filles.
+Ce design pattern consiste à identifier les parties communes à plusieurs classes et à les rassembler dans une classe dite abstraite.  On utilise ensuite l'héritage de cette classe abstraite,  dans les classes concrètes,  pour définir précisement les attributs et comportements de cette classe.  Prenons l'exemple de Buurtpensioen que nous aimerions rendre plus abstrait afin d'obtenir un framework.  Dans le cas de départ,  le logiciel permet l'échange de services.  Mais nous pourrions vouloir échanger des biens également.  Pour implémenter cela,  nous analysons ce que les biens et les services ont en commun : ils sont tous liés à un donneur et à un receveur,  ils possèdent un "montant de la transaction",  etc.  Nous pouvons donc créer une classe abstraite qui reprendra ces éléments en commun,  et les classes concrètes (objet ou service) hériteront de ces éléments.  L'avantage pour le programmeur qui instanciera le framework est le suivant.  S'il désire,  par exemple,  que les transactions n'aient utilisent du temps comme monnaie,  il suffit de remplacer,  modifier ou ajouter une classe fille qui définira les spécificités de la monnaie voulue.  
 
 \begin{minipage}{.5\textwidth}
 \begin{center} \textbf{Avant}
@@ -112,13 +115,31 @@ Ce design pattern consiste à identifier les parties communes à plusieurs class
 \vspace{0.3cm}
 
 
+Pour reprendre l'exemple repris précédent du portefeuille,  un design utilisant le template method pourrait être le suivant : \\
+
+\vspace{0.3cm}
+\begin{minipage}{.5\textwidth}
+\begin{center} 
+\begin{justify}
+Dans la classe abstraite Portefeuille,  nous implémenterions la méthode getCrédit comme faisant appel à getValue et getName par exemple via une instruction du type : return "Votre crédit est de : " + getValue() + getName().  Ces deux dernières méthodes seraient abstraites et devraient être définies par les classes concrètes.  Dans la classe concrète Euros,  getValue() renverrait "65" et getName(),  " euros".   Dans la classe concrète Temps,  nous pourrions définir que totalMinutes contiendrait 65,  donc getValue() renverrait alors "1:05" et getName() renverrait "heures".  
+\end{justify}
+\end{center}
+\end{minipage}
+\hspace{0.3cm}
+\begin{minipage}{.5\textwidth}
+\begin{center} 
+\fbox{\includegraphics[scale=0.5]{TemplatePattern.png}}
+\end{center}
+\end{minipage}
+\vspace{0.3cm}
+
 \item[Principe d'Hollywood et inversion de controlle]
-Le principe d'Hollywood est ce qui permet de différencier un framework d'une librairie logicielle.  En effet,  celui-ci se décrit par la phrase : "Ne nous appelez pas,  nous vous appellerons".  Elle sous-entend que d'un point de vue du programmeur de l'instanciation du framework,   il ne faut pas faire appel à des méthodes du framework.  Au contraire,  ce dernier doit permettre d'écrire du code à des endroits prévus et le framework fera lui-même appel à ce code.  Par exemple,  la méthode toString() de Java permet au programmeur de définir lui-même la description textuelle d'un objet et Java fera appel à cette méthode,  par exemple,  lorsqu'on désire imprimer dans la console la valeur de l'objet. 
+Le principe d'Hollywood est ce qui permet de différencier un framework d'une librairie logicielle.  En effet,  celui-ci se décrit par la phrase : "Ne nous appelez pas,  nous vous appellerons".  Elle sous-entend que d'un point de vue du programmeur de l'instanciation du framework,   il ne faut pas faire appel à des méthodes du framework.  Au contraire,  ce dernier doit permettre d'écrire du code à des endroits prévus et le framework fera lui-même appel à ce code.  Par exemple,  la méthode toString() de Java permet au programmeur de définir lui-même la description textuelle d'un objet et Java fera appel à cette méthode,  par exemple,  lorsqu'on désire imprimer dans la console la valeur de l'objet.  Nous avons vu,  ci-dessus,  le design pattern "template method".  Celui-ci est un exemple de formalisation du principe d'Hollywood.
 
 L'inversion de contrôle est un concept qui se base sur le principe d'Hollywood.  Dans un logiciel "traditionnel",  le programmeur décrit une logique dans son programme et fait appel à des librairies quand c'est nécessaire.  C'est donc lui qui possède le contrôle sur la coordination des différents éléments de l'application.  Dans un framework,  la coordination entre les classes ou autres parties est décrite dans la partie fixe du framework et le programmeur de l'instanciation doit définir les détails du code qui sera appelé par le framework.  
 
-Un exemple lié à notre cas de Buurtpensioen et d'un framework qui serait dérivé de ce projet peut être le suivant.  Django utilise des templates pour l'affichage des données.  Si dans le cas de Buurtpensioen on affiche un bouton "Voir mon crédit" et que l'on désire pouvoir rendre ce bouton invisible facilement,  on peut remplacer le bouton par l'inclusion d'un autre template.  Dans ce dernier,  nous décrirons le bouton dont il est question et si le programmeur de l'instanciation désire le supprimer ou le cacher voire en changer le nom,  il sait exactement où modifier le code.  Le principe d'Hollywood s'applique car le template du bouton est inclus systématiquement dans la page web.  L'inversion de contrôle a lieu car le programmeur ne décide pas de l'endroit où se trouve le bouton,  c'est le framework qui a été programmé pour que le bouton (ou rien) apparaissant à tel ou tel endroit.  
-
+Un exemple lié à notre cas de Buurtpensioen et d'un framework qui serait dérivé de ce projet peut être le suivant.  Django utilise des templates pour l'affichage des données.  Si dans le cas de Buurtpensioen on affiche un bouton "Voir mon crédit" et que l'on désire pouvoir rendre ce bouton invisible facilement,  on peut remplacer le bouton par l'inclusion d'un autre template.  Dans ce dernier,  nous décrirons le bouton dont il est question et si le programmeur de l'instanciation désire le supprimer ou le cacher voire en changer le nom,  il sait exactement où modifier le code.  Le principe d'Hollywood s'applique car le template du bouton est inclus systématiquement dans la page web.  L'inversion de contrôle a lieu car le programmeur ne décide pas de l'endroit où se trouve le bouton,  c'est le framework qui a été programmé pour que le bouton (ou rien) apparaissant à tel ou tel endroit.   Le programmeur peut juste décider de l'aspect du bouton,  par exemple.
+\vspace{0.3cm}
 \begin{minipage}{.5\textwidth}
 \begin{center} \textbf{Avant}
 
@@ -140,7 +161,7 @@ Un exemple lié à notre cas de Buurtpensioen et d'un framework qui serait déri
 
 \subsection{Recherche et implémentation des features}
 
-Pour le développement du framework,  nous allons donc démarrer de l'application du groupe 8 et tenter d'y retrouver les portions de code qui sont liées à des features précis.  L'objectif sera de partir du fait que,  dans notre arbre des features,  le groupe 8 a mis en place un feature feuille,  et l'objectif va être de transformer le programme pour correspondre à un branchement supérieur et laisser le choix de la feuille pour le programmeur qui instanciera le framework.  Nous allons prendre un exemple avec le feature Temps pour arriver au feature Monnaie.  Cet exemple permet de mettre en avant la façon de programmer un feature sans avoir besoin de beaucoup de subtilités techniques liées à l'architecture du projet ou à Python/Django.
+Pour le développement du framework,  nous allons démarrer d'une application concrète : le projet du groupe d'étudiants et tenter d'y retrouver les portions de code qui sont liées à des features précis.  L'objectif sera de partir du fait que,  dans notre arbre des features,  le groupe 8 a mis en place un feature feuille,  et l'objectif va être de transformer le programme pour correspondre à un branchement supérieur et laisser le choix de la feuille pour le programmeur qui instanciera le framework.  Nous allons prendre un exemple avec le feature Temps pour arriver au feature Monnaie.  Cet exemple permet de mettre en avant la façon de programmer un feature sans avoir besoin de beaucoup de subtilités techniques liées à l'architecture du projet ou à Python/Django.  Après ce premier feature,  nous aborderons des points particuliers du développement d'un deuxième feature,  plus complexe.
 
 \subsubsection{Feature Temps}
 
@@ -148,8 +169,13 @@ Le premier feature que nous allons analyser consiste en la monnaie utilisée.  L
 
 \paragraph{Etape 1 : localiser le feature}
 
-Cette première étape a pour but de retrouver les occurences du feature dans le code original.  C'est pour cette étape que nous allons utiliser l'outil search.py.  Pour cela,  nous allons devoir choisir des mots clés à retrouver dans le code.  Ainsi,  une analyse manuelle de la description des modèles (dans models.py) pourra nous éclairer.
-\\
+Cette première étape a pour but de retrouver les occurences du feature dans le code original.  C'est pour cette étape que nous allons utiliser l'outil search.py.  Pour cela,  nous allons devoir choisir des mots clés à retrouver dans le code.  Ainsi,  une analyse manuelle de la description des modèles (dans models.py) pourra nous éclairer.  
+
+Le premier mot clé utilisé correspond à l'attribut "time" retrouvé dans le fichier models.py décrivant les utilisateurs.  Attention,  le mot "time" apparaît aussi dans la description des offres et demandes de services mais,  dans ce cas,  on parle du créneau horraire demandé pour le service,  et non des crédits de l'utilisateur.  
+
+Le second mot clé lié au temps et qui a été utilisé pour la seconde partie des recherches,  qui concerne les transactions,  est double.  En effet,  2 mots clés sont liés aux offres et demandes : real\_time et estimated\_time,  qui sont des attributs de ces offres ou demandes de service.
+
+
 \textbf{main/models.py}
 \\%=================
 La première chose à retrouver dans le code se trouve dans la description du modèle.  On y retrouve la classe User avec un attribut Credit ainsi qu'une méthode permettant de traduire en mots la valeur du crédit.
@@ -188,7 +214,7 @@ Ceci clôture le côté utilisateurs des crédits.  Il reste à repérer l'utili
 \\%=================
 Pour cela,  nous allons à nouveau rechercher les propriétés dans les descriptifs des modèles. 
 On y retrouve la classe Demand,  qui hérite de la classe Job.  Dans Demand,  2 éléments nous concernent : estimated\_time et real\_time.  
-Dans la classe Offer,  il n'y a pas d'éléments liés à la monnaie.  Ceci est lié à un choix de design de l'outil.  En effet,   lorsqu'on désire encoder une offre dans le système,  ilfaut préciser une date et un type de service à rendre mais pas de crédit.  Il n'y a donc pas de crédit pour une offre telle quelle.
+Dans la classe Offer,  il n'y a pas d'éléments liés à la monnaie.  Ceci est lié à un choix de design de l'outil.  En effet,   lorsqu'on désire encoder une offre dans le système,  il faut préciser une date et un type de service à rendre mais pas de crédit.  Il n'y a donc pas de crédit pour une offre telle quelle.
 \\
 \textbf{branch/views.py}
 \\%=================
@@ -245,7 +271,7 @@ Custom user class
 \begin{center} \textbf{Après}\end{center}
 \begin{lstlisting}
 
-class FWUser(models.Model):
+class FWMoney(models.Model):
     credit = models.IntegerField(default=0, verbose_name=_("Credit restant")) # in minuts   
     def get_verbose_credit(self):
         credit = self.credit
@@ -253,8 +279,10 @@ class FWUser(models.Model):
         ...
     class Meta:
         abstract = True
+\end{lstlisting} 
 
-class User(AbstractBaseUser, FWUser, PermissionsMixin, CommonInfo, VerifiedUser):
+\begin{lstlisting}
+class User(AbstractBaseUser, FWMoney, PermissionsMixin, CommonInfo, VerifiedUser):
 """
 Custom user class
 """
@@ -262,7 +290,7 @@ Custom user class
 \end{lstlisting} 
 \end{minipage}
 
-\textbf{\underline{Justification : }} Nous avons ici utilisé l'héritage pour abstraire le concept de monnaie.  Il semblerait plus logique d'utiliser la composition mais malheureusement,  Django demande que les attributs d'une classe du modèle soient soit des champs de la future base de donnée,  soit des clés étrangères vers d'autres classes.  Une clé étrangère aurait amené à avoir une table rien que pour les portefeuilles des utilisateurs,  ce qui semble assez disproportionné.  Nous avons donc choisi d'utiliser l'héritage afin que User reçoive l'attribut de crédit,  ou autre,  ainsi que ses méthodes.  De la sorte,  il y a toujours une seule table pour l'utilisateur et elle contiendra un champ crédit si l'instanciation le demande.
+\textbf{\underline{Justification : }} Nous avons ici utilisé l'héritage multiple pour abstraire le concept de monnaie.  Nous avons ainsi appliqué le concept de composition par inclusion de modules,  décrit au début de ce chapitre\ref{inclMod} .
 
 Le code décrivant le modèle pour les crédits des utilisateurs a ainsi été modifié pour être facilement adaptable selon le cadre dans lequel le logiciel sera utilisé.  Continuons donc notre cheminement à travers les appels dans l'application Django.  Nous allons faire la même chose pour les attributs liés aux demandes,  c'est-à-dire estimated\_time et real\_time dans branch/models.py.  
 
@@ -283,11 +311,13 @@ class Demand(Job):
 \begin{center} \textbf{Après}\end{center}
 \begin{lstlisting}
 class FWMoney(models.Model):
-    estimated_time = models.IntegerField(verbose_name=_("Temps estime (en minutes)"), blank=True, null=True)
-    real_time = models.IntegerField(verbose_name=_("Temps reel (en minutes)"), blank=True, null=True)
+    estimated_money = models.IntegerField(verbose_name=_("Temps estime (en minutes)"), blank=True, null=True)
+    real_money = models.IntegerField(verbose_name=_("Temps reel (en minutes)"), blank=True, null=True)
     class Meta:
         abstract = True
+\end{lstlisting} 
 
+\begin{lstlisting}
 class Demand(Job, FWMoney):
     """ Representation of a demand """
     title = models.CharField( ...)
@@ -308,7 +338,9 @@ class CreateDemandView(CreateView):
         form.instance.receiver = User.objects.get(pk=self.kwargs['user_id'])
         form.instance.real_time = form.instance.estimated_time
         return super(CreateDemandView, self).form_valid(form)
+\end{lstlisting} 
 
+\begin{lstlisting}
 def manage_success(request, success_demand_id):
 	...
           demand.real_time =  success.time
@@ -333,17 +365,25 @@ def fw_man_success(demand, successTime):
     demand.donor.credit += successTime
     demand.receiver.credit -= successTime  
     return demand
+\end{lstlisting} 
 
+\begin{lstlisting}
 def fw_form_valid(form):
     form.instance.real_time = form.instance.estimated_time
     return form
 ...
 ...
+\end{lstlisting} 
+
+\begin{lstlisting}
 class CreateDemandView(CreateView):
     def form_valid(self, form):
         ....
         form = fw_form_valid(form)
 ...
+\end{lstlisting} 
+
+\begin{lstlisting}
 def manage_success(request, success_demand_id):
 	...
          demand = fw_man_success(demand,  success.time)
@@ -351,11 +391,11 @@ def manage_success(request, success_demand_id):
 \end{lstlisting} 
 \end{minipage}
 
-\textbf{\underline{Justification : }} Nous avons appliqué ici le principe d'Hollywood.  Pour cela,  les parties de code concernées par une instanciation possible,  ont été rassemblées dans une méthode séparée.  Le programmeur de l'instanciation peut donc customiser cette méthode et cette dernière est appelée par le framework automatiquement.
+\textbf{\underline{Justification : }} Nous avons appliqué ici le principe d'Hollywood et le design pattern template method.  Pour cela,  les parties de code concernées par une instanciation possible,  ont été rassemblées dans une méthode séparée.  Le programmeur de l'instanciation peut donc customiser cette méthode et cette dernière est appelée par le framework automatiquement.
 
 Concernant le fichier views.py de la sous-application Main (qui gère donc les utilisateurs),  nous retrouvons une seule méthode permettant d'afficher la page des crédits.  Étant donné que l'entièreté de la méthode est dédiée au feature temps,  il suffit d'isoler celle-ci pour la rendre plus accessible en cas de modification.  Pour cela,  nous avons simplement créé un fichier reprenant le code lié au framework.  Chaque fichier "couche" (models.py,  views.py,  forms.py) a donc un homonyme fw\_models.py,  fw\_views.py ,  etc .  Chacun de ces fichiers reprend les classes et méthodes adaptées dans le cadre du framework.  C'est le cas de la méthode def credits\_view(request) qui se retrouve entièrement dans le fichier "annexe".  Notons qu'il n'est pas toujours possible d'isoler les éléments dans un fichier séparé.  Reprenons l'exemple de models.py.  Dans ce cas-là,  models.py importe les méthodes de fw\_models.py.  Mais fw\_models.py peut avoir besoin de la description de certains éléments de models.py.  Nous avons donc une boucle d'inclusion.  Ce qui implique que tout le code n'est pas systématiquement isolé dans un fichier différent.  
 
-Pour la suite du développement,  nous allons suivre le second point de départ : les URL's.  Pour cela,  nous pouvons modifier les fichiers urls.py.  Il s'agit simplement,  pour chaque application,  de la liste des URL's prises en charge ainsi que la méthode ou la classe qui y est liée.  Pour la sous-application Branch,  il n'y a pas de référence directe au feature temps car les adresses gèrent les transactions.  Par contre,  dans la sous-application Main,  nous avons un fichier urls\_credits.py qui est inclus dans le fichier principal urls.py.  Ce fichier décrit une URL permettant d'accéder à la page d'affichage de crédits et fait référence à la méthode credits\_view,  que nous avons isolée précédemment.  Ainsi,  si nous voulons supprimer l'utilisation d'une monnaie dans le système,  cette référence peut être supprimée.  
+Pour la suite du développement,  nous allons suivre le second point de départ : les URL's.  Pour cela,  nous pouvons modifier les fichiers urls.py.  Il s'agit simplement,  pour chaque application,  de la liste des URL's prises en charge ainsi que la méthode ou la classe qui y est liée.  Pour la sous-application Branch,  il n'y a pas de référence directe au feature temps car les adresses de ce répertoire gèrent les transactions.  Par contre,  dans la sous-application Main,  nous avons un fichier urls\_credits.py qui est inclus dans le fichier principal : urls.py.  Le fichier urls\_credits.py décrit une URL permettant d'accéder à la page d'affichage de crédits et fait référence à la méthode credits\_view,  que nous avons isolée précédemment.  Ainsi,  cette référence est déjà isolée dans un fichier et le Hollywood principle peut être appliqué.  Si le programmeur désire ne pas implémenter de crédits et donc ne pas permet l'accès à cette page,  il peut le faire dans un seul fichier qui sera appelé par le reste du framework.
 
 Les derniers éléments à modifier pour mettre en place notre feature concernent la couche vue de l'application.  Pour cela,  nous devons modifier les templates utilisés. Le premier est base.html.  Celui-ci,  comme son nom l'indique,  est le canevas de base de toutes les pages de l'application.  C'est ce template qui permet,  par exemple,  d'afficher le menu supérieur et latéral gauche.  On y retrouve d'ailleurs l'affichage des crédits accumulés par l'utilisateur.  Cette référence doit être supprimée si on ne désire pas utiliser de monnaie,  par exemple.  Pour faciliter l'adaptation,  nous allons isoler le code lié à cet affichage dans un "sous-template" auquel nous ferons appel dans base.html.  La même technique est utilisée pour le lien "Mes crédits" dans le menu latéral gauche.  Ci-dessous,  l'exemple illustré.  Ces fragments de code montrent comment ne pas afficher de crédits,  dans le cas d'une absence du feature monnaie.  
 
@@ -383,10 +423,14 @@ Dans base.html :
 ...
 {% include "fw_base2.html" %}
 ...
+\end{lstlisting} 
 
+\begin{lstlisting}
 Dans fw_base.html : 
 <p class="centered credit-p"><span class="credit-text">{% trans "Credit restant :" %}</span> {{ request.user.get_verbose_credit | safe }}</p>
+\end{lstlisting} 
 
+\begin{lstlisting}
 Dans fw_base2.html : 
 <ul class="sub">
      <li><span><a href="{% url 'credit_page' %}"> {% trans "Mes credits" %}</a></span></li>
@@ -404,25 +448,25 @@ Cette dernière étape clôture la mise en place du feature monnaie.  Cet exempl
 Après avoir développé un premier feature simple,  nous pouvons entreprendre de mettre en place le feature des objets.  L'objectif de ce feature est de pouvoir échanger des objets matériels,  en plus des échanges de services déjà présents.  Cette fonctionnalité étant assez transversale à l'application,  nous allons lister quelques points clés et difficultés rencontrés lors du développement.  
 
 \begin{description}
-\item{Le modèle}
+\item[Le modèle]
 L'implémentation du modèle des transactions de services dans le logiciel initial n'est pas très complexe mais est liée à un autre feature.  En effet,  la classe définissant les services est abstraite et les classes concrètes sont celles liées aux offres et demandes.  Ainsi,  pour ajouter le feature d'échange  d'objets,  nous allons rajouter des classes selon une même structure.  Mais étant donné que beaucoup d'attributs sont communs,  nous pouvons abstraire encore d'un niveau cette partie du modèle.  Nous arrivons ainsi à 4 classes concrètes,  héritant d'un des 2 types (Job ou Objet),  qui chacun hérite d'une classe mère BusinessUnit.  Ci-dessous une représentation du changement.
 
 
-\vspace{0.3cm}
 \begin{minipage}{.5\textwidth}
-\begin{center} \textbf{Avant}
-
+\begin{center} \textbf{Avant}\end{center}
+\vspace{0.3cm}
+\begin{center}
 \fbox{\includegraphics[scale=0.5]{modelsBU1.png}}
 \end{center}
 \end{minipage}
 \hspace{0.3cm}
 \begin{minipage}{.5\textwidth}
 \begin{center} \textbf{Après}\end{center}
-
 \fbox{\includegraphics[scale=0.5]{modelsBU2.png}}
-
 \end{minipage}
 \vspace{0.3cm}
+
+Ce design n'est pas encore optimal car il y a une forte redondance pour les offres et demandes.  Nous allons aborder ce point dans le chapitre des possibilités futures (Future work).
 
 
 \item[Les offres/demandes]
@@ -438,12 +482,42 @@ Les étapes pour une offre d'aide sont les mêmes que pour une demande mais avec
 Encoder l'offre \textbf{>} un ou plusieurs volontaires désirent se proposer \textbf{>} chacun d'eux encode une offre avec des paramètres correspondant à la demande \textbf{>} suite d'une demande classique.
  \end{quote} \end{framed}
 
-Comme on le remarque,  une demande (ou un offre) passe par de nombreuses étapes avant d'être clôturée.  D'un coté plus technique,  5 tables de la base de données sont impliquées dans le processus : Demand,  DemandProposition,  DemandSuccess,  User et Comment.  Chacune d'elle ayant un rôle particulier à jouer allant de la gestion des crédits pour les utilisateurs au stockage des variables de status dans les 3 tables liées aux demandes.  Du côté de la logique de l'application,  ce fonctionnement implique pas moins de 16 méthodes et classes différentes uniquement dédiées à la gestion de ces différentes étapes.  
+Comme on le remarque,  une demande (ou un offre) passe par de nombreuses étapes avant d'être clôturée.  D'un coté plus technique,  5 tables de la base de données sont impliquées dans le processus : Demand,  DemandProposition,  DemandSuccess,  User et Comment.  Chacune d'elle a un rôle particulier à jouer allant de la gestion des crédits pour les utilisateurs au stockage des variables de status dans les 3 tables liées aux demandes.  Du côté de la logique de l'application,  ce fonctionnement implique pas moins de 16 méthodes et classes différentes uniquement dédiées à la gestion de ces différentes étapes.  
 
-Ce fonctionnement rend la mise en place d'échanges d'objets,  en plus des transactions,  assez complexe.  Il est donc intéressant d'harmoniser les étapes afin de faciliter les modifications pour l'instanciation du framework.  Pour cela,  le choix a été fait de ne pas reprendre l'entièreté du système pour les objets.  Ainsi,  dans le framework,  les offres et demandes d'objet passent chacunes par les mêmes étapes.  De plus,  pour rendre le code plus générique,  le transfert de variables telles que "type\_objet" ont permet de réutiliser des méthodes.  Certaines méthodes ou classes destinées à gérer la logique qui auraient du être implémentées pour les demandes et pour les offres,  ont ainsi pu être économisées.  
+Ce fonctionnement rend la mise en place d'échanges d'objets,  en plus des transactions,  assez complexe.  Il est donc intéressant d'harmoniser les étapes afin de faciliter les modifications pour l'instanciation du framework.  Pour cela,  le choix a été fait de ne pas reprendre l'entièreté du système pour les objets.  Ainsi,  dans le framework,  les offres et demandes d'objet passent chacunes par les mêmes étapes.  De plus,  pour rendre le code plus générique,  l'utilisation de variables telles que "type\_objet" a permis de réutiliser des méthodes.  Certaines méthodes ou classes destinées à gérer la logique qui auraient du être implémentées pour les demandes et pour les offres,  ont ainsi pu être économisées.  
 
 \item[Communication entre la couche Vue et la couche Controlleur]
 
-Le dernier paragraphe ci-dessus met en évidence l'utilisation de variables destinées à pouvoir identifier le type d'objet échangé entre les classes et méthodes,  afin de rendre ces dernières plus génériques et donc faciliter l'instanciation future.  Cependant,  lors du développement,  la mise enplace de ce système a été complexe suite au fonctionnement de Django.  En effet,  les couches vue et controlleur de Django fonctionnent par communication de requêtes et de contextes.  Ceci rend moins visible le transfert de données entre les différents composants.  De plus,  pour les formulaires,  Django requiert de définir une classe par formulaire et chacune d'elle est liée à une classe du modèle.  Ensuite,  une vue associe ce formulaire à un template et le rendu visuel final peut êter généré automatiquement.  Ainsi,  ajouter une variable comme "type\_objet",  qui ne se trouve pas dans la base de données,  est plus compliqué qu'un simple paramètre de fonction.  
+Le dernier paragraphe ci-dessus met en évidence l'utilisation de variables destinées à pouvoir identifier le type d'objet échangé entre les classes et méthodes,  afin de rendre ces dernières plus génériques et donc faciliter l'instanciation future.  Cependant,  lors du développement,  la mise en place de ce système a été complexe suite au fonctionnement de Django.  En effet,  les couches vue et controlleur de Django fonctionnent par communication de requêtes et de contextes.  Ceci rend moins visible le transfert de données entre les différents composants.  De plus,  pour les formulaires,  Django requiert de définir une classe par formulaire et chacune d'elle est liée à une classe du modèle.  Ensuite,  une vue associe ce formulaire à un template et le rendu visuel final peut êter généré automatiquement.  Ainsi,  ajouter une variable comme "type\_objet",  qui ne se trouve pas dans la base de données,  est beaucoup plus compliqué qu'un simple paramètre de fonction.  
 
 \end{description}
+
+
+\subsection{Discussion}
+
+\begin{description}
+
+\item[Analyse] 
+Une fois le développement terminé,  nous pouvons analyser le travail accompli afin de voir si celui-ci correspond bien à la demande initiale.  
+
+D'abord,  la première étape du mémoire a été une analyse du domaine qui a résulté en un modèle des features.  Celui-ci a pu être instancié à notre cas de base (Buurtpensioen) et ensuite utilisé pour le développement du framework.  Le résultat de cette étape,  le feature model,  semble donc bien fondé et utile.
+
+Ensuite,  lors du développement de ce mémoire,  nous sommes partis d'un logiciel concret et nous avons appliqué les conceps décrits au début de ce chapitre.  Ceci a permis d'obtenir une nouvelle version mieux structurée qui permet d'instancier plus facilement des cas particuliers.  Les exemples de code pris ci-dessus donnent une idée des modifications qui ont été faites ainsi que des concepts théoriques utilisés.  Ces derniers sont des bonnes pratiques importantes à respecter pour obtenir un framework de qualité.  De plus,  le développement a été fait selon une méthode incrémentale et ce,  afin de faciliter le débuggage.  Ainsi,  nous avons développé les features un à un mais dans le développement de chaque feature,  nous avons également procédé par étapes.  Nous l'avons vu,  par exemple pour les crédits,  le code est transformé afin d'obtenir un équivalent avant/après.  Ceci permet d'évoluer étape par étape,  et lors de chacune d'elle,  nous appliquons un des principes théoriques énnoncés.  De plus,  l'avantage du développement incrémental est de pouvoir tester le fonctionnement du framework assez souvent.  Ceci a permis d'obtenir une instanciation du framework,  c'est-à-dire un code déjà fonctionnel.  Plus concrètement,  le feature Monnaie a d'abord été mis en place via le refactoring de code.  Et étant donné que l'application intiale possédait un système de temps,  nous avons gardé une instanciation inverse de ce feature,  c'est à dire qu'aucune monnaie n'est utilisée.  Ensuite,  nous avons implémenté le feature objets (le logiciel utilisait déjà des transactions).  La programmation de cette partie a été faite en gardant la possibilité d'échanger des services afin de vérifier que les 2 types d'échanges étaient bien indépendants.  En effet,  certaines étapes utilisent,  par exemple,  la même table de la base de données .  Ainsi,  développer de façon incrémentale permet de vite se rendre compte s'il y a des conflits entre les 2 fonctionnalités.  
+
+Tout ceci amène donc a un framework instancié fonctionnel et dans lequel les features peuvent être modifiés facilement.  Pour exemple concret,  remettre en place la monnaie demande simplement de décommenter l'implémentation initiale (qui se trouve maitenant dans des classes/méthodes/templates séparés des commonalities du framework).  
+
+Après l'analyse des fonctionnalités du framework,  un autre aspect à évaluer concerne le code en lui-même.  En effet,  le développemnt d'un framework se fait dans le but que celui-ci soit facilement instanciable par la suite.  Ainsi,  une part non négligeable de la réussite d'un framework réside dans la facilité à instancier le code du framework,  tel que nous venons de le faire ci-dessus.  Sur ce point,  2 choses sont à signaler.  D'abord,  le code du framework comporte des "balises" de commentaires qui identifient les parties qui concernent un feature.  Ceci permet de repérer plus facilement les portions à modifier.  Ensuite,  plusieurs techniques ont été utilisées pour obtenir une structure adaptable.  Par exemple,  nous avons parlé du cycle de vie d'une demande et d'une offre.  Pour les échanges de services,  ces 2 cycles sont liés l'un à l'autre,  ce qui rend difficile la séparation des offres et demandes (les demandes peuvent exister sans les offres mais pas l'inverse).  Il est intéressant de remarquer que pour les échanges d'objets,  les cycles de vie (offre ou demande) sont indépendants l'un de l'autre ce qui rend plus facile l'instanciation d'un seul des deux features.  Ainsi,  le feature modèle offre/demande n'est pas encore implémenté mais une partie du code a déjà été pensée pour faciliter sa mise en place future.
+
+D'un point de vue pratique,  les éléments de code liés au feature Monnaie ont été signalés par une ``balise'' de commentaire.  Il est donc facile de retrouver les éléments de code liés à ce feature.  Par contre,  pour le feature des transactions,  presque tous les éléments du fichier /branch/views.py sont liés à ce feature.  
+
+\item[Limitations] Le framework développé possède également ses limites.  En effet,  la complexité du développement du feature d'échange d'objets a fait que quelques comportements anormaux surviennent encore parfois.  La mise en place du feature Temps a été assez simple car elle n'impacte que des données pures et peu d'éléments de logique.  Par contre,  l'ajout de la possibilité d'échanger des objets impacte le modèle de données (nouvelles tables et/ou attributs dans la base de données),  la couche de contrôle (le fichier views.py) ainsi que les templates utilisés.  Parmi ces éléments,  le plus important en terme de complexité se trouve au niveau de la couche de contrôle.  En effet,  celle-ci se trouve au centre de l'architecture d'une application Django,  dans le sens où elle fait le lien entre : les classes du modèle,  les classes de formulaires (eux-même liés aux modèles) et les templates.  C'est en particulier cette dernière interaction qui a soulevé le plus de problèmes.  En effet,  les interactions entre les éléments du fichier views.py et ceux des templates,  ne sont pas toujours claires.  La complexité de cette couche peut également se mesurer,  par exemple,  en terme de nombre de lignes et de méthodes ou classes différentes : plus de 1200 lignes de code réparties parmis une trentaine de méthodes ou classes,  uniquement pour gérer les intéractions liées aux transactions d'objets ou services.
+
+
+\end{description}
+
+
+%Pour valider le framework,  nous devons instancier les features que nous avons développés et vérifier que l'application fonctionne correctement.  Pour cela,  nous allons donc implémenter le feature Monnaie ainsi que le feature des transactions de type services ou objets.  
+
+%Le premier cas simple sera celui de BuurtPensioen.  Il faudra donc ré-instancier le framework afin d'obtenir le même résultat qu'avant les modifications et abstractions.  Les features qui seront implémentés sont donc une monnaie en temps et des échanges de services uniquement.  
+
+%Le second cas qui permettra la validation du framework est moins évident.  En effet,  seuls 2 features ont pu être implémentés.  Dès lors,  la partie fixe du framework est assez large et il est difficile de trouver un cas réel correspondant à cette situation.  Nous allons donc tenter d'implémenter l'opposé de l'instanciation de Buurtpensioen.  Étant donné que ce dernier utilise une monnaie de type temps,  nous tenterons d'instancier un projet fonctionnant sans crédits.  Techniquement,  ce cas est plus complexe que de changer de type de monnaie.  Pour le feature des transactions,  nous tenterons d'instancier l'utilisation des services et des objets,  utilisables en même temps.  En effet,  ces 2 types de BusinessUnits fonctionnent totalement séparément.  Donc s'ils peuvent cohabiter,  ils pourront exister seuls.

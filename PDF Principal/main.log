@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013/Debian) (format=pdflatex 2014.9.8)  1 JUN 2015 09:46
+This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013/Debian) (format=pdflatex 2014.9.8)  1 JUN 2015 17:53
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -520,6 +520,27 @@ Package: framed 2011/10/22 v 0.96: framed or shaded text with page breaks
 \FrameRule=\dimen126
 \FrameSep=\dimen127
 )
+(/usr/share/texlive/texmf-dist/tex/latex/ms/ragged2e.sty
+Package: ragged2e 2009/05/21 v2.1 ragged2e Package (MS)
+
+(/usr/share/texlive/texmf-dist/tex/latex/ms/everysel.sty
+Package: everysel 2011/10/28 v1.2 EverySelectfont Package (MS)
+)
+\CenteringLeftskip=\skip54
+\RaggedLeftLeftskip=\skip55
+\RaggedRightLeftskip=\skip56
+\CenteringRightskip=\skip57
+\RaggedLeftRightskip=\skip58
+\RaggedRightRightskip=\skip59
+\CenteringParfillskip=\skip60
+\RaggedLeftParfillskip=\skip61
+\RaggedRightParfillskip=\skip62
+\JustifyingParfillskip=\skip63
+\CenteringParindent=\skip64
+\RaggedLeftParindent=\skip65
+\RaggedRightParindent=\skip66
+\JustifyingParindent=\skip67
+)
 (/usr/share/texlive/texmf-dist/tex/latex/geometry/geometry.sty
 Package: geometry 2010/09/12 v5.6 Page Geometry
 \Gm@cnth=\count115
@@ -537,36 +558,36 @@ Package: geometry 2010/09/12 v5.6 Page Geometry
 ) (./main.aux)
 \openout1 = `main.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 67.
-LaTeX Font Info:    ... okay on input line 67.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 67.
-LaTeX Font Info:    ... okay on input line 67.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 67.
-LaTeX Font Info:    ... okay on input line 67.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 67.
-LaTeX Font Info:    ... okay on input line 67.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 67.
-LaTeX Font Info:    ... okay on input line 67.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 67.
-LaTeX Font Info:    ... okay on input line 67.
-LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 67.
-LaTeX Font Info:    ... okay on input line 67.
-LaTeX Info: Redefining \degres on input line 67.
-LaTeX Info: Redefining \dots on input line 67.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 68.
+LaTeX Font Info:    ... okay on input line 68.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 68.
+LaTeX Font Info:    ... okay on input line 68.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 68.
+LaTeX Font Info:    ... okay on input line 68.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 68.
+LaTeX Font Info:    ... okay on input line 68.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 68.
+LaTeX Font Info:    ... okay on input line 68.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 68.
+LaTeX Font Info:    ... okay on input line 68.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 68.
+LaTeX Font Info:    ... okay on input line 68.
+LaTeX Info: Redefining \degres on input line 68.
+LaTeX Info: Redefining \dots on input line 68.
 
 
 Package frenchb.ldf Warning: Setting StandardItemizeEnv=true for
 (frenchb.ldf)                compatibility with enumitem package,
-(frenchb.ldf)                 on input line 67.
+(frenchb.ldf)                 on input line 68.
 
 
 Package frenchb.ldf Warning: Setting StandardEnumerateEnv=true for
 (frenchb.ldf)                compatibility with enumitem package,
-(frenchb.ldf)                 on input line 67.
+(frenchb.ldf)                 on input line 68.
 
-LaTeX Info: Redefining \up on input line 67.
+LaTeX Info: Redefining \up on input line 68.
 \AtBeginShipoutBox=\box32
-Package hyperref Info: Link coloring OFF on input line 67.
+Package hyperref Info: Link coloring OFF on input line 68.
 (/usr/share/texlive/texmf-dist/tex/latex/hyperref/nameref.sty
 Package: nameref 2012/10/27 v2.43 Cross-referencing by name of section
 
@@ -575,9 +596,9 @@ Package: gettitlestring 2010/12/03 v1.4 Cleanup title references (HO)
 )
 \c@section@level=\count118
 )
-LaTeX Info: Redefining \ref on input line 67.
-LaTeX Info: Redefining \pageref on input line 67.
-LaTeX Info: Redefining \nameref on input line 67.
+LaTeX Info: Redefining \ref on input line 68.
+LaTeX Info: Redefining \pageref on input line 68.
+LaTeX Info: Redefining \nameref on input line 68.
 
 (./main.out) (./main.out)
 \@outlinefile=\write3
@@ -612,6 +633,9 @@ Package grfext Info: Graphics extension search list:
 File: epstopdf-sys.cfg 2010/07/13 v1.3 Configuration of (r)epstopdf for TeX Liv
 e
 ))
+ABD: EverySelectfont initializing macros
+LaTeX Info: Redefining \selectfont on input line 68.
+
 *geometry* driver: auto-detecting
 *geometry* detected driver: pdftex
 *geometry* verbose mode - [ preamble ] result:
@@ -649,60 +673,60 @@ e
 <graphics/UCL.jpg, id=124, 856.19875pt x 1185.42876pt>
 File: graphics/UCL.jpg Graphic file (type jpg)
  <use graphics/UCL.jpg>
-Package pdftex.def Info: graphics/UCL.jpg used on input line 72.
+Package pdftex.def Info: graphics/UCL.jpg used on input line 73.
 (pdftex.def)             Requested size: 102.43008pt x 141.81119pt.
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <7> on input line 73.
+(Font)              <7> on input line 74.
 LaTeX Font Info:    External font `cmex10' loaded for size
-(Font)              <5> on input line 73.
+(Font)              <5> on input line 74.
 
 <graphics/EPL.jpg, id=125, 513.92pt x 513.92pt>
 File: graphics/EPL.jpg Graphic file (type jpg)
  <use graphics/EPL.jpg>
-Package pdftex.def Info: graphics/EPL.jpg used on input line 83.
+Package pdftex.def Info: graphics/EPL.jpg used on input line 84.
 (pdftex.def)             Requested size: 102.43008pt x 102.42929pt.
 
-Underfull \hbox (badness 10000) in paragraph at lines 83--85
+Underfull \hbox (badness 10000) in paragraph at lines 84--86
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 83--85
+Underfull \hbox (badness 10000) in paragraph at lines 84--86
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 83--85
+Underfull \hbox (badness 10000) in paragraph at lines 84--86
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 83--85
+Underfull \hbox (badness 10000) in paragraph at lines 84--86
 
  []
 
 
-Overfull \hbox (4.44333pt too wide) in paragraph at lines 71--87
+Overfull \hbox (4.44333pt too wide) in paragraph at lines 72--88
 $[]$ $[]$ $[]$
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 92--98
+Underfull \hbox (badness 10000) in paragraph at lines 93--99
 
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 92--98
+Underfull \hbox (badness 10000) in paragraph at lines 93--99
 
  []
 
 
-Overfull \hbox (35.89316pt too wide) in paragraph at lines 100--106
+Overfull \hbox (35.89316pt too wide) in paragraph at lines 101--107
 [][] 
  []
 
 
-Overfull \hbox (2.22166pt too wide) in paragraph at lines 91--107
+Overfull \hbox (2.22166pt too wide) in paragraph at lines 92--108
 $[]$ $[]$ 
  []
 
@@ -737,12 +761,12 @@ l.22 \newpage
  been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.126 \newpage
+l.127 \newpage
                [6] (./main.tocpdfTeX warning (ext4): destination with the same 
 identifier (name{page.}) has been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.31 ...\numberline {8}Future Work}{55}{section.8}
+l.31 ...\numberline {7}Future Work}{54}{section.7}
                                                    [7
 
 ])
@@ -753,7 +777,7 @@ pdfTeX warning (ext4): destination with the same identifier (name{page.}) has b
 een already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.128 \newpage
+l.129 \newpage
                [8] (./intro.tex [1
 
 ]) (./bgmaterials.tex [2] [3
@@ -849,35 +873,35 @@ Underfull \hbox (badness 10000) in paragraph at lines 13--17
 File: graphics/gr8home1.png Graphic file (type png)
 
 <use graphics/gr8home1.png>
-Package pdftex.def Info: graphics/gr8home1.png used on input line 51.
+Package pdftex.def Info: graphics/gr8home1.png used on input line 52.
 (pdftex.def)             Requested size: 391.46552pt x 192.11923pt.
 
 <graphics/gr8inscr.png, id=313, 1290.8225pt x 645.41125pt>
 File: graphics/gr8inscr.png Graphic file (type png)
 
 <use graphics/gr8inscr.png>
-Package pdftex.def Info: graphics/gr8inscr.png used on input line 62.
+Package pdftex.def Info: graphics/gr8inscr.png used on input line 63.
 (pdftex.def)             Requested size: 387.24974pt x 193.62486pt.
  [14 <./graphics/gr8home1.png>]
 <graphics/gr8profil.png, id=318, 1273.75874pt x 638.385pt>
 File: graphics/gr8profil.png Graphic file (type png)
 
 <use graphics/gr8profil.png>
-Package pdftex.def Info: graphics/gr8profil.png used on input line 70.
+Package pdftex.def Info: graphics/gr8profil.png used on input line 71.
 (pdftex.def)             Requested size: 382.13057pt x 191.51697pt.
 
 <graphics/gr8home.png, id=319, 1304.875pt x 640.3925pt>
 File: graphics/gr8home.png Graphic file (type png)
 
 <use graphics/gr8home.png>
-Package pdftex.def Info: graphics/gr8home.png used on input line 78.
+Package pdftex.def Info: graphics/gr8home.png used on input line 79.
 (pdftex.def)             Requested size: 391.46552pt x 192.11923pt.
  [15 <./graphics/gr8inscr.png> <./graphics/gr8profil.png>] <graphics/encoder.pn
 g, id=324, 1365.1pt x 770.88pt>
 File: graphics/encoder.png Graphic file (type png)
 
 <use graphics/encoder.png>
-Package pdftex.def Info: graphics/encoder.png used on input line 86.
+Package pdftex.def Info: graphics/encoder.png used on input line 87.
 (pdftex.def)             Requested size: 409.53316pt x 231.26578pt.
  [16 <./graphics/gr8home.png> <./graphics/encoder.png>] [17]) (./approche.tex [
 18]) (./domanalysis.tex [19
@@ -1310,158 +1334,185 @@ Underfull \hbox (badness 10000) in paragraph at lines 537--540
  []
 
 [35 <./graphics/Rating.png>]
-Overfull \hbox (5.04915pt too wide) in paragraph at lines 559--560
+Overfull \hbox (5.04915pt too wide) in paragraph at lines 560--561
 []$[]$ \T1/cmr/m/n/10 Cette règle sou-ligne
  []
 
 <graphics/BP1.png, id=448, 1421.31pt x 293.095pt>
 File: graphics/BP1.png Graphic file (type png)
  <use graphics/BP1.png>
-Package pdftex.def Info: graphics/BP1.png used on input line 567.
+Package pdftex.def Info: graphics/BP1.png used on input line 568.
 (pdftex.def)             Requested size: 540.10342pt x 111.37724pt.
 
 <graphics/BP2.png, id=449, 1666.225pt x 331.2375pt>
 File: graphics/BP2.png Graphic file (type png)
  <use graphics/BP2.png>
-Package pdftex.def Info: graphics/BP2.png used on input line 568.
+Package pdftex.def Info: graphics/BP2.png used on input line 569.
 (pdftex.def)             Requested size: 633.17209pt x 125.87155pt.
 )
-(./develop.tex [36] [37 <./graphics/BP1.png> <./graphics/BP2.png>]
-<graphics/puzzle.png, id=458, 460.72125pt x 412.54124pt>
+(./develop.tex [36] [37 <./graphics/BP1.png> <./graphics/BP2.png>] [38
+
+]
+<graphics/puzzle.png, id=462, 460.72125pt x 412.54124pt>
 File: graphics/puzzle.png Graphic file (type png)
 
 <use graphics/puzzle.png>
 Package pdftex.def Info: graphics/puzzle.png used on input line 15.
 (pdftex.def)             Requested size: 184.28523pt x 165.01357pt.
- [38
-
-] [39 <./graphics/puzzle.png>]
-<graphics/composition1.png, id=472, 166.6225pt x 125.46875pt>
+ [39 <./graphics/puzzle.png>] [40]
+<graphics/composition1.png, id=485, 162.6075pt x 127.47626pt>
 File: graphics/composition1.png Graphic file (type png)
 
 <use graphics/composition1.png>
 Package pdftex.def Info: graphics/composition1.png used on input line 61.
-(pdftex.def)             Requested size: 83.31104pt x 62.7342pt.
+(pdftex.def)             Requested size: 81.30354pt x 63.73796pt.
 
-<graphics/composition2.png, id=473, 384.43625pt x 124.465pt>
+<graphics/composition2.png, id=486, 429.605pt x 178.6675pt>
 File: graphics/composition2.png Graphic file (type png)
 
 <use graphics/composition2.png>
 Package pdftex.def Info: graphics/composition2.png used on input line 69.
-(pdftex.def)             Requested size: 192.21765pt x 62.23235pt.
+(pdftex.def)             Requested size: 214.80197pt x 89.33353pt.
 
 Overfull \hbox (12.97925pt too wide) in paragraph at lines 58--73
 []$[]$   $[]$
  []
 
-[40] <graphics/heritage1.png, id=487, 133.49875pt x 82.3075pt>
+<graphics/heritage1.png, id=487, 133.49875pt x 82.3075pt>
 File: graphics/heritage1.png Graphic file (type png)
 
 <use graphics/heritage1.png>
 Package pdftex.def Info: graphics/heritage1.png used on input line 80.
 (pdftex.def)             Requested size: 66.74919pt x 41.15364pt.
 
-<graphics/heritage2.png, id=488, 330.23375pt x 193.72375pt>
+<graphics/heritage2.png, id=488, 304.13625pt x 218.8175pt>
 File: graphics/heritage2.png Graphic file (type png)
 
 <use graphics/heritage2.png>
 Package pdftex.def Info: graphics/heritage2.png used on input line 87.
-(pdftex.def)             Requested size: 165.11646pt x 96.86163pt.
+(pdftex.def)             Requested size: 152.06775pt x 109.40848pt.
 
 Overfull \hbox (12.97925pt too wide) in paragraph at lines 77--91
 []$[]$   $[]$
  []
 
-<graphics/templateMethod1.png, id=489, 350.30875pt x 145.54375pt>
+[41 <./graphics/composition1.png (PNG copy)> <./graphics/composition2.png (PNG 
+copy)> <./graphics/heritage1.png (PNG copy)> <./graphics/heritage2.png (PNG cop
+y)>] <graphics/templateMethod1.png, id=494, 350.30875pt x 145.54375pt>
 File: graphics/templateMethod1.png Graphic file (type png)
 
 <use graphics/templateMethod1.png>
-Package pdftex.def Info: graphics/templateMethod1.png used on input line 101.
+Package pdftex.def Info: graphics/templateMethod1.png used on input line 104.
 (pdftex.def)             Requested size: 175.15395pt x 72.77168pt.
 
-<graphics/templateMethod2.png, id=490, 319.1925pt x 277.035pt>
+<graphics/templateMethod2.png, id=495, 318.18875pt x 279.0425pt>
 File: graphics/templateMethod2.png Graphic file (type png)
 
 <use graphics/templateMethod2.png>
-Package pdftex.def Info: graphics/templateMethod2.png used on input line 109.
-(pdftex.def)             Requested size: 159.59586pt x 138.51715pt.
+Package pdftex.def Info: graphics/templateMethod2.png used on input line 112.
+(pdftex.def)             Requested size: 159.09398pt x 139.5209pt.
 
-Overfull \hbox (12.97925pt too wide) in paragraph at lines 98--113
+Overfull \hbox (12.97925pt too wide) in paragraph at lines 101--116
 []$[]$   $[]$
  []
 
-[41 <./graphics/composition1.png (PNG copy)> <./graphics/composition2.png (PNG 
-copy)> <./graphics/heritage1.png (PNG copy)> <./graphics/heritage2.png (PNG cop
-y)>] <graphics/hollywood1.png, id=496, 244.915pt x 102.3825pt>
-File: graphics/hollywood1.png Graphic file (type png)
 
-<use graphics/hollywood1.png>
-Package pdftex.def Info: graphics/hollywood1.png used on input line 125.
-(pdftex.def)             Requested size: 122.45718pt x 51.19112pt.
+Underfull \hbox (badness 10000) in paragraph at lines 118--119
 
-<graphics/hollywood2.png, id=497, 289.08pt x 196.735pt>
-File: graphics/hollywood2.png Graphic file (type png)
+ []
 
-<use graphics/hollywood2.png>
-Package pdftex.def Info: graphics/hollywood2.png used on input line 133.
-(pdftex.def)             Requested size: 144.53964pt x 98.36725pt.
+<graphics/TemplatePattern.png, id=496, 351.3125pt x 306.14375pt>
+File: graphics/TemplatePattern.png Graphic file (type png)
 
-Overfull \hbox (12.97925pt too wide) in paragraph at lines 122--137
+<use graphics/TemplatePattern.png>
+Package pdftex.def Info: graphics/TemplatePattern.png used on input line 131.
+(pdftex.def)             Requested size: 175.6558pt x 153.07149pt.
+
+Overfull \hbox (12.97925pt too wide) in paragraph at lines 121--135
 []$[]$   $[]$
  []
 
 [42 <./graphics/templateMethod1.png (PNG copy)> <./graphics/templateMethod2.png
- (PNG copy)> <./graphics/hollywood1.png (PNG copy)> <./graphics/hollywood2.png 
-(PNG copy)>] [43] [44]
-Overfull \hbox (22.97925pt too wide) in paragraph at lines 223--264
-[]$[]$   $[]$ 
+ (PNG copy)> <./graphics/TemplatePattern.png>]
+<graphics/hollywood1.png, id=501, 287.0725pt x 196.735pt>
+File: graphics/hollywood1.png Graphic file (type png)
+
+<use graphics/hollywood1.png>
+Package pdftex.def Info: graphics/hollywood1.png used on input line 146.
+(pdftex.def)             Requested size: 143.53589pt x 98.36725pt.
+
+<graphics/hollywood2.png, id=502, 289.08pt x 196.735pt>
+File: graphics/hollywood2.png Graphic file (type png)
+
+<use graphics/hollywood2.png>
+Package pdftex.def Info: graphics/hollywood2.png used on input line 154.
+(pdftex.def)             Requested size: 144.53964pt x 98.36725pt.
+
+Overfull \hbox (12.97925pt too wide) in paragraph at lines 141--158
+$[]$   $[]$
  []
 
-[45]
-Overfull \hbox (22.97925pt too wide) in paragraph at lines 269--297
+[43 <./graphics/hollywood1.png (PNG copy)> <./graphics/hollywood2.png (PNG copy
+)>] [44] [45]
+Overfull \hbox (22.97925pt too wide) in paragraph at lines 249--292
 []$[]$   $[]$ 
  []
 
 [46]
-Overfull \hbox (22.97925pt too wide) in paragraph at lines 302--353
+Overfull \hbox (22.97925pt too wide) in paragraph at lines 297--327
 []$[]$   $[]$ 
  []
 
-[47] [48]
-Overfull \hbox (22.97925pt too wide) in paragraph at lines 362--397
+[47]
+Overfull \hbox (22.97925pt too wide) in paragraph at lines 332--393
 []$[]$   $[]$ 
  []
 
-[49] [50] <graphics/modelsBU1.png, id=656, 179.67125pt x 155.58125pt>
+[48]
+Overfull \hbox (22.97925pt too wide) in paragraph at lines 402--441
+[]$[]$   $[]$ 
+ []
+
+[49] [50] <graphics/modelsBU1.png, id=661, 179.67125pt x 155.58125pt>
 File: graphics/modelsBU1.png Graphic file (type png)
 
 <use graphics/modelsBU1.png>
-Package pdftex.def Info: graphics/modelsBU1.png used on input line 415.
+Package pdftex.def Info: graphics/modelsBU1.png used on input line 459.
 (pdftex.def)             Requested size: 89.83539pt x 77.79042pt.
 
-<graphics/modelsBU2.png, id=657, 407.5225pt x 274.02374pt>
+<graphics/modelsBU2.png, id=662, 403.5075pt x 274.02374pt>
 File: graphics/modelsBU2.png Graphic file (type png)
 
 <use graphics/modelsBU2.png>
-Package pdftex.def Info: graphics/modelsBU2.png used on input line 422.
-(pdftex.def)             Requested size: 203.76074pt x 137.01154pt.
+Package pdftex.def Info: graphics/modelsBU2.png used on input line 465.
+(pdftex.def)             Requested size: 201.75325pt x 137.01154pt.
 
-Overfull \hbox (12.97925pt too wide) in paragraph at lines 412--426
+Overfull \hbox (12.97925pt too wide) in paragraph at lines 455--468
 []$[]$   $[]$
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 429--430
+Underfull \hbox (badness 10000) in paragraph at lines 473--474
 
  []
 
 [51 <./graphics/modelsBU1.png (PNG copy)> <./graphics/modelsBU2.png (PNG copy)>
-]) (./validation.tex [52] [53
+] [52]) (./futurework.tex [53]
+File: graphics/modelsBU2.png Graphic file (type png)
+ <use graphics/modelsBU2.png>
+Package pdftex.def Info: graphics/modelsBU2.png used on input line 8.
+(pdftex.def)             Requested size: 302.62988pt x 205.5173pt.
 
-]) (./futurework.tex [54]) (./conclusion.tex
-[55
+<graphics/newmodelsBU.png, id=676, 359.3425pt x 173.64874pt>
+File: graphics/newmodelsBU.png Graphic file (type png)
 
-] [56
+<use graphics/newmodelsBU.png>
+Package pdftex.def Info: graphics/newmodelsBU.png used on input line 15.
+(pdftex.def)             Requested size: 269.50621pt x 130.23624pt.
+ [54
+
+ <./graphics/newmodelsBU.png (PNG copy)>])
+(./conclusion.tex [55] [56
 
 ]) [57] (./main.bbl
 LaTeX Font Info:    Try loading font information for T1+cmtt on input line 5.
@@ -1477,32 +1528,32 @@ Underfull \hbox (badness 10000) in paragraph at lines 19--22
 ) [58
 
 ]
-Overfull \hbox (23.56996pt too wide) in paragraph at lines 159--162
+Overfull \hbox (23.56996pt too wide) in paragraph at lines 158--161
 [] []$\T1/cmtt/m/n/10 https : / / github . com / MaximeBiset / memoire / blob /
  master / Annexes / SE _ requirements _ analysis _ Care4Care .
  []
 
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 167.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 166.
 [59
 
 ]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 167.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 166.
  (./main.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 167.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 167.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 166.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 166.
 Package rerunfilecheck Info: File `main.out' has not changed.
-(rerunfilecheck)             Checksum: 02A710080A1011FCD418D93F1FE7EF4D;2056.
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 167.
+(rerunfilecheck)             Checksum: 89CA48736FAA08A5A85B5F99F1188794;2070.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 166.
  )
 (\end occurred inside a group at level 1)
 
-### simple group (level 1) entered at line 400 ({)
+### simple group (level 1) entered at line 444 ({)
 ### bottom level 
 Here is how much of TeX's memory you used:
- 10585 strings out of 494999
- 152042 string characters out of 6180229
- 433153 words of memory out of 5000000
- 13312 multiletter control sequences out of 15000+600000
+ 10672 strings out of 494999
+ 153911 string characters out of 6180229
+ 357742 words of memory out of 5000000
+ 13392 multiletter control sequences out of 15000+600000
  12844 words of font info for 27 fonts, out of 8000000 for 9000
  14 hyphenation exceptions out of 8191
  30i,11n,40p,3425b,1863s stack positions out of 5000i,500n,10000p,200000b,80000s
@@ -1516,10 +1567,10 @@ nappen/ec/ecbx1440.600pk> </home/maxime/.texmf-var/fonts/pk/ljfour/jknappen/ec/
 eccc1000.600pk> </home/maxime/.texmf-var/fonts/pk/ljfour/jknappen/ec/ecxc2488.6
 00pk> </home/maxime/.texmf-var/fonts/pk/ljfour/jknappen/ec/ecrm1000.600pk></usr
 /share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb>
-Output written on main.pdf (67 pages, 2801621 bytes).
+Output written on main.pdf (67 pages, 2829889 bytes).
 PDF statistics:
- 1268 PDF objects out of 1440 (max. 8388607)
- 714 compressed objects within 8 object streams
- 300 named destinations out of 1000 (max. 500000)
- 406 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 1264 PDF objects out of 1440 (max. 8388607)
+ 716 compressed objects within 8 object streams
+ 301 named destinations out of 1000 (max. 500000)
+ 416 words of extra memory for PDF output out of 10000 (max. 10000000)
 
