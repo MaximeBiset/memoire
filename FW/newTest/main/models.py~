@@ -143,9 +143,9 @@ class JobType:
 # FEATURE BEGIN : MONEY
 # =====================
 class FWUser(models.Model):
-
+    """
     credit = models.IntegerField(default=0, verbose_name=_("CréditTEST restant")) # in minuts   
-
+    """
     def get_verbose_credit(self):
         credit = self.credit
         chunks = (

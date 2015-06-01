@@ -98,17 +98,17 @@ class BranchMembers(models.Model):
 # FEATURE BEGIN : MONEY
 # =====================
 class FWMoney(models.Model):
-
+    """
     estimated_time = models.IntegerField(verbose_name=_("Temps estimé (en minutes)"), blank=True, null=True)
     real_time = models.IntegerField(verbose_name=_("Temps réel (en minutes)"), blank=True, null=True)
-
+    """
     class Meta:
         abstract = True
 
 class FWSuccessDemand(models.Model):
-
+    """
     time = models.IntegerField(verbose_name=_("Temps passé (en minutes)"), blank=True, null=True)
-
+    """
     class Meta:
         abstract = True
 # ===================

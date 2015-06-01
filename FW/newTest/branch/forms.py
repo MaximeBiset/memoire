@@ -15,7 +15,7 @@ from branch.widgets import OneJobSelect
 # FEATURE BEGIN : MONEY
 # =====================
 class FWMoneyForm(forms.ModelForm):
-
+    """
     def clean_estimated_time(self):
         est = self.cleaned_data.get('estimated_time')
         if not est :
@@ -23,7 +23,7 @@ class FWMoneyForm(forms.ModelForm):
         if est <= 0:
             raise forms.ValidationError(_("Le temps estimé doit être plus grand que 0 minutes."))
         return est
-
+    """
 
 def FWAddMoney():
     return [] #['estimated_time']

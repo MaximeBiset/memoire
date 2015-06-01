@@ -41,7 +41,7 @@ from main.utils import can_manage, is_branch_admin, refuse, can_manage_branch_sp
 @login_required
 def credits_view(request):
     """view for credit menu and gitf"""
-    """
+
     user = request.user
     #TODO : Rajouter le champ finish = true dans job et offer et finish = false dans les autres.
     jobs = Demand.objects.filter(closed=True,donor=user,success=True).all() # tâches que j'ai faîtes
@@ -77,7 +77,7 @@ def credits_view(request):
             return redirect('home')
 
     return render(request,'credit/credit_page.html', locals())
-    """
+
 # ===================
 # FEATURE END : MONEY
 # ===================
