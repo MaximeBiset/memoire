@@ -12,7 +12,7 @@ from registration.backends.default.views import RegistrationView as BaseRegistra
 from main.forms import ProfileManagementForm, VerifiedInformationForm, EmergencyContactCreateForm, \
             VerifiedProfileForm, JobSearchForm, GiftForm, AddUser, NonProfileManagementForm
 from main.models import User, VerifiedInformation, EmergencyContact, JobCategory, JobType, MemberType, GIVINGTO
-from branch.models import Demand, Offer, Demandobj, Offerobj
+from branch.models import Demand, Offer, DemandObj, OfferObj
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.utils.decorators import method_decorator
 from django.http import HttpResponseRedirect, HttpResponse
@@ -33,7 +33,7 @@ from django.utils import timezone
 from django.views.generic.edit import UpdateView
 from django.contrib.messages.views import SuccessMessageMixin
 from main.utils import can_manage, is_branch_admin, refuse, can_manage_branch_specific, is_in_branch, \
-                        discriminate_demands, discriminate_offers 
+                        discriminate_demands, discriminate_offers, discriminate_demandobjs, discriminate_offerobjs 
 
 # =====================
 # FEATURE BEGIN : MONEY
@@ -85,6 +85,28 @@ def credits_view(request):
 # ============================
 # FEATURE BEGIN : TRANSACTIONS
 # ============================
+class HomeFramework():
+# BRANCH_HOME
+    def get_dems(request, user_ids, branch):
+        d = Demand.objects.filter(receiver__in=user_ids, branch=branch)
+        d = d.up_to_date()
+        return discriminate_demands(request, d)
+
+    def get_offs(request, user_ids ,branch):
+        o = Offer.objects.filter(donor__in=user_ids, branch=branch)
+        o = o.up_to_date()
+        return discriminate_offers(request, o)
+
+    def get_demsObj(request, user_ids, branch):
+        do = DemandObj.objects.filter(receiver__in=user_ids, branch=branch)
+        do = do.up_to_date()
+        return discriminate_demandobjs(request, do) 
+
+    def get_offsObj(request, user_ids, branch):
+        oo = OfferObj.objects.filter(donor__in=user_ids, branch=branch)
+        oo = oo.up_to_date()               
+        return discriminate_offerobjs(request, oo)
+
 def home(request):
     """
         View used for the home_page.
@@ -98,14 +120,14 @@ def home(request):
         branch_ids = [b.branch.id for b in user.membership.all()]
         demands = Demand.objects.filter(branch__in=branch_ids).all()
         offers = Offer.objects.filter(branch__in=branch_ids).all()
-        demandobjs = Demandobj.objects.filter(branch__in=branch_ids).all()
-        offerobjs = Offerobj.objects.filter(branch__in=branch_ids).all()
+        demandobjs = DemandObj.objects.filter(branch__in=branch_ids).all()
+        offerobjs = OfferObj.objects.filter(branch__in=branch_ids).all()
 
     else :
         demands = Demand.objects.filter(receive_help_from_who=MemberType.ALL).all()
         offers = Offer.objects.filter(receive_help_from_who=MemberType.ALL).all()
-        demandobjs = Demandobj.objects.filter(receive_help_from_who=MemberType.ALL).all()
-        offerobjs = Offerobj.objects.filter(receive_help_from_who=MemberType.ALL).all()
+        demandobjs = DemandObj.objects.filter(receive_help_from_who=MemberType.ALL).all()
+        offerobjs = OfferObj.objects.filter(receive_help_from_who=MemberType.ALL).all()
 
     demands = demands.up_to_date()
     offers = offers.up_to_date()
@@ -115,13 +137,12 @@ def home(request):
     if user.is_authenticated():
         demands = discriminate_demands(request, demands)
         offers = discriminate_offers(request, offers)
-        demandobjs = discriminate_demands(request, demandobjs)
-        offerobjs = discriminate_offers(request, offerobjs)
+        demandobjs = discriminate_demandobjs(request, demandobjs)
+        offerobjs = discriminate_offerobjs(request, offerobjs)
 
     nb_branch = Branch.objects.all().count()
     branches = Branch.objects.all()
     nb_users = User.objects.all().count()
-
     return render(request, 'main/home.html', locals())
 # ==========================
 # FEATURE END : TRANSACTIONS

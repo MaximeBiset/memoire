@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013/Debian) (format=pdflatex 2014.9.8)  1 JUN 2015 19:58
+This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013/Debian) (format=pdflatex 2014.9.8)  2 JUN 2015 18:04
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1434,19 +1434,19 @@ Overfull \hbox (12.97925pt too wide) in paragraph at lines 121--135
 
 [42 <./graphics/templateMethod1.png (PNG copy)> <./graphics/templateMethod2.png
  (PNG copy)> <./graphics/TemplatePattern.png>]
-<graphics/hollywood1.png, id=501, 287.0725pt x 196.735pt>
+<graphics/hollywood1.png, id=501, 237.88875pt x 98.3675pt>
 File: graphics/hollywood1.png Graphic file (type png)
 
 <use graphics/hollywood1.png>
 Package pdftex.def Info: graphics/hollywood1.png used on input line 146.
-(pdftex.def)             Requested size: 143.53589pt x 98.36725pt.
+(pdftex.def)             Requested size: 118.94408pt x 49.18361pt.
 
-<graphics/hollywood2.png, id=502, 289.08pt x 196.735pt>
+<graphics/hollywood2.png, id=502, 281.05pt x 196.735pt>
 File: graphics/hollywood2.png Graphic file (type png)
 
 <use graphics/hollywood2.png>
 Package pdftex.def Info: graphics/hollywood2.png used on input line 154.
-(pdftex.def)             Requested size: 144.53964pt x 98.36725pt.
+(pdftex.def)             Requested size: 140.52464pt x 98.36725pt.
 
 Overfull \hbox (12.97925pt too wide) in paragraph at lines 141--158
 $[]$   $[]$
@@ -1566,7 +1566,7 @@ nappen/ec/ecbx1440.600pk> </home/maxime/.texmf-var/fonts/pk/ljfour/jknappen/ec/
 eccc1000.600pk> </home/maxime/.texmf-var/fonts/pk/ljfour/jknappen/ec/ecxc2488.6
 00pk> </home/maxime/.texmf-var/fonts/pk/ljfour/jknappen/ec/ecrm1000.600pk></usr
 /share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb>
-Output written on main.pdf (67 pages, 2830155 bytes).
+Output written on main.pdf (67 pages, 2826490 bytes).
 PDF statistics:
  1264 PDF objects out of 1440 (max. 8388607)
  716 compressed objects within 8 object streams

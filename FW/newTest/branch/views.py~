@@ -11,13 +11,14 @@ from django.db.models import Q
 
 from postman.api import pm_write
 
-from branch.models import Branch, BranchMembers, Demand, Offer, Comment, DemandProposition, SuccessDemand, Offerobj, \
-            Demandobj, DemandPropositionObj
+from branch.models import Branch, BranchMembers, Demand, Offer, Comment, DemandProposition, SuccessDemand, OfferObj, \
+            DemandObj, DemandPropositionObj, SuccessDemandObj, SuccessOfferObj, DemandPropositionOObj
 
 from branch.forms import CreateBranchForm, ChooseBranchForm, OfferHelpForm, NeedHelpForm, \
             CommentForm, UpdateNeedHelpForm, VolunteerForm, ForceVolunteerForm, SuccessDemandForm, \
             CommentConfirmForm, TakeOfferForm,  OfferObjForm, DemandObjForm, UpdateDemandObjForm, \
-            VolunteerObjForm, ForceVolunteerObjForm
+            VolunteerObjForm, ForceVolunteerObjForm, SuccessOfferObjForm, SuccessDemandObjForm, \
+		VolunteerOObjForm
 
 from main.models import User, VerifiedInformation, JobCategory, MemberType
 
@@ -29,7 +30,7 @@ from main.utils import can_manage, is_branch_admin, refuse, can_manage_branch_sp
 # =====================
 class MoneyFramework():
     def fw_man_success(demand, success):
-    """
+        """
         if success.time > 100000:
             success.time = 100000
         if success.time < 0:
@@ -37,12 +38,12 @@ class MoneyFramework():
         demand.real_time =  success.time
         demand.donor.credit += success.time
         demand.receiver.credit -= success.time
-     """
+         """
         return demand
     def fw_form_valid(form):
-    """
+        """
         form.instance.real_time = form.instance.estimated_time
-    """
+        """
         return form
 # ===================
 # FEATURE END : MONEY
@@ -63,12 +64,12 @@ class HomeFramework():
         return discriminate_offers(request, o)
 
     def get_demsObj(request, user_ids, branch):
-        do = Demandobj.objects.filter(receiver__in=user_ids, branch=branch)
+        do = DemandObj.objects.filter(receiver__in=user_ids, branch=branch)
         do = do.up_to_date()
         return discriminate_demandobjs(request, do) 
 
     def get_offsObj(request, user_ids, branch):
-        oo = Offerobj.objects.filter(donor__in=user_ids, branch=branch)
+        oo = OfferObj.objects.filter(donor__in=user_ids, branch=branch)
         oo = oo.up_to_date()               
         return discriminate_offerobjs(request, oo)
 
@@ -257,81 +258,15 @@ def branch_delete(request, branch_id):
         return refuse(request)
     return redirect('home')
 
-@login_required
-def delete_demand(request, branch_id, slug, demand_id):
-    """ Delete a demand """
-    demand = get_object_or_404(Demand, pk=demand_id)
+#==========
+#==========
+# JOBS   ==
+#==========
+#==========
 
-    if can_manage_branch_specific(demand.receiver, request.user, demand.branch):
-       demand.delete()
-       messages.add_message(request, messages.INFO, _('Vous avez supprimé la demande {demand}').format(demand=demand))
-       return redirect(demand.branch.get_absolute_url())
-    else:
-        return refuse(request)
-
-@login_required
-def delete_offer(request, branch_id, slug, offer_id):
-    """ Delete an offer """
-    offer = get_object_or_404(Offer, pk=offer_id)
-
-    if can_manage_branch_specific(offer.donor, request.user, offer.branch):
-       offer.delete()
-       messages.add_message(request, messages.INFO, _('Vous avez supprimé l\'offre {offer}').format(offer=offer))
-       return redirect(offer.branch.get_absolute_url())
-    return redirect('home')
-
-@login_required
-def volunteer_decline(request, volunteer_id):
-    """ Decline an help form the volunteer_id """
-    demandProposition = DemandProposition.objects.get(pk=volunteer_id)
-    demand = demandProposition.demand
-
-    if can_manage_branch_specific(demand.receiver, request.user, demand.branch):
-        demandProposition.delete()
-        messages.add_message(request, messages.INFO, _('Vous avez refusé cette aide'))
-        return redirect(demand.get_absolute_url())
-    return redirect('home')
-
-@login_required
-def volunteer_accept(request, volunteer_id):
-    """ Accept an help from the volunteer_id """
-    demandProposition = DemandProposition.objects.get(pk=volunteer_id)
-    demand = demandProposition.demand
-
-    if can_manage_branch_specific(demand.receiver, request.user, demand.branch):
-        demandProposition.accepted = True
-        demandProposition.save()
-        subject = _("Je vous ai choisi pour '") + demand.title + "'"
-        body = _(" Je vous ai choisi pour effectuer le job '") + demand.title + "'"
-        body += '\n\n' + _('Lieu : ') + demand.location
-        body += '\n' + _('Date : ') + formats.date_format(demand.date, "DATE_FORMAT")
-        body += '\n' + _('Heure(s) désirée(s) : ') + demand.get_verbose_time()
-        body += '\n' + _('Description : ') + demand.description
-        body += '\n'
-        if demand.receiver.emergency_contacts.count() > 0:
-            body += '\n' + _('En cas d\'incident durant cette tâche, voici les personnes à contacter :')
-            for ec in demand.receiver.emergency_contacts.all():
-                body += '\n' + _('Prénom :') + ' ' + ec.first_name
-                body += '\n' + _('Nom :') + ' ' + ec.last_name
-                body += '\n' + _('Téléphone fixe :') + ' ' + ec.phone_number
-                body += '\n' + _('Téléphone mobile :') + ' ' + ec.mobile_number
-                body += '\n' + _('Langues parlées :') + ' ' + ec.get_verbose_languages()
-                body += '\n'
-        body += '\n\n' + _('N\'hésitez pas à me contacter pour de plus amples informations')
-        body += '\n' + _('À bientôt,') + '\n'
-        body += demand.receiver.first_name
-        pm_write(demand.receiver, demandProposition.user, subject, body)
-        for vol in DemandProposition.objects.filter(demand=demand, accepted=False):
-            vol.delete()
-        demand.closed = True
-        demand.km = demandProposition.km
-        if not demand.km:
-            demand.km = 0
-        demand.donor = demandProposition.user
-        demand.save()
-        messages.add_message(request, messages.INFO, _('Vous avez accepté cette aide !'))
-        return redirect(demand.get_absolute_url())
-    return redirect('home')
+#=============
+#=CREATE JOB==
+#=============
 
 class CreateDemandView(CreateView):
     """
@@ -393,27 +328,44 @@ class CreateDemandView(CreateView):
             pm_write(offer.donor, self.object.receiver, subject, body2)
         return self.object.get_absolute_url()
 
-class TakeOfferDemandView(CreateDemandView):
-    form_class = TakeOfferForm
-    template_name = 'job/take_offer.html'
+class DetailDemandView(CreateView): # This view is over-hacked. Don't take it as a reference.
+    """
+    Detail view for a Demand
+    """
+    template_name = 'job/details_demand.html'
+    model = Comment
+    form_class = CommentForm
 
-    def form_valid(self, form):
-        form.instance.date = Offer.objects.get(pk=self.kwargs['offer_id']).date
-        return super(TakeOfferDemandView, self).form_valid(form)
+    @method_decorator(login_required)
+    def dispatch(self, *args, **kwargs):
+        if not is_in_branch(self.request.user, self.get_object().branch):
+            return refuse(self.request)
+        if not self.request.user.is_superuser and self.request.user in self.get_object().receiver.ignore_list.all():
+            return refuse(self.request)
+        return super(DetailDemandView, self).dispatch(*args, **kwargs)
+    def get_object(self, queryset=None):
+        return Demand.objects.get(pk=self.kwargs['demand_id'])
     def get_context_data(self, **kwargs):
-        context = super(TakeOfferDemandView, self).get_context_data(**kwargs)
-        offer = Offer.objects.get(pk=self.kwargs['offer_id'])
-        context['offer'] = offer
-        category_keep = []
-        for cat in offer.category:
-            if cat == 'a':
-                category_keep.append(10)
-            elif cat == 'b':
-                category_keep.append(11)
-            else :
-                category_keep.append(cat)
-        context['category_keep'] = category_keep
+        context = super(DetailDemandView, self).get_context_data(**kwargs)
+        obj = self.get_object()
+        context['object'] = obj
+        if self.request.user in obj.volunteers.all():
+            context['already_volunteer'] = True
+        if can_manage_branch_specific(obj.receiver, self.request.user, obj.branch):
+            context['can_manage'] = True
         return context
+    def form_valid(self, form):
+        form.instance.content_object = self.get_object()
+        form.instance.user = self.request.user
+        return super(DetailDemandView, self).form_valid(form)
+    def get_success_url(self):
+        subject = self.request.user.get_full_name() + ' ' + _("a commenté votre demande '") + self.get_object().title + '\''
+        body = self.request.user.get_full_name() + ' ' + _("a commenté votre demande '") + self.get_object().title + '\''
+        body += '\n\n' + _('Commentaire : ') + self.object.comment
+        body += '\n\n' + _('Vous pouvez lui répondre en vous rendant sur votre demande:')
+        body += '\n' + 'http://' + self.request.META['HTTP_HOST'] + self.get_object().get_absolute_url()
+        pm_write(self.request.user, self.get_object().receiver, subject, body)
+        return self.get_object().get_absolute_url() + '#' + str(self.object.id)
 
 class UpdateDemandView(UpdateView):
     """
@@ -442,32 +394,21 @@ class UpdateDemandView(UpdateView):
     def get_success_url(self):
         return self.object.get_absolute_url()
 
-class UpdateOfferView(UpdateView):
-    """
-    A registration backend for our CareRegistrationForm
-    """
-    template_name = 'job/offer_help.html'
-    form_class = OfferHelpForm
-    model = Offer
+@login_required
+def delete_demand(request, branch_id, slug, demand_id):
+    """ Delete a demand """
+    demand = get_object_or_404(Demand, pk=demand_id)
 
-    @method_decorator(login_required)
-    def dispatch(self, *args, **kwargs):
-        obj = self.get_object()
-        if not can_manage_branch_specific(obj.donor, self.request.user, obj.branch):
-            return refuse(self.request)
-        return super(UpdateOfferView, self).dispatch(*args, **kwargs)
-    def get_object(self):
-        return Offer.objects.get(pk=self.kwargs['offer_id'])
-    def get_context_data(self, **kwargs):
-        context = super(UpdateOfferView, self).get_context_data(**kwargs)
-        context['ruser'] = self.get_object().receiver
-        context['branch'] = self.get_object().branch
-        context['update'] = True
-        return context
-    def form_valid(self, form):
-        return super(UpdateOfferView, self).form_valid(form)
-    def get_success_url(self):
-        return self.object.get_absolute_url()
+    if can_manage_branch_specific(demand.receiver, request.user, demand.branch):
+       demand.delete()
+       messages.add_message(request, messages.INFO, _('Vous avez supprimé la demande {demand}').format(demand=demand))
+       return redirect(demand.branch.get_absolute_url())
+    else:
+        return refuse(request)
+
+#============
+#=OFFER JOB==
+#============
 
 class CreateOfferView(CreateView):
     """
@@ -530,45 +471,70 @@ class DetailOfferView(CreateView): # This view is over-hacked. Don't take it as 
         pm_write(self.request.user, self.get_object().donor, subject, body)
         return self.get_object().get_absolute_url() + '#' + str(self.object.id)
 
-class DetailDemandView(CreateView): # This view is over-hacked. Don't take it as a reference.
+
+class TakeOfferDemandView(CreateDemandView):
+    form_class = TakeOfferForm
+    template_name = 'job/take_offer.html'
+
+    def form_valid(self, form):
+        form.instance.date = Offer.objects.get(pk=self.kwargs['offer_id']).date
+        return super(TakeOfferDemandView, self).form_valid(form)
+    def get_context_data(self, **kwargs):
+        context = super(TakeOfferDemandView, self).get_context_data(**kwargs)
+        offer = Offer.objects.get(pk=self.kwargs['offer_id'])
+        context['offer'] = offer
+        category_keep = []
+        for cat in offer.category:
+            if cat == 'a':
+                category_keep.append(10)
+            elif cat == 'b':
+                category_keep.append(11)
+            else :
+                category_keep.append(cat)
+        context['category_keep'] = category_keep
+        return context
+
+class UpdateOfferView(UpdateView):
     """
-    Detail view for a Demand
+    A registration backend for our CareRegistrationForm
     """
-    template_name = 'job/details_demand.html'
-    model = Comment
-    form_class = CommentForm
+    template_name = 'job/offer_help.html'
+    form_class = OfferHelpForm
+    model = Offer
 
     @method_decorator(login_required)
     def dispatch(self, *args, **kwargs):
-        if not is_in_branch(self.request.user, self.get_object().branch):
-            return refuse(self.request)
-        if not self.request.user.is_superuser and self.request.user in self.get_object().receiver.ignore_list.all():
-            return refuse(self.request)
-        return super(DetailDemandView, self).dispatch(*args, **kwargs)
-    def get_object(self, queryset=None):
-        return Demand.objects.get(pk=self.kwargs['demand_id'])
-    def get_context_data(self, **kwargs):
-        context = super(DetailDemandView, self).get_context_data(**kwargs)
         obj = self.get_object()
-        context['object'] = obj
-        if self.request.user in obj.volunteers.all():
-            context['already_volunteer'] = True
-        if can_manage_branch_specific(obj.receiver, self.request.user, obj.branch):
-            context['can_manage'] = True
+        if not can_manage_branch_specific(obj.donor, self.request.user, obj.branch):
+            return refuse(self.request)
+        return super(UpdateOfferView, self).dispatch(*args, **kwargs)
+    def get_object(self):
+        return Offer.objects.get(pk=self.kwargs['offer_id'])
+    def get_context_data(self, **kwargs):
+        context = super(UpdateOfferView, self).get_context_data(**kwargs)
+        context['ruser'] = self.get_object().receiver
+        context['branch'] = self.get_object().branch
+        context['update'] = True
         return context
     def form_valid(self, form):
-        form.instance.content_object = self.get_object()
-        form.instance.user = self.request.user
-        return super(DetailDemandView, self).form_valid(form)
+        return super(UpdateOfferView, self).form_valid(form)
     def get_success_url(self):
-        subject = self.request.user.get_full_name() + ' ' + _("a commenté votre demande '") + self.get_object().title + '\''
-        body = self.request.user.get_full_name() + ' ' + _("a commenté votre demande '") + self.get_object().title + '\''
-        body += '\n\n' + _('Commentaire : ') + self.object.comment
-        body += '\n\n' + _('Vous pouvez lui répondre en vous rendant sur votre demande:')
-        body += '\n' + 'http://' + self.request.META['HTTP_HOST'] + self.get_object().get_absolute_url()
-        pm_write(self.request.user, self.get_object().receiver, subject, body)
-        return self.get_object().get_absolute_url() + '#' + str(self.object.id)
+        return self.object.get_absolute_url()
 
+@login_required
+def delete_offer(request, branch_id, slug, offer_id):
+    """ Delete an offer """
+    offer = get_object_or_404(Offer, pk=offer_id)
+
+    if can_manage_branch_specific(offer.donor, request.user, offer.branch):
+       offer.delete()
+       messages.add_message(request, messages.INFO, _('Vous avez supprimé l\'offre {offer}').format(offer=offer))
+       return redirect(offer.branch.get_absolute_url())
+    return redirect('home')
+
+#================
+#=VOLUNTEER JOB==
+#================
 class CreateVolunteerView(CreateView):
     """
     A registration backend for our CareRegistrationForm
@@ -622,6 +588,63 @@ class ForceCreateVolunteerView(CreateVolunteerView):
         demand = Demand.objects.get(pk=self.kwargs['demand_id'])
         form.instance.demand = demand
         return super(CreateVolunteerView, self).form_valid(form) #correct
+
+@login_required
+def volunteer_accept(request, volunteer_id):
+    """ Accept an help from the volunteer_id """
+    demandProposition = DemandProposition.objects.get(pk=volunteer_id)
+    demand = demandProposition.demand
+
+    if can_manage_branch_specific(demand.receiver, request.user, demand.branch):
+        demandProposition.accepted = True
+        demandProposition.save()
+        subject = _("Je vous ai choisi pour '") + demand.title + "'"
+        body = _(" Je vous ai choisi pour effectuer le job '") + demand.title + "'"
+        body += '\n\n' + _('Lieu : ') + demand.location
+        body += '\n' + _('Date : ') + formats.date_format(demand.date, "DATE_FORMAT")
+        body += '\n' + _('Heure(s) désirée(s) : ') + demand.get_verbose_time()
+        body += '\n' + _('Description : ') + demand.description
+        body += '\n'
+        if demand.receiver.emergency_contacts.count() > 0:
+            body += '\n' + _('En cas d\'incident durant cette tâche, voici les personnes à contacter :')
+            for ec in demand.receiver.emergency_contacts.all():
+                body += '\n' + _('Prénom :') + ' ' + ec.first_name
+                body += '\n' + _('Nom :') + ' ' + ec.last_name
+                body += '\n' + _('Téléphone fixe :') + ' ' + ec.phone_number
+                body += '\n' + _('Téléphone mobile :') + ' ' + ec.mobile_number
+                body += '\n' + _('Langues parlées :') + ' ' + ec.get_verbose_languages()
+                body += '\n'
+        body += '\n\n' + _('N\'hésitez pas à me contacter pour de plus amples informations')
+        body += '\n' + _('À bientôt,') + '\n'
+        body += demand.receiver.first_name
+        pm_write(demand.receiver, demandProposition.user, subject, body)
+        for vol in DemandProposition.objects.filter(demand=demand, accepted=False):
+            vol.delete()
+        demand.closed = True
+        demand.km = demandProposition.km
+        if not demand.km:
+            demand.km = 0
+        demand.donor = demandProposition.user
+        demand.save()
+        messages.add_message(request, messages.INFO, _('Vous avez accepté cette aide !'))
+        return redirect(demand.get_absolute_url())
+    return redirect('home')
+
+@login_required
+def volunteer_decline(request, volunteer_id):
+    """ Decline an help form the volunteer_id """
+    demandProposition = DemandProposition.objects.get(pk=volunteer_id)
+    demand = demandProposition.demand
+
+    if can_manage_branch_specific(demand.receiver, request.user, demand.branch):
+        demandProposition.delete()
+        messages.add_message(request, messages.INFO, _('Vous avez refusé cette aide'))
+        return redirect(demand.get_absolute_url())
+    return redirect('home')
+
+#==============
+#=SUCCESS JOB==
+#==============
 
 class CreateSuccessDemand(CreateView):
     form_class = SuccessDemandForm
@@ -731,235 +754,11 @@ def manage_success(request, success_demand_id):
     else :
         return refuse(request)
 
-# OBJECTS
-
-@login_required
-def volunteer_declineObj(request, volunteer_id, demand_id, obj_type):
-    """ Decline an help form the volunteer_id """
-    if obj_type == 'dem':
-        demandProposition = DemandPropositionObj.objects.get(user=volunteer_id,demand=demand_id)
-        demand = demandProposition.demand
-    else:
-        demandProposition = DemandPropositionObj.objects.get(user=volunteer_id,offer=demand_id)     
-        demand = demandProposition.offer   
-    if can_manage_branch_specific(demand.receiver, request.user, demand.branch):
-        demandProposition.delete()
-        messages.add_message(request, messages.INFO, _('Vous avez refusé cette proposition'))
-        return redirect(demand.get_absolute_url())
-    return redirect('home')
-
-@login_required
-def volunteer_acceptObj(request, volunteer_id, demand_id, obj_type):
-    """ Accept an help from the volunteer_id """
-    if obj_type == 'dem':   
-        demandProposition = DemandPropositionObj.objects.get(user=volunteer_id,demand=demand_id)
-        demand = demandProposition.demand
-        us = demand.receiver
-    else:
-        demandProposition = DemandPropositionObj.objects.get(user=volunteer_id,offer=demand_id)  
-        demand = demandProposition.offer
-        us = demand.donor
-    if can_manage_branch_specific(us, request.user, demand.branch):
-        demandProposition.accepted = True
-        demandProposition.save()
-        subject = _("Je vous ai choisi pour '") + demand.title + "'"
-        body = _(" Je vous ai choisi pour effectuer le job '") + demand.title + "'"
-        body += '\n\n' + _('Lieu : ') #+ demand.location
-        body += '\n' + _('Date : ') + formats.date_format(demand.date, "DATE_FORMAT")
-        body += '\n' + _('Description : ') + demand.description
-        body += '\n'
-        if us.emergency_contacts.count() > 0:
-            body += '\n' + _('En cas d\'incident durant cette tâche, voici les personnes à contacter :')
-            for ec in us.emergency_contacts.all():
-                body += '\n' + _('Prénom :') + ' ' + ec.first_name
-                body += '\n' + _('Nom :') + ' ' + ec.last_name
-                body += '\n' + _('Téléphone fixe :') + ' ' + ec.phone_number
-                body += '\n' + _('Téléphone mobile :') + ' ' + ec.mobile_number
-                body += '\n' + _('Langues parlées :') + ' ' + ec.get_verbose_languages()
-                body += '\n'
-        body += '\n\n' + _('N\'hésitez pas à me contacter pour de plus amples informations')
-        body += '\n' + _('À bientôt,') + '\n'
-        body += us.first_name
-        pm_write(demand.receiver, demandProposition.user, subject, body)
-        for vol in DemandPropositionObj.objects.filter(demand=demand, accepted=False):
-            vol.delete()
-        demand.closed = True
-        demand.km = demandProposition.km
-        if not demand.km:
-            demand.km = 0
-        demand.donor = demandProposition.user
-        demand.save()
-        messages.add_message(request, messages.INFO, _('Vous avez accepté cette proposition !'))
-        return redirect(demand.get_absolute_url())
-    return redirect('home')
-
-class CreateVolunteerObjView(CreateView):
-    """
-    A registration backend for our CareRegistrationForm
-    """
-    template_name = 'job/volunteer_obj.html'
-    model = DemandPropositionObj
-    form_class = VolunteerObjForm
-
-    @method_decorator(login_required)
-    def dispatch(self, *args, **kwargs):
-        #import pdb; pdb.set_trace()
-        return super(CreateVolunteerObjView, self).dispatch(*args, **kwargs)
-    def form_valid(self, form):
-        #import pdb; pdb.set_trace()
-        if self.kwargs['type_obj'] == 2:
-            form.instance.demand = Demandobj.objects.get(pk=self.kwargs['demand_id'])
-        else:
-            form.instance.offer = Offerobj.objects.get(pk=self.kwargs['demand_id'])
-        form.instance.user = User.objects.get(pk=self.kwargs['volunteer_id'])
-        return super(CreateVolunteerObjView, self).form_valid(form)
-    def get_context_data(self, **kwargs):
-        context = super(CreateVolunteerObjView, self).get_context_data(**kwargs)
-        context['can_manage'] = True
-        import pdb; pdb.set_trace()
-        if self.kwargs.get('type_obj') == 2:
-            demand = Demandobj.objects.get(pk=self.kwargs['demand_id'])
-        else:
-            demand = Offerobj.objects.get(pk=self.kwargs['demand_id'])
-        context['demand'] = demand
-        return context
-    def get_initial(self):
-        #import pdb; pdb.set_trace()
-        return {'km': self.request.GET.get('km', 0)}
-    def get_success_url(self):
-        #import pdb; pdb.set_trace()
-        if self.kwargs['type_obj'] == 2:
-            demand = Demandobj.objects.get(pk=self.kwargs['demand_id'])
-        else:
-            demand = Offerobj.objects.get(pk=self.kwargs['demand_id'])
-        volunteer = self.object.user
-        subject = volunteer.get_full_name() + ' ' + _("répond à votre demande pour '") + demand.title + "'"
-        body = volunteer.get_full_name() + ' ' + _("répond à votre demande pour '") + demand.title + "'"
-        body += '\n\n' + _('Commentaire : ') + self.object.comment
-        body += '\n' + _('Km de chez vous : ') + str(self.object.km)
-        body += '\n\n' + _('Vous pouvez accepter sa proposition en vous rendant sur votre recherche d\'objet :')
-        body += '\n' + 'http://' + self.request.META['HTTP_HOST'] + demand.get_absolute_url()
-        pm_write(volunteer, demand.receiver, subject, body)
-        return demand.get_absolute_url()
-
-class ForceCreateVolunteerObjView(CreateVolunteerView):
-    form_class = ForceVolunteerObjForm
-
-    @method_decorator(login_required)
-    def dispatch(self, *args, **kwargs):
-        demand = Demandobj.objects.get(pk=self.kwargs['demand_id'])
-        if not can_manage_branch_specific(demand.receiver, self.request.user, demand.branch):
-            return refuse(self.request)
-        return super(CreateVolunteerObjView, self).dispatch(*args, **kwargs)
-
-    def get_context_data(self, **kwargs):
-        context = super(ForceCreateVolunteerObjView, self).get_context_data(**kwargs)
-        context['form'].fields['user'].queryset = context['demand'].branch.members.all()
-        return context
-
-    def form_valid(self, form):
-        demand = Demandobj.objects.get(pk=self.kwargs['demand_id'])
-        form.instance.demand = demand
-        return super(CreateVolunteerObjView, self).form_valid(form) #correct
-
-class CreateOfferObjView(CreateView):
-    """
-    A registration backend for our CareRegistrationForm
-    """
-    template_name = 'job/offer_obj.html'
-    form_class = OfferObjForm
-    model = Offerobj
-
-    @method_decorator(login_required)
-    def dispatch(self, *args, **kwargs):
-        if not is_in_branch(User.objects.get(pk=self.kwargs['user_id']),
-            Branch.objects.get(pk=self.kwargs['branch_id'])):
-            return refuse(self.request)
-        return super(CreateOfferObjView, self).dispatch(*args, **kwargs)
-    def get_context_data(self, **kwargs):
-        context = super(CreateOfferObjView, self).get_context_data(**kwargs)
-        context['ruser'] = User.objects.get(pk=self.kwargs['user_id'])
-        context['branch'] = Branch.objects.get(pk=self.kwargs['branch_id'])
-        return context
-    def form_valid(self, form):
-        form.instance.branch = Branch.objects.get(pk=self.kwargs['branch_id'])
-        form.instance.donor = User.objects.get(pk=self.kwargs['user_id'])
-        return super(CreateOfferObjView, self).form_valid(form)
-    def get_success_url(self):
-        return Branch.objects.get(pk=self.kwargs['branch_id']).get_absolute_url()
-
-class DetailOfferObjView(CreateView): # This view is over-hacked. Don't take it as a reference.
-    """
-    Detail view for a OfferObj
-    """
-    template_name = 'job/details_offerObj.html'
-    model = Comment
-    form_class = CommentForm
-
-    @method_decorator(login_required)
-    def dispatch(self, *args, **kwargs):
-        if not is_in_branch(self.request.user, self.get_object().branch):
-            return refuse(self.request)
-        return super(DetailOfferObjView, self).dispatch(*args, **kwargs)
-    def get_object(self, queryset=None):
-        return Offerobj.objects.get(pk=self.kwargs['offer_id'])
-    def get_context_data(self, **kwargs):
-        context = super(DetailOfferObjView, self).get_context_data(**kwargs)
-        obj = self.get_object()
-        context['object'] = obj
-        if can_manage_branch_specific(obj.donor, self.request.user, obj.branch):
-            context['can_manage'] = True
-        return context
-    def form_valid(self, form):
-        form.instance.content_object = self.get_object()
-        form.instance.user = self.request.user
-        return super(DetailOfferObjView, self).form_valid(form)
-    def get_success_url(self):
-        subject = self.request.user.get_full_name() + ' ' + _("a commenté votre offre")
-        body = self.request.user.get_full_name() + ' ' + _("a commenté votre offre")
-        body += '\n\n' + _('Commentaire : ') + self.object.comment
-        body += '\n\n' + _('Vous pouvez lui répondre en vous rendant sur votre offre :')
-        body += '\n' + 'http://' + self.request.META['HTTP_HOST'] + self.get_object().get_absolute_url()
-        pm_write(self.request.user, self.get_object().donor, subject, body)
-        return self.get_object().get_absolute_url() + '#' + str(self.object.id)
-
-@login_required
-def delete_offerObj(request, branch_id, slug, offer_id):
-    """ Delete an offerObj """
-    offer = get_object_or_404(Offerobj, pk=offer_id)
-
-    if can_manage_branch_specific(offer.donor, request.user, offer.branch):
-       offer.delete()
-       messages.add_message(request, messages.INFO, _('Vous avez supprimé l\'offre {offer}').format(offer=offer))
-       return redirect(offer.branch.get_absolute_url())
-    return redirect('home')
-
-class UpdateOfferObjView(UpdateView):
-    """
-    A registration backend for our CareRegistrationForm
-    """
-    template_name = 'job/details_offerObj.html'
-    form_class = OfferObjForm
-    model = Offerobj
-
-    @method_decorator(login_required)
-    def dispatch(self, *args, **kwargs):
-        obj = self.get_object()
-        if not can_manage_branch_specific(obj.donor, self.request.user, obj.branch):
-            return refuse(self.request)
-        return super(UpdateOfferObjView, self).dispatch(*args, **kwargs)
-    def get_object(self):
-        return Offerobj.objects.get(pk=self.kwargs['offer_id'])
-    def get_context_data(self, **kwargs):
-        context = super(UpdateOfferObjView, self).get_context_data(**kwargs)
-        context['ruser'] = self.get_object().receiver
-        context['branch'] = self.get_object().branch
-        context['update'] = True
-        return context
-    def form_valid(self, form):
-        return super(UpdateOfferObjView, self).form_valid(form)
-    def get_success_url(self):
-        return self.object.get_absolute_url()
+#==========
+#==========
+# OBJECTS==
+#==========
+#==========
 
 class CreateDemandObjView(CreateView):
     """
@@ -967,7 +766,7 @@ class CreateDemandObjView(CreateView):
     """
     template_name = 'job/demand_obj.html'
     form_class = DemandObjForm
-    model = Demandobj
+    model = DemandObj
 
     @method_decorator(login_required)
     def dispatch(self, *args, **kwargs):
@@ -1001,7 +800,7 @@ class DetailDemandObjView(CreateView): # This view is over-hacked. Don't take it
             return refuse(self.request)
         return super(DetailDemandObjView, self).dispatch(*args, **kwargs)
     def get_object(self, queryset=None):
-        return Demandobj.objects.get(pk=self.kwargs['demand_id'])
+        return DemandObj.objects.get(pk=self.kwargs['demand_id'])
     def get_context_data(self, **kwargs):
         context = super(DetailDemandObjView, self).get_context_data(**kwargs)
         obj = self.get_object()
@@ -1022,16 +821,94 @@ class DetailDemandObjView(CreateView): # This view is over-hacked. Don't take it
         pm_write(self.request.user, self.get_object().donor, subject, body)
         return self.get_object().get_absolute_url() + '#' + str(self.object.id)
 
-@login_required
-def delete_demandObj(request, branch_id, slug, demand_id):
-    """ Delete an offerObj """
-    demand = get_object_or_404(Demandobj, pk=demand_id)
 
-    if can_manage_branch_specific(demand.receiver, request.user, demand.branch):
-       demand.delete()
-       messages.add_message(request, messages.INFO, _('Vous avez supprimé la demande {demand}').format(demand=demand))
-       return redirect(demand.branch.get_absolute_url())
-    return redirect('home')
+class CreateOfferObjView(CreateView):
+    """
+    A registration backend for our CareRegistrationForm
+    """
+    template_name = 'job/offer_obj.html'
+    form_class = OfferObjForm
+    model = OfferObj
+
+    @method_decorator(login_required)
+    def dispatch(self, *args, **kwargs):
+        if not is_in_branch(User.objects.get(pk=self.kwargs['user_id']),
+            Branch.objects.get(pk=self.kwargs['branch_id'])):
+            return refuse(self.request)
+        return super(CreateOfferObjView, self).dispatch(*args, **kwargs)
+    def get_context_data(self, **kwargs):
+        context = super(CreateOfferObjView, self).get_context_data(**kwargs)
+        context['ruser'] = User.objects.get(pk=self.kwargs['user_id'])
+        context['branch'] = Branch.objects.get(pk=self.kwargs['branch_id'])
+        return context
+    def form_valid(self, form):
+        form.instance.branch = Branch.objects.get(pk=self.kwargs['branch_id'])
+        form.instance.donor = User.objects.get(pk=self.kwargs['user_id'])
+        return super(CreateOfferObjView, self).form_valid(form)
+    def get_success_url(self):
+        return Branch.objects.get(pk=self.kwargs['branch_id']).get_absolute_url()
+
+class DetailOfferObjView(CreateView): # This view is over-hacked. Don't take it as a reference.
+    """
+    Detail view for a OfferObj
+    """
+    template_name = 'job/details_offerObj.html'
+    model = Comment
+    form_class = CommentForm
+
+    @method_decorator(login_required)
+    def dispatch(self, *args, **kwargs):
+        if not is_in_branch(self.request.user, self.get_object().branch):
+            return refuse(self.request)
+        return super(DetailOfferObjView, self).dispatch(*args, **kwargs)
+    def get_object(self, queryset=None):
+        return OfferObj.objects.get(pk=self.kwargs['offer_id'])
+    def get_context_data(self, **kwargs):
+        context = super(DetailOfferObjView, self).get_context_data(**kwargs)
+        obj = self.get_object()
+        context['object'] = obj
+        if can_manage_branch_specific(obj.donor, self.request.user, obj.branch):
+            context['can_manage'] = True
+        return context
+    def form_valid(self, form):
+        form.instance.content_object = self.get_object()
+        form.instance.user = self.request.user
+        return super(DetailOfferObjView, self).form_valid(form)
+    def get_success_url(self):
+        subject = self.request.user.get_full_name() + ' ' + _("a commenté votre offre")
+        body = self.request.user.get_full_name() + ' ' + _("a commenté votre offre")
+        body += '\n\n' + _('Commentaire : ') + self.object.comment
+        body += '\n\n' + _('Vous pouvez lui répondre en vous rendant sur votre offre :')
+        body += '\n' + 'http://' + self.request.META['HTTP_HOST'] + self.get_object().get_absolute_url()
+        pm_write(self.request.user, self.get_object().donor, subject, body)
+        return self.get_object().get_absolute_url() + '#' + str(self.object.id)
+
+class UpdateOfferObjView(UpdateView):
+    """
+    A registration backend for our CareRegistrationForm
+    """
+    template_name = 'job/details_offerObj.html'
+    form_class = OfferObjForm
+    model = OfferObj
+
+    @method_decorator(login_required)
+    def dispatch(self, *args, **kwargs):
+        obj = self.get_object()
+        if not can_manage_branch_specific(obj.donor, self.request.user, obj.branch):
+            return refuse(self.request)
+        return super(UpdateOfferObjView, self).dispatch(*args, **kwargs)
+    def get_object(self):
+        return OfferObj.objects.get(pk=self.kwargs['offer_id'])
+    def get_context_data(self, **kwargs):
+        context = super(UpdateOfferObjView, self).get_context_data(**kwargs)
+        context['ruser'] = self.get_object().receiver
+        context['branch'] = self.get_object().branch
+        context['update'] = True
+        return context
+    def form_valid(self, form):
+        return super(UpdateOfferObjView, self).form_valid(form)
+    def get_success_url(self):
+        return self.object.get_absolute_url()
 
 class UpdateDemandObjView(UpdateView):
     """
@@ -1039,7 +916,7 @@ class UpdateDemandObjView(UpdateView):
     """
     template_name = 'job/demand_obj.html'
     form_class = UpdateDemandObjForm
-    model = Demandobj
+    model = DemandObj
 
     @method_decorator(login_required)
     def dispatch(self, *args, **kwargs):
@@ -1048,7 +925,7 @@ class UpdateDemandObjView(UpdateView):
             return refuse(self.request)
         return super(UpdateDemandObjView, self).dispatch(*args, **kwargs)
     def get_object(self):
-        return Demandobj.objects.get(pk=self.kwargs['demand_id'])
+        return DemandObj.objects.get(pk=self.kwargs['demand_id'])
     def get_context_data(self, **kwargs):
         context = super(UpdateDemandObjView, self).get_context_data(**kwargs)
         context['ruser'] = self.get_object().receiver
@@ -1060,27 +937,202 @@ class UpdateDemandObjView(UpdateView):
     def get_success_url(self):
         return self.object.get_absolute_url()
 
-class CreateSuccessDemandObj(CreateView):
-    form_class = SuccessDemandForm
-    template_name = 'job/success_demand.html'
-    model = SuccessDemand
-    type_obj = 0
+@login_required
+def volunteer_declineObj(request, volunteer_id, demand_id, obj_type):
+    """ Decline an help form the volunteer_id """
+    if obj_type == 'dem':
+        demandProposition = DemandPropositionObj.objects.get(user=volunteer_id,demand=demand_id)
+        demand = demandProposition.demand
+    else:
+        demandProposition = DemandPropositionObj.objects.get(user=volunteer_id,offer=demand_id)     
+        demand = demandProposition.offer   
+    if can_manage_branch_specific(demand.receiver, request.user, demand.branch):
+        demandProposition.delete()
+        messages.add_message(request, messages.INFO, _('Vous avez refusé cette proposition'))
+        return redirect(demand.get_absolute_url())
+    return redirect('home')
+
+@login_required
+def volunteer_acceptObj(request, volunteer_id, demand_id, obj_type):
+    """ Accept an help from the volunteer_id """
+    if obj_type == 'dem':   
+        demandProposition = DemandPropositionObj.objects.get(user=volunteer_id,demand=demand_id)
+        demand = demandProposition.demand
+        us = demand.receiver
+    else:
+        demandProposition = DemandPropositionOObj.objects.get(user=volunteer_id,offer=demand_id)  
+        demand = demandProposition.offer
+        us = demand.donor
+    if can_manage_branch_specific(us, request.user, demand.branch):
+        demandProposition.accepted = True
+        demandProposition.save()
+        subject = _("Je vous ai choisi pour '") + demand.title + "'"
+        body = _(" Je vous ai choisi pour effectuer le job '") + demand.title + "'"
+        body += '\n\n' + _('Lieu : ') #+ demand.location
+        body += '\n' + _('Date : ') + formats.date_format(demand.date, "DATE_FORMAT")
+        body += '\n' + _('Description : ') + demand.description
+        body += '\n'
+        if us.emergency_contacts.count() > 0:
+            body += '\n' + _('En cas d\'incident durant cette tâche, voici les personnes à contacter :')
+            for ec in us.emergency_contacts.all():
+                body += '\n' + _('Prénom :') + ' ' + ec.first_name
+                body += '\n' + _('Nom :') + ' ' + ec.last_name
+                body += '\n' + _('Téléphone fixe :') + ' ' + ec.phone_number
+                body += '\n' + _('Téléphone mobile :') + ' ' + ec.mobile_number
+                body += '\n' + _('Langues parlées :') + ' ' + ec.get_verbose_languages()
+                body += '\n'
+        body += '\n\n' + _('N\'hésitez pas à me contacter pour de plus amples informations')
+        body += '\n' + _('À bientôt,') + '\n'
+        body += us.first_name
+        pm_write(demand.receiver, demandProposition.user, subject, body)
+        if obj_type == 'dem':
+            for vol in DemandPropositionObj.objects.filter(demand=demand, accepted=False):
+                vol.delete()
+        else:
+            for vol in DemandPropositionOObj.objects.filter(offer=demand, accepted=False):
+                vol.delete()
+        demand.closed = True
+        demand.km = demandProposition.km
+        if not demand.km:
+            demand.km = 0
+        if obj_type == 'dem':
+            demand.donor = demandProposition.user
+        else:
+            demand.receiver = demandProposition.user
+        demand.save()
+        messages.add_message(request, messages.INFO, _('Vous avez accepté cette proposition !'))
+        return redirect(demand.get_absolute_url())
+    return redirect('home')
+
+class CreateVolunteerObjView(CreateView):
+    """
+    A registration backend for our CareRegistrationForm
+    """
+    template_name = 'job/volunteer_obj.html'
+    model = DemandPropositionObj
+    form_class = VolunteerObjForm
 
     @method_decorator(login_required)
     def dispatch(self, *args, **kwargs):
-        self.type_obj = kwargs['type_obj']
+        return super(CreateVolunteerObjView, self).dispatch(*args, **kwargs)
+    def form_valid(self, form):
+        form.instance.demand = DemandObj.objects.get(pk=self.kwargs['demand_id'])
+        form.instance.user = User.objects.get(pk=self.kwargs['volunteer_id'])
+        return super(CreateVolunteerObjView, self).form_valid(form)
+    def get_context_data(self, **kwargs):
+        context = super(CreateVolunteerObjView, self).get_context_data(**kwargs)
+        context['can_manage'] = True
+        demand = DemandObj.objects.get(pk=self.kwargs['demand_id'])
+        context['demand'] = demand
+        return context
+    def get_initial(self):
+        return {'km': self.request.GET.get('km', 0)}
+    def get_success_url(self):
+        demand = DemandObj.objects.get(pk=self.kwargs['demand_id'])
+        volunteer = self.object.user
+        subject = volunteer.get_full_name() + ' ' + _("répond à votre demande pour '") + demand.title + "'"
+        body = volunteer.get_full_name() + ' ' + _("répond à votre demande pour '") + demand.title + "'"
+        body += '\n\n' + _('Commentaire : ') + self.object.comment
+        body += '\n' + _('Km de chez vous : ') + str(self.object.km)
+        body += '\n\n' + _('Vous pouvez accepter sa proposition en vous rendant sur votre recherche d\'objet :')
+        body += '\n' + 'http://' + self.request.META['HTTP_HOST'] + demand.get_absolute_url()
+        pm_write(volunteer, demand.receiver, subject, body)
+        return demand.get_absolute_url()
+
+class CreateVolunteerOObjView(CreateView):
+    """
+    A registration backend for our CareRegistrationForm
+    """
+    template_name = 'job/volunteer_obj.html'
+    model = DemandPropositionOObj
+    form_class = VolunteerOObjForm
+
+    @method_decorator(login_required)
+    def dispatch(self, *args, **kwargs):
+        return super(CreateVolunteerOObjView, self).dispatch(*args, **kwargs)
+    def form_valid(self, form):
+        form.instance.offer = OfferObj.objects.get(pk=self.kwargs['demand_id'])
+        form.instance.user = User.objects.get(pk=self.kwargs['volunteer_id'])
+        return super(CreateVolunteerOObjView, self).form_valid(form)
+    def get_context_data(self, **kwargs):
+        context = super(CreateVolunteerOObjView, self).get_context_data(**kwargs)
+        context['can_manage'] = True
+        demand = OfferObj.objects.get(pk=self.kwargs['demand_id'])
+        context['demand'] = demand
+        return context
+    def get_initial(self):
+        return {'km': self.request.GET.get('km', 0)}
+    def get_success_url(self):
+        demand = OfferObj.objects.get(pk=self.kwargs['demand_id'])
+        volunteer = self.object.user
+        subject = volunteer.get_full_name() + ' ' + _("répond à votre demande pour '") + demand.title + "'"
+        body = volunteer.get_full_name() + ' ' + _("répond à votre demande pour '") + demand.title + "'"
+        body += '\n\n' + _('Commentaire : ') + self.object.comment
+        body += '\n' + _('Km de chez vous : ') + str(self.object.km)
+        body += '\n\n' + _('Vous pouvez accepter sa proposition en vous rendant sur votre recherche d\'objet :')
+        body += '\n' + 'http://' + self.request.META['HTTP_HOST'] + demand.get_absolute_url()
+        pm_write(volunteer, demand.donor, subject, body)
+        return demand.get_absolute_url()
+
+class ForceCreateVolunteerObjView(CreateVolunteerView):
+    form_class = ForceVolunteerObjForm
+
+    @method_decorator(login_required)
+    def dispatch(self, *args, **kwargs):
+        demand = DemandObj.objects.get(pk=self.kwargs['demand_id'])
+        if not can_manage_branch_specific(demand.receiver, self.request.user, demand.branch):
+            return refuse(self.request)
+        return super(CreateVolunteerObjView, self).dispatch(*args, **kwargs)
+
+    def get_context_data(self, **kwargs):
+        context = super(ForceCreateVolunteerObjView, self).get_context_data(**kwargs)
+        context['form'].fields['user'].queryset = context['demand'].branch.members.all()
+        return context
+
+    def form_valid(self, form):
+        demand = DemandObj.objects.get(pk=self.kwargs['demand_id'])
+        form.instance.demand = demand
+        return super(CreateVolunteerObjView, self).form_valid(form) #correct
+
+@login_required
+def delete_offerObj(request, branch_id, slug, offer_id):
+    """ Delete an offerObj """
+    offer = get_object_or_404(OfferObj, pk=offer_id)
+
+    if can_manage_branch_specific(offer.donor, request.user, offer.branch):
+       offer.delete()
+       messages.add_message(request, messages.INFO, _('Vous avez supprimé l\'offre {offer}').format(offer=offer))
+       return redirect(offer.branch.get_absolute_url())
+    return redirect('home')
+
+
+
+@login_required
+def delete_demandObj(request, branch_id, slug, demand_id):
+    """ Delete an offerObj """
+    demand = get_object_or_404(DemandObj, pk=demand_id)
+
+    if can_manage_branch_specific(demand.receiver, request.user, demand.branch):
+       demand.delete()
+       messages.add_message(request, messages.INFO, _('Vous avez supprimé la demande {demand}').format(demand=demand))
+       return redirect(demand.branch.get_absolute_url())
+    return redirect('home')
+
+
+
+class CreateSuccessDemandObj(CreateView):
+    form_class = SuccessDemandForm
+    template_name = 'job/success_demand.html'
+    model = SuccessDemandObj
+
+    @method_decorator(login_required)
+    def dispatch(self, *args, **kwargs):
         return super(CreateSuccessDemandObj, self).dispatch(*args, **kwargs)
     def form_valid(self, form):
-# type_obj = 1 => offerObj ; 2 = demandObj
-        if self.kwargs['type_obj'] == 1:
-            demand = Offerobj.objects.get(pk=self.kwargs['demand_id'])
-            form.instance.offerObj = demand
-        else:
-            demand = Demandobj.objects.get(pk=self.kwargs['demand_id'])
-            form.instance.demandObj = demand
-        import pdb; pdb.set_trace()
-        form.instance.asked_by = demand.donor
-        form.instance.ask_to = demand.receiver
+        demand = DemandObj.objects.get(pk=self.kwargs['demand_id'])
+        form.instance.demand = demand
+        form.instance.asked_by = demand.receiver
+        form.instance.ask_to = demand.donor
         form.instance.branch = demand.branch
         demand.success_fill = True
         demand.save()
@@ -1088,28 +1140,17 @@ class CreateSuccessDemandObj(CreateView):
 
     def get_context_data(self, **kwargs):
         context = super(CreateSuccessDemandObj, self).get_context_data(**kwargs)
-        if self.type_obj == 1:
-            context['demand'] = Offerobj.objects.get(pk=self.kwargs['demand_id'])
-        else:
-            context['demand'] = Demandobj.objects.get(pk=self.kwargs['demand_id'])
+        context['demand'] = DemandObj.objects.get(pk=self.kwargs['demand_id'])
         return context
 
     def get_success_url(self):
         messages.add_message(self.request, messages.INFO, _('Demande envoyée'))
-        import pdb; pdb.set_trace()
-        if self.type_obj == 1:
-            title = self.object.offerObj.title
-            usr = self.object.offerObj.receiver.get_full_name()
-            usrname = self.object.offerObj.receiver
-            askdBy =  self.object.offerObj.receiver   
-            askT = self.object.offerObj.donor
-        else:
-            title = self.object.demandObj.title
-            usr = self.object.demandObj.donor.get_full_name()
-            usrname = self.object.demandObj.donor
-            askdBy =  self.object.demandObj.donor    
-            askT = self.object.demandObj.receiver
-
+        obj = self.object.demand
+        title = obj.title
+        usr = obj.donor.get_full_name()
+        usrname = obj.donor
+        askdBy =  obj.donor    
+        askT = obj.receiver
         subject = _("Confirmation de transaction accomplie")
         body = _("L'utilisateur {user} ({username}) affirme avoir accompli la transaction suivante : {job}.\n"
             "Si ces informations vous semblent correctes, vous pouvez confirmer que cette transaction a été accomplie avec succès.")\
@@ -1117,8 +1158,48 @@ class CreateSuccessDemandObj(CreateView):
         pm_write(askdBy, askT, subject, body)
         return reverse('home')
 
+
+class CreateSuccessOfferObj(CreateView):
+    form_class = SuccessDemandForm
+    template_name = 'job/success_demand.html'
+    model = SuccessOfferObj
+
+    @method_decorator(login_required)
+    def dispatch(self, *args, **kwargs):
+        return super(CreateSuccessOfferObj, self).dispatch(*args, **kwargs)
+    def form_valid(self, form):
+        demand = OfferObj.objects.get(pk=self.kwargs['demand_id'])
+        form.instance.demand = demand
+        form.instance.asked_by = demand.donor
+        form.instance.ask_to = demand.receiver
+        form.instance.branch = demand.branch
+        demand.success_fill = True
+        demand.save()
+        return super(CreateSuccessOfferObj, self).form_valid(form)
+
+    def get_context_data(self, **kwargs):
+        context = super(CreateSuccessOfferObj, self).get_context_data(**kwargs)
+        context['demand'] = OfferObj.objects.get(pk=self.kwargs['demand_id'])
+        return context
+
+    def get_success_url(self):
+        messages.add_message(self.request, messages.INFO, _('Demande envoyée'))
+        obj = self.object.demand
+        title = obj.title
+        usr = obj.receiver.get_full_name()
+        usrname = obj.receiver
+        askdBy =  obj.receiver   
+        askT = obj.donor
+        subject = _("Confirmation de transaction accomplie")
+        body = _("L'utilisateur {user} ({username}) affirme avoir accompli la transaction suivante : {job}.\n"
+            "Si ces informations vous semblent correctes, vous pouvez confirmer que cette transaction a été accomplie avec succès.")\
+        .format(user=usr, job=title,  username=usrname)
+        pm_write(askdBy, askT, subject, body)
+        return reverse('home')
+
+
 def unsuccess_obj(request, demand_id):
-    """ View for a job who has not been completed """
+    """ View for an object who has not been completed """
     demand = get_object_or_404(Demand, pk=demand_id)
     if can_manage_branch_specific(demand.donor, request.user, demand.branch):
        demand.success_fill=True
@@ -1137,13 +1218,10 @@ def unsuccess_obj(request, demand_id):
 
 def manage_successDObj(request, demand_id):
     """ View for a job who has been completed """
-    success = get_object_or_404(SuccessDemand, pk=demand_id)
-    demand = success.demand
+    success = get_object_or_404(SuccessDemandObj, pk=demand_id)
     form = CommentConfirmForm()
-
-    whom = success.ask_to
+    whom = success.asked_by
     demand = success.demandObj
-    import pdb; pdb.set_trace()
     if True: #can_manage_branch_specific(whom, request.user, success.branch):
         if request.POST:
             form = CommentConfirmForm(request.POST)
@@ -1198,12 +1276,10 @@ def manage_successDObj(request, demand_id):
 
 def manage_successOObj(request, demand_id):
     """ View for a job who has been completed """
-    success = get_object_or_404(SuccessDemand, pk=demand_id)
-    demand = success.demand
+    success = get_object_or_404(SuccessOfferObj, pk=demand_id)
+    demand = success.offerObj
     form = CommentConfirmForm()
     whom = success.asked_by
-    demand = success.offerObj
-    import pdb; pdb.set_trace()
     if True: #can_manage_branch_specific(whom, request.user, success.branch):
         if request.POST:
             form = CommentConfirmForm(request.POST)
@@ -1255,3 +1331,77 @@ def manage_successOObj(request, demand_id):
         return render(request,'job/manage_successObj.html', locals())
     else :
         return refuse(request)
+
+
+class CreateSuccessDemandObj(CreateView):
+    form_class = SuccessDemandObjForm
+    template_name = 'job/success_demandObj.html'
+    model = SuccessDemandObj
+
+    @method_decorator(login_required)
+    def dispatch(self, *args, **kwargs):
+        return super(CreateSuccessDemandObj, self).dispatch(*args, **kwargs)
+    def form_valid(self, form):
+        demand = DemandObj.objects.get(pk=self.kwargs['demand_id'])
+        form.instance.demandObj = demand
+        form.instance.asked_by = demand.receiver
+        form.instance.ask_to = demand.donor
+        form.instance.branch = demand.branch
+        demand.success_fill = True
+        demand.save()
+        return super(CreateSuccessDemandObj, self).form_valid(form)
+
+    def get_context_data(self, **kwargs):
+        context = super(CreateSuccessDemandObj, self).get_context_data(**kwargs)
+        context['demand'] = DemandObj.objects.get(pk=self.kwargs['demand_id'])
+        return context
+
+    def get_success_url(self):
+        messages.add_message(self.request, messages.INFO, _('Demande envoyée'))
+        subject = _("Confirmation de transaction accomplie")
+        body = _("L'utilisateur {user} ({username}) affirme avoir accompli la transaction suivante : {job}.\n").format(user=self.object.asked_by.get_full_name(), job=self.object.demandObj.title, username=self.object.asked_by)
+        try:
+            body = body + ("Il déclare avoir pris {time} minutes pour accomplir ce job.\n").format(time=success.time)
+        except:
+            pass
+        body = body + "Si ces informations vous semblent correctes, vous pouvez confirmer que ce job a été accompli avec succès."\
+        
+        pm_write(self.object.asked_by, self.object.ask_to, subject, body)
+        return reverse('home')
+
+
+class CreateSuccessOfferObj(CreateView):
+    form_class = SuccessOfferObjForm
+    template_name = 'job/success_offerObj.html'
+    model = SuccessOfferObj
+
+    @method_decorator(login_required)
+    def dispatch(self, *args, **kwargs):
+        return super(CreateSuccessOfferObj, self).dispatch(*args, **kwargs)
+    def form_valid(self, form):
+        demand = OfferObj.objects.get(pk=self.kwargs['demand_id'])
+        form.instance.offerObj = demand
+        form.instance.asked_by = demand.donor
+        form.instance.ask_to = demand.receiver
+        form.instance.branch = demand.branch
+        demand.success_fill = True
+        demand.save()
+        return super(CreateSuccessOfferObj, self).form_valid(form)
+
+    def get_context_data(self, **kwargs):
+        context = super(CreateSuccessOfferObj, self).get_context_data(**kwargs)
+        context['demand'] = OfferObj.objects.get(pk=self.kwargs['demand_id'])
+        return context
+
+    def get_success_url(self):
+        messages.add_message(self.request, messages.INFO, _('Offre envoyée'))
+        subject = _("Confirmation de transaction accomplie")
+        body = _("L'utilisateur {user} ({username}) affirme avoir accompli la transaction suivante : {job}.\n").format(user=self.object.asked_by.get_full_name(), job=self.object.offerObj.title, username=self.object.asked_by)
+        try:
+            body = body + ("Il déclare avoir pris {time} minutes pour accomplir ce job.\n").format(time=success.time)
+        except:
+            pass
+        body = body + "Si ces informations vous semblent correctes, vous pouvez confirmer que ce job a été accompli avec succès."\
+        
+        pm_write(self.object.asked_by, self.object.ask_to, subject, body)
+        return reverse('home')

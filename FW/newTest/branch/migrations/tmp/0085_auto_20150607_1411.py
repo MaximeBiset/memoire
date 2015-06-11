@@ -7,14 +7,14 @@ from django.db import models, migrations
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('branch', '0078_auto_20150601_0620'),
+        ('branch', '0084_auto_20150607_1410'),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='successdemand',
-            name='demandObj',
-            field=models.ForeignKey(to='branch.Demandobj', null=True, related_name='success_demandObj', blank=True),
+            model_name='demandpropositionobj',
+            name='offer',
+            field=models.ForeignKey(null=True, blank=True, related_name='propositionsO', to='branch.Offerobj'),
             preserve_default=True,
         ),
     ]

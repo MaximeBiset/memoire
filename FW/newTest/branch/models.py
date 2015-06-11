@@ -130,6 +130,7 @@ class BUManager(QuerySet):
         return self.filter(success_fill=False)
 
 class FWBusinessUnit(FWMoney):
+    branch = models.ForeignKey(Branch, verbose_name=_("Branche"), related_name="%(class)s_branch")
     comments = GenericRelation(Comment)
     donor = models.ForeignKey(User, verbose_name=_("Donneur"), related_name="%(class)s_donor", null=True, blank=True)
     receiver =  models.ForeignKey(User, verbose_name=_("Receveur"), related_name="%(class)s_receiver", null=True, blank=True)
@@ -146,23 +147,23 @@ class FWBusinessUnit(FWMoney):
 
 class Object(FWBusinessUnit):
     """ Representation of an object (demand or offer) """
-
-    branch = models.ForeignKey(Branch, verbose_name=_("Branche"), related_name="%(class)s_branch")
     location = models.CharField(_('Adresse'), max_length=256, null=True, blank=True)
     latitude = models.CharField(_('Latitude'), max_length=20, null=True, blank=True)
     longitude = models.CharField(_('Longitude'), max_length=20, null=True, blank=True)
-
+ 
     closed = models.BooleanField(verbose_name=_("Vontaire assigné"), default=False)
-    success_fill = models.BooleanField(verbose_name=_("Demande de confirmation envoyée"), default=False)
+
     km = models.IntegerField(verbose_name=_("Distance depuis domicile"), blank=True, null=True)
     success = models.NullBooleanField(verbose_name=_("Tâche finie avec succès"), null=True, blank=True, default=None)
 
     class Meta:
         abstract = True
 
-class Demandobj(Object):
+class DemandObj(Object):
     """ Representation of a demand """
     volunteers = models.ManyToManyField(User, null=True, blank=True, through='DemandPropositionObj', related_name="volunteersDemObj", verbose_name=_("Propositions"))
+    success_fill = models.BooleanField(verbose_name=_("Demande de confirmation envoyée"), default=False)
+
     @models.permalink
     def get_absolute_url(self):
         return ('see_demandObj', (), {'branch_id': self.branch.id, 'slug': self.branch.slug, 'demand_id': self.id})
@@ -173,9 +174,10 @@ class Demandobj(Object):
     class Meta:
         ordering = ['date']
 
-class Offerobj(Object):
+class OfferObj(Object):
     """ Representation of an object """
-    volunteers = models.ManyToManyField(User, null=True, blank=True, through='DemandPropositionObj', related_name="volunteersOffObj", verbose_name=_("Propositions"))
+    volunteers = models.ManyToManyField(User, null=True, blank=True, through='DemandPropositionOObj', related_name="volunteersOffObj", verbose_name=_("Propositions"))
+    success_fill = models.BooleanField(verbose_name=_("Demande de confirmation envoyée"), default=False)
 
     @models.permalink
     def get_absolute_url(self):
@@ -202,8 +204,7 @@ class DemandPropositionManager(QuerySet):
 class DemandPropositionObj(models.Model):
     """ Representation of a demand Proposition """
     user = models.ForeignKey(User, related_name='uservolObj')
-    demand = models.ForeignKey(Demandobj, related_name='propositionsD', blank=True, null=True)
-    offer = models.ForeignKey(Offerobj, related_name='propositionsO', blank=True, null=True)
+    demand = models.ForeignKey(DemandObj, related_name='propositionsDem', blank=True, null=True)
     comment = models.TextField(verbose_name=_("Commentaire (facultatif)"), blank=True, null=True)
     created = models.DateTimeField(verbose_name=_("Date de création"), auto_now=True)
     accepted = models.BooleanField(verbose_name=_("Proposition acceptée"), default=False)
@@ -213,10 +214,38 @@ class DemandPropositionObj(models.Model):
 
     class Meta:
         ordering = ['-created']
+ 
+class DemandPropositionOManager(QuerySet):
+# NB : LTE || GTE = Lesser || Greater Than or Equal to ...
+    def up_to_date(self):
+        date_now = timezone.now() + timezone.timedelta(hours=-24)
+        return self.filter(offer__date__gte=date_now)
+
+    def down_to_date(self):
+        date_now = timezone.now() + timezone.timedelta(hours=24)
+        return self.filter(offer__date__lte=date_now)
+
+    def no_successs(self):
+        return self.filter(offer__success_fill=False)
+
+class DemandPropositionOObj(models.Model):
+    """ Representation of a demand Proposition """
+    user = models.ForeignKey(User, related_name='uservolOObj')
+    offer = models.ForeignKey(OfferObj, related_name='propositionsOff', blank=True, null=True)
+    comment = models.TextField(verbose_name=_("Commentaire (facultatif)"), blank=True, null=True)
+    created = models.DateTimeField(verbose_name=_("Date de création"), auto_now=True)
+    accepted = models.BooleanField(verbose_name=_("Proposition acceptée"), default=False)
+    km = models.IntegerField(verbose_name=_("Distance depuis domicile"), blank=True, null=True)
+
+    objects = PassThroughManager.for_queryset_class(DemandPropositionOManager)()
+
+    class Meta:
+        ordering = ['-created']
+
 
 class Job(FWBusinessUnit):
     """ Representation of a job (demand or offer) """
-    branch = models.ForeignKey(Branch, verbose_name=_("Branche"), related_name="%(class)s_branch")
+    
     category = MultiSelectField(choices=JobCategory.JOB_CATEGORIES, verbose_name=_("Type d'aide"))
     time = MultiSelectField(choices=TIME_CHOICES, verbose_name=_("Heures de disponibilité"), blank=False, help_text=_('Selectionnez les heures qui vous conviennent'))
     def get_verbose_category(self):
@@ -295,12 +324,34 @@ class DemandProposition(models.Model):
 class SuccessDemand(FWSuccessDemand):
     """ Representation of a complete demand"""
     demand = models.ForeignKey(Demand, related_name='success_demand', blank=True, null=True)
-    demandObj = models.ForeignKey(Demandobj, related_name='success_demandObj', blank=True, null=True)
-    offerObj = models.ForeignKey(Offerobj, related_name='success_offerObj', blank=True, null=True)
     comment = models.TextField(verbose_name=_('Commentaire'), blank=True, null=True)
     ask_to = models.ForeignKey(User, related_name='success_pending', blank=True, null=True)
     asked_by = models.ForeignKey(User, related_name='approval_pending', blank=True, null=True)
     branch = models.ForeignKey(Branch, related_name='success_branch_pending', blank=True, null=True)
+    created = models.DateTimeField(verbose_name=_("Date de création"), auto_now=True)
+
+    class Meta:
+        ordering = ['-created']
+
+class SuccessDemandObj(FWSuccessDemand):
+    """ Representation of a complete demand"""
+    demandObj = models.ForeignKey(DemandObj, related_name='success_demandObj', blank=True, null=True)
+    comment = models.TextField(verbose_name=_('Commentaire'), blank=True, null=True)
+    ask_to = models.ForeignKey(User, related_name='success_pendingDO', blank=True, null=True)
+    asked_by = models.ForeignKey(User, related_name='approval_pendingDO', blank=True, null=True)
+    branch = models.ForeignKey(Branch, related_name='success_branch_pendingDO', blank=True, null=True)
+    created = models.DateTimeField(verbose_name=_("Date de création"), auto_now=True)
+
+    class Meta:
+        ordering = ['-created']
+
+class SuccessOfferObj(FWSuccessDemand):
+    """ Representation of a complete demand"""
+    offerObj = models.ForeignKey(OfferObj, related_name='success_offerObj', blank=True, null=True)
+    comment = models.TextField(verbose_name=_('Commentaire'), blank=True, null=True)
+    ask_to = models.ForeignKey(User, related_name='success_pendingOO', blank=True, null=True)
+    asked_by = models.ForeignKey(User, related_name='approval_pendingOO', blank=True, null=True)
+    branch = models.ForeignKey(Branch, related_name='success_branch_pendingOO', blank=True, null=True)
     created = models.DateTimeField(verbose_name=_("Date de création"), auto_now=True)
 
     class Meta:

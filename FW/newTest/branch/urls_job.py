@@ -5,7 +5,8 @@ from django.views.generic.base import TemplateView
 from branch.views import CreateDemandView, CreateOfferView, CreateOfferObjView, CreateDemandObjView, \
                           DetailDemandView, DetailOfferView, DetailDemandObjView, DetailOfferObjView, \
                           UpdateDemandView, UpdateOfferView, UpdateOfferObjView, UpdateDemandObjView, \
-                          CreateVolunteerView, ForceCreateVolunteerView, TakeOfferDemandView, CreateVolunteerObjView
+                          CreateVolunteerView, ForceCreateVolunteerView, TakeOfferDemandView, CreateVolunteerObjView, \
+			CreateVolunteerOObjView
                           
 urlpatterns = patterns('',
 # BEGIN|FRAMEWORK : OBJECTS
@@ -34,11 +35,11 @@ urlpatterns = patterns('',
                        url(r'^delete/offerObj/(?P<offer_id>\d+)/$',
                            'branch.views.delete_offerObj',
                            name='delete_offerObj'),
-                       url(r'^volunteerObjD/(?P<volunteer_id>\d+)/demand/(?P<demand_id>\d+)/$',
-                            CreateVolunteerObjView.as_view(),{'type_obj' : 2},
+                       url(r'^volunteerObj/(?P<volunteer_id>\d+)/demand/(?P<demand_id>\d+)/$',
+                            CreateVolunteerObjView.as_view(),
                             name='volunteer_objectD'),
-                       url(r'^volunteerObjO/(?P<volunteer_id>\d+)/offer/(?P<demand_id>\d+)/$',
-                            CreateVolunteerObjView.as_view(),{'type_obj' : 1},
+                       url(r'^volunteerObj/(?P<volunteer_id>\d+)/offer/(?P<demand_id>\d+)/$',
+                            CreateVolunteerOObjView.as_view(),
                             name='volunteer_objectO'),
 # END|FRAMEWORK : OBJECTS
                        url(r'^offer/(?P<user_id>\d+)/take/(?P<offer_id>\d+)/$',

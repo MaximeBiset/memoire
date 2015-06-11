@@ -142,10 +142,10 @@ def discriminate_demandobjs(request, demands):
 
 def discriminate_offerobjs(request, offers):
     if request.user.is_superuser:
-        messages.add_message(request, messages.INFO, _('Vous êtes administrateur, vous pouvez voir toutes les offres d\'objets.'))
+        messages.add_message(request, messages.INFO, _('Vous êtes administrateur, vous pouvez voir toutes les offres.'))
         return offers
     if offers.first() and is_branch_admin(request.user, offers.first().branch):
-        messages.add_message(request, messages.INFO, _('Vous êtes administrateur de la branche, vous pouvez voir toutes les offres d\'objets.'))
+        messages.add_message(request, messages.INFO, _('Vous êtes administrateur de la branche, vous pouvez voir toutes les offres.'))
         return offers
 
     exclude_offer_ids = []
@@ -154,6 +154,8 @@ def discriminate_offerobjs(request, offers):
             exclude_offer_ids.append(offer.id)
         if request.user in offer.donor.ignore_list.all():
             exclude_offer_ids.append(offer.id)
+        if offer.closed:
+           exclude_offer_ids.append(offer.id)
 
         if offer.receive_help_from_who == MemberType.ALL:
             continue

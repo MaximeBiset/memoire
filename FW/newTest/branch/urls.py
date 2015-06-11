@@ -1,6 +1,6 @@
 from django.conf.urls import patterns, url, include
 
-from branch.views import CreateSuccessDemand, CreateSuccessDemandObj
+from branch.views import CreateSuccessDemand, CreateSuccessDemandObj, CreateSuccessOfferObj
 
 urlpatterns = patterns(
     '',
@@ -30,15 +30,15 @@ urlpatterns = patterns(
          'branch.views.manage_success',
          name='manage_success'),
 # SUCCESS OF TRANSACTION
-    url(r'^volunteerObj/success/(?P<type_obj>\d+)/(?P<demand_id>\d+)/$', # type_obj = 1 => offerObj ; 2 = demandObj
+    url(r'^volunteerObj/successDem/(?P<demand_id>\d+)/$',
          CreateSuccessDemandObj.as_view(),
          name='success_demandObj'),
+    url(r'^volunteerObj/successOff/(?P<demand_id>\d+)/$',
+         CreateSuccessOfferObj.as_view(),
+         name='success_offerObj'),
     url(r'^volunteerObj/unsuccess/(?P<demand_id>\d+)/$',
          'branch.views.unsuccess_obj',
          name='unsuccess_obj'),
-#    url(r'^success/manageObj/(?P<demand_id>\d+)/(?P<type_obj>\d+)$',
-#         'branch.views.manage_successObj',
-#         name='manage_successObj'),
     url(r'^success/manageObj/(?P<demand_id>\d+)/dem/$',
          'branch.views.manage_successDObj',
          name='manage_successDObj'),

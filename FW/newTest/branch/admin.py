@@ -1,7 +1,8 @@
 from django.contrib import admin
 
 from branch.models import Demand, Offer, Comment, Branch, DemandProposition, SuccessDemand, \
-			Offerobj, Demandobj, DemandPropositionObj
+			OfferObj, DemandObj, DemandPropositionObj, SuccessOfferObj, SuccessDemandObj, \
+			DemandPropositionOObj
 
 class OfferAdmin(admin.ModelAdmin):
     """ Display Offer Admin """
@@ -51,15 +52,27 @@ class DemandPropositionAdmin(admin.ModelAdmin):
 class SuccessDemandAdmin(admin.ModelAdmin):
     pass
 
+class SuccessDemandObjAdmin(admin.ModelAdmin):
+    pass
+
+class SuccessOfferObjAdmin(admin.ModelAdmin):
+    pass
+
 class DemandPropositionObjAdmin(admin.ModelAdmin):
     pass
 
-admin.site.register(Demandobj, DemandObjAdmin)
-admin.site.register(Offerobj, OfferObjAdmin)
+class DemandPropositionOObjAdmin(admin.ModelAdmin):
+    pass
+
+admin.site.register(DemandObj, DemandObjAdmin)
+admin.site.register(OfferObj, OfferObjAdmin)
 admin.site.register(Demand, DemandAdmin)
 admin.site.register(Offer, OfferAdmin)
 admin.site.register(Comment, CommentAdmin)
 admin.site.register(Branch, BranchAdmin)
 admin.site.register(DemandProposition, DemandPropositionAdmin)
 admin.site.register(DemandPropositionObj, DemandPropositionObjAdmin)
+admin.site.register(DemandPropositionOObj, DemandPropositionOObjAdmin)
 admin.site.register(SuccessDemand, SuccessDemandAdmin)
+admin.site.register(SuccessDemandObj, SuccessDemandObjAdmin)
+admin.site.register(SuccessOfferObj, SuccessOfferObjAdmin)

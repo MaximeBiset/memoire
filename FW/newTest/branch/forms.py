@@ -3,8 +3,8 @@ from django.utils.translation import ugettext as _
 from bootstrap3_datetime.widgets import DateTimePicker
 from multiselectfield import MultiSelectField
 
-from branch.models import Branch, Demand, Offer, Offerobj, Demandobj, Comment, DemandProposition, SuccessDemand, \
-                            DemandPropositionObj
+from branch.models import Branch, Demand, Offer, OfferObj, DemandObj, Comment, DemandProposition, SuccessDemand, \
+                            DemandPropositionObj, SuccessDemandObj, SuccessOfferObj, DemandPropositionOObj
 
 from django.utils import timezone
 from datetime import timedelta
@@ -162,7 +162,7 @@ class DemandObjForm(FWMoneyForm):
         super(DemandObjForm, self).clean()
 
     class Meta:
-        model = Demandobj
+        model = DemandObj
         fields = ['description', 'date', 'location', 'latitude', 'longitude', 'title', 'receive_help_from_who'] + FWAddMoney()
         widgets = {
             'latitude': forms.HiddenInput,
@@ -194,11 +194,11 @@ class OfferObjForm(FWMoneyForm):
     def clean(self):
         if not self.cleaned_data['latitude'] and not self.cleaned_data['longitude']:
             raise forms.ValidationError(_("Veuillez choisir une adresse"))
-        super(DemandObjForm, self).clean()
+        super(OfferObjForm, self).clean()
 
     class Meta:
-        model = Demandobj
-        fields = ['description', 'date', 'location', 'latitude', 'longitude', 'title', 'receive_help_from_who'] + FWAddMoney()
+        model = OfferObj
+        fields = ['title', 'description', 'date', 'location', 'latitude', 'longitude', 'receive_help_from_who'] + FWAddMoney()
         widgets = {
             'latitude': forms.HiddenInput,
             'longitude': forms.HiddenInput,
@@ -227,6 +227,16 @@ class SuccessDemandForm(forms.ModelForm):
         model = SuccessDemand
         fields = ['comment'] + FWAddMoney()
 
+class SuccessDemandObjForm(forms.ModelForm):
+    class Meta:
+        model = SuccessDemandObj
+        fields = ['comment'] + FWAddMoney()
+
+class SuccessOfferObjForm(forms.ModelForm):
+    class Meta:
+        model = SuccessOfferObj
+        fields = ['comment'] + FWAddMoney()
+
 class CommentConfirmForm(forms.Form):
     comment = forms.CharField(required=False, widget=forms.Textarea, label = _("Commentaire"))
 
@@ -238,8 +248,21 @@ class VolunteerObjForm(forms.ModelForm):
             'km' : forms.HiddenInput,
         }
 
+class VolunteerOObjForm(forms.ModelForm):
+    class Meta:
+        model = DemandPropositionOObj
+        fields = ['comment', 'km']
+        widgets = {
+            'km' : forms.HiddenInput,
+        }
+
 class ForceVolunteerObjForm(forms.ModelForm):
     class Meta:
         model = DemandPropositionObj
+        fields = ['user', 'comment', 'km']
+
+class ForceVolunteerOObjForm(forms.ModelForm):
+    class Meta:
+        model = DemandPropositionOObj
         fields = ['user', 'comment', 'km']
 
