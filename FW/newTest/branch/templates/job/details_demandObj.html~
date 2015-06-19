@@ -95,7 +95,7 @@
     {% if object.receiver.id != request.user.id %}
     <div class="col-md-12 col-sm-12 mb ph">
 <!--  TAKE DEMANDE OBJ -->    <a  {% if request.user in object.volunteers.all %} onclick="return false" {% endif %} href="{% url 'volunteer_objectD' branch_id=object.branch.id slug=object.branch.slug demand_id=object.id volunteer_id=request.user.id %}" class="btn btn-success btn-block">
-        {% bootstrap_icon "gift" %} {% trans "Se proposer pour cette demande" %}
+        {% bootstrap_icon "gift" %} {% trans "Se proposer pour cette demande" %} {% if request.user in object.volunteers.all %} {% trans "(Déjà volontaire)" %} {% endif %}
       </a> 
     </div>
     {% endif %}
